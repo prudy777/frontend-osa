@@ -1,0 +1,20 @@
+/* App.css */
+.main-content {
+  padding-top: 70px; /* Adjust this based on your navbar height */
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000; /* Ensure it stays on top */
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: auto;
+  background: linear-gradient(to right, #e0f7fa, #ffebee); /* Very light blue to very light red gradient background */
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}

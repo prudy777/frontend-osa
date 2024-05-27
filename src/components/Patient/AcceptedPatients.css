@@ -1,0 +1,64 @@
+.patient-container {
+    padding: 20px;
+    max-width: 1200px;  /* Increased max-width for wider container */
+    margin: 0 auto;
+    background: linear-gradient(135deg, #ffffff, #e0f7fa);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    overflow-x: auto;  /* Add horizontal scroll if content overflows */
+}
+
+.patient-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 28px;
+    color: #00796b;
+    font-weight: bold;
+}
+
+.patient-details-table {
+    width: 100%;
+    min-width: 800px; /* Ensure the table is always wide enough */
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.patient-details-table th, .patient-details-table td {
+    padding: 12px 15px;
+    text-align: left;
+    transition: all 0.3s ease;
+}
+
+.patient-details-table th {
+    background-color: #00796b;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.patient-details-table tr {
+    transition: background-color 0.3s ease;
+}
+
+.patient-details-table tr:nth-child(even) {
+    background-color: #f1f8e9;
+}
+
+.patient-details-table tr:hover {
+    background-color: #e0f2f1;
+}
+
+.patient-details-table td {
+    font-size: 16px;
+    color: #555;
+}
+
+.patient-details-table td:nth-child(1) {
+    font-weight: bold;
+    color: #00796b;
+}

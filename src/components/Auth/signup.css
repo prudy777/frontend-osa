@@ -1,0 +1,133 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f7f7f7;
+}
+
+.signup-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 900px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.signup-container:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.signup-image {
+    flex: 1;
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    color: white;
+    text-align: center;
+}
+
+.signup-image h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.signup-image p {
+    font-size: 16px;
+}
+
+.signup {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.signup h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 24px;
+}
+
+.signup input[type="email"], .signup input[type="password"] {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+    transition: border-color 0.3s;
+}
+
+.signup input[type="email"]:focus, .signup input[type="password"]:focus {
+    border-color: #0056b3;
+    outline: none;
+}
+
+.signup button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.signup button:hover {
+    background-color: #0056b3;
+}
+
+.signup button:active {
+    background-color: #004085;
+}
+
+.signup input::placeholder {
+    color: #bbb;
+}
+
+.signup form {
+    display: flex;
+    flex-direction: column;
+}
+
+.signup .forgot-password {
+    text-align: center;
+    margin-top: 10px;
+    color: #007bff;
+    cursor: pointer;
+}
+
+.signup .create-account {
+    text-align: center;
+    margin-top: 20px;
+    color: #007bff;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.signup .create-account:hover,
+.signup .forgot-password:hover {
+    text-decoration: underline;
+}

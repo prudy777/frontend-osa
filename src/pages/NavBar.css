@@ -1,0 +1,56 @@
+/* Basic styles for the navigation bar */
+.navbar {
+    background: linear-gradient(to right, #2c3e50, #4ca1af);  /* Sophisticated gradient background */
+    color: white;  /* White text color for readability */
+    padding: 15px 20px;  /* Increased padding for a bigger navbar */
+    text-align: center;  /* Centering the navigation items */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  /* More pronounced shadow for depth */
+    position: fixed;  /* Fix positioning relative to the viewport */
+    top: 0;  /* Position at the top of the viewport */
+    left: 0;  /* Align to the left of the viewport */
+    width: 100%;  /* Full width to span the viewport */
+    z-index: 1000;  /* High z-index to keep navbar on top */
+    font-size: 18px;  /* Larger font size for readability */
+}
+
+/* Styling the list to appear horizontal and more spaced out */
+.navbar ul {
+    list-style: none;  /* Remove default list styling */
+    padding: 0;  /* Remove default padding */
+    display: flex;  /* Flexible box layout */
+    justify-content: center;  /* Center the items horizontally */
+    flex-wrap: wrap;  /* Allow items to wrap on smaller screens */
+    margin: 0;  /* Remove default margin */
+}
+
+/* Individual list item styling */
+.navbar ul li {
+    margin: 0 20px;  /* Increased horizontal margin for spacing between items */
+}
+
+/* Link styling */
+.navbar ul li a {
+    color: white;  /* White text for links to match the nav bar */
+    text-decoration: none;  /* No underline by default */
+    padding: 10px;  /* Increased padding to make links larger and easier to click */
+    border-radius: 4px;  /* Rounded corners for a softer look */
+    transition: background-color 0.3s, color 0.3s;  /* Smooth transition for hover effects */
+}
+
+/* Hover effect for links */
+.navbar ul li a:hover, .navbar ul li a:focus {
+    background-color: #34495e;  /* Darker background on hover for better visibility */
+    color: #bdc3c7;  /* Change text color for interactive feel */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .navbar ul {
+        flex-direction: column;  /* Stack the navigation items vertically on smaller screens */
+        align-items: center;  /* Align items centrally for vertical layout */
+    }
+
+    .navbar ul li {
+        margin: 10px 0;  /* Adjust margin for vertical layout */
+    }
+}
