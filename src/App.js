@@ -12,7 +12,7 @@ import NotFoundPage from './pages/NotFound';
 import BarcodeGenerator from './hooks/BarcodeGenerator';
 import Register from './hooks/Register';
 import PatientList from './components/Patient/PatientList';
-import AcceptedPatients from './AcceptedPatients';
+import AcceptedPatients from './components/Patient/AcceptedPatients';
 import NavBar from './pages/Navbar';
 import TestBooking from './components/Test/testList';
 import Patient from './pages/Patient';
