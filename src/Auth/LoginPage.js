@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useAuth } from '../../AuthContext';
+import { useAuth } from '../contexts/AuthContext';
 import { useNavigate, Link } from 'react-router-dom'; // Import Link
 import './login.css';
-import Logo  from '/Users/progressive/Desktop/Osamedic Lab/frontend/src/assets/company.png'
+import Logo  from '../assets/logo.png'
 
 function LoginPage() {
     const [email, setEmail] = useState('');
