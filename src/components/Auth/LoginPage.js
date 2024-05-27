@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useAuth } from './AuthContext';
+import { useAuth } from '/Users/progressive/Desktop/Osamedic Lab/frontend/src/contexts/AuthContext.js';
 import { useNavigate, Link } from 'react-router-dom'; // Import Link
 import './login.css';
 import Logo  from '../assets/company.png'
