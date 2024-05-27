@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './signup.css';
-import Company from '/Users/progressive/Desktop/Osamedic Lab/frontend/src/assets/company.png'
+import Company from '../assets/company.png'
 
 function SignupPage() {
     const [email, setEmail] = useState('');
