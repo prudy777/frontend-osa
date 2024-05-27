@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './AcceptedPatients.css';
 import { Link } from 'react-router-dom';
-import utilitiesImg from '/Users/progressive/Desktop/Osamedic Lab/frontend/src/assets/Utilities.png';
 
 const AcceptedPatients = () => {
   const [patients, setPatients] = useState([]);
