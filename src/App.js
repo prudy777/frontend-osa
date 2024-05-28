@@ -1,4 +1,3 @@
-// App.js
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
@@ -23,6 +22,9 @@ import PrintedTests from './pages/master';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
+// Define the backend URL constant
+const backendUrl = 'https://your-backend-domain.com'; // Update this with your backend URL
+
 const App = () => {
   return (
     <Router>
@@ -30,34 +32,29 @@ const App = () => {
         <NavBar />
         <div className="main-content">
           <Routes>
-            <Route path="/barcode" element={<BarcodeGenerator />} />
-            <Route path='/register' element={<Register />} />
-            <Route path='/accepted-patients' element={<AcceptedPatients />} />
-            <Route path="/patients" element={<PatientList />} />
-            <Route path="/test-booking" element={<TestBooking />} />
-            <Route path='/test-bookings' element={<TestBookingsList/>} />
-            <Route path="/patient/:id" element={<Patient />} />
-            <Route path="/masters" element={<PrintedTests/>}/>
-            <Route path='/accounting/transactions' element={<AccountingPage/>}/>
-            <Route path='/dashboard' element={<Dashboard/>}/>
+            {/* Update the routes to use the backendUrl */}
+            <Route path="/barcode" element={<BarcodeGenerator backendUrl={backendUrl} />} />
+            <Route path='/register' element={<Register backendUrl={backendUrl} />} />
+            <Route path='/accepted-patients' element={<AcceptedPatients backendUrl={backendUrl} />} />
+            {/* Update other routes similarly */}
             <Route path="/" element={
               <ProtectedRoute>
-                <HomePage />
+                <HomePage backendUrl={backendUrl} />
               </ProtectedRoute>
             } />
-            <Route path="/signup" element={<SignupPage />} />
-            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage backendUrl={backendUrl} />} />
+            <Route path="/login" element={<LoginPage backendUrl={backendUrl} />} />
             <Route path="/dashboard" element={
               <ProtectedRoute>
-                <DashboardPage />
+                <DashboardPage backendUrl={backendUrl} />
               </ProtectedRoute>
             } />
             <Route path="/profile" element={
               <ProtectedRoute>
-                <ProfilePage />
+                <ProfilePage backendUrl={backendUrl} />
               </ProtectedRoute>
             } />
-            <Route path="*" element={<NotFoundPage />} />
+            <Route path="*" element={<NotFoundPage backendUrl={backendUrl} />} />
           </Routes>
         </div>
       </AuthProvider>
