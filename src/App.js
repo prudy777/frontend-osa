@@ -23,7 +23,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 // Define the backend URL constant
-const backendUrl = 'https://your-backend-domain.com'; // Update this with your backend URL
+const backendUrl = 'https://backend-osa.vercel.app/'; // Update this with your backend URL
 
 const App = () => {
   return (
