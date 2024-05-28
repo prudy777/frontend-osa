@@ -12,6 +12,10 @@ body {
   font-size: 16px;
 }
 
+.homepage-container{
+  margin-top: 200px;
+}
+
 /* Header Styling */
 .header {
   background-color: #005792;

@@ -1,6 +1,7 @@
 /* Apply overall styling to the registration page */
 .registration-page {
   display: flex;
+  margin-top: 300px;
   justify-content: center;
   align-items: flex-start; /* Align items to the top */
   min-height: 100vh;

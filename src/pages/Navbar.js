@@ -1,61 +1,54 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import './NavBar.css'; // Assuming you will style it using CSS
+import './NavBar.css'; // Combine CSS styles here
 
 const NavBar = () => {
-  // State to manage collapse
-  const [collapsed, setCollapsed] = useState(true);
+  // State for collapse and mobile view
+  const [collapsed, setCollapsed] = useState(window.innerWidth < 800);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 800);
 
-  // Function to toggle collapse
+  // Toggle collapse state
   const toggleCollapse = () => {
     setCollapsed(!collapsed);
   };
 
-  // Function to handle window resize
+  // Handle window resize
   const handleResize = () => {
-    if (window.innerWidth >= 800) {
-      setCollapsed(true);
+    const isMobileView = window.innerWidth < 800;
+    setIsMobile(isMobileView);
+    if (!isMobileView) {
+      setCollapsed(false); // Ensure collapse is false on larger screens
     }
   };
 
-  // Effect to add resize event listener
+  // Effect for resize event listener
   useEffect(() => {
-    handleResize(); // Call once to initialize state
     window.addEventListener('resize', handleResize);
     return () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
 
+  // JSX for navigation bar
   return (
     <nav className="navbar">
       <div className="container-fluid">
-        {window.innerWidth <= 800 && (
+        {isMobile ? (
           <button className="navbar-toggler" type="button" onClick={toggleCollapse}>
             <span className="navbar-toggler-icon"></span>
           </button>
-        )}
-        <div className={`collapse ${(!collapsed && window.innerWidth <= 800) ? 'show' : ''}`} id="navbarToggleExternalContent">
-          <ul>
+        ) : null}
+        {/* Check collapse state and mobile view */}
+        {(isMobile && collapsed) || (!isMobile) ? (
+          <ul className={`navbar-nav ${isMobile ? 'mobile-nav' : 'desktop-nav'}`}>
+            {/* Links to different pages */}
             <li><Link to="/">Home</Link></li>
             <li><Link to="/dashboard">Dashboard</Link></li>
             <li><Link to="/profile">Profile</Link></li>
             <li><Link to="/register">Register</Link></li>
             <li><Link to="/barcode">Barcode Generator</Link></li>
           </ul>
-        </div>
-        {/* Always show links above 800px */}
-        {(window.innerWidth >= 800 || !collapsed) && (
-          <div className="navbar-nav">
-            <ul>
-              <li><Link to="/">Home</Link></li>
-              <li><Link to="/dashboard">Dashboard</Link></li>
-              <li><Link to="/profile">Profile</Link></li>
-              <li><Link to="/register">Register</Link></li>
-              <li><Link to="/barcode">Barcode Generator</Link></li>
-            </ul>
-          </div>
-        )}
+        ) : null}
       </div>
     </nav>
   );
