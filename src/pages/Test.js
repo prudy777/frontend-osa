@@ -132,7 +132,7 @@ const TestBookingsList = () => {
 
   const savePrintedTests = async (tests) => {
     try {
-      await axios.post('https://frontend-osa.vercel.app/masters', { tests });
+      await axios.post('https://backend-osa.vercel.app/masters', { tests });
     } catch (error) {
       console.error('Error saving printed tests:', error);
     }
@@ -146,7 +146,7 @@ const TestBookingsList = () => {
       return;
     }
     const deleteRequests = selectedRows.map(booking => 
-      axios.delete(`https://frontend-osa.vercel.app/test-bookings/${booking.id}`)
+      axios.delete(`https://backend-osa.vercel.app/test-bookings/${booking.id}`)
     );
     Promise.all(deleteRequests)
       .then(() => {

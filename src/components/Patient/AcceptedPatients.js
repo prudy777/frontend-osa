@@ -9,7 +9,7 @@ const AcceptedPatients = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    axios.get('https://frontend-osa.vercel.app/accepted-patients')
+    axios.get('https://backend-osa.vercel.app/accepted-patients')
       .then(response => {
         setPatients(response.data);
         setLoading(false);

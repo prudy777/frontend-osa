@@ -23,7 +23,7 @@ const Register = ({ onRegisterSuccess }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('https://frontend-osa.vercel.app/register', {
+      await axios.post('https://backend-osa.vercel.app/register', {
         first_name: formData.firstName,
         last_name: formData.lastName,
         dob: formData.dateOfBirth,
