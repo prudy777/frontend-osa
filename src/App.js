@@ -1,10 +1,11 @@
+// App.js
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import ProtectedRoute from './contexts/ProtectedRoute';
 import HomePage from './pages/HomePage';
-import LoginPage from './Auth/LoginPage';
-import SignupPage from './Auth/SignupPage';
+import LoginPage from './components/Auth/LoginPage';
+import SignupPage from './components/Auth/SignupPage';
 import DashboardPage from './pages/Dashboard';
 import ProfilePage from './pages/Profile';
 import NotFoundPage from './pages/NotFound';
@@ -22,9 +23,6 @@ import PrintedTests from './pages/master';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
-// Define the backend URL constant
-const backendUrl = 'https://backend-osa.vercel.app'; // Update this with your backend URL
-
 const App = () => {
   return (
     <Router>
@@ -32,29 +30,34 @@ const App = () => {
         <NavBar />
         <div className="main-content">
           <Routes>
-            {/* Update the routes to use the backendUrl */}
-            <Route path="/barcode" element={<BarcodeGenerator backendUrl={backendUrl} />} />
-            <Route path='/register' element={<Register backendUrl={backendUrl} />} />
-            <Route path='/accepted-patients' element={<AcceptedPatients backendUrl={backendUrl} />} />
-            {/* Update other routes similarly */}
+            <Route path="/barcode" element={<BarcodeGenerator />} />
+            <Route path='/register' element={<Register />} />
+            <Route path='/accepted-patients' element={<AcceptedPatients />} />
+            <Route path="/patients" element={<PatientList />} />
+            <Route path="/test-booking" element={<TestBooking />} />
+            <Route path='/test-bookings' element={<TestBookingsList/>} />
+            <Route path="/patient/:id" element={<Patient />} />
+            <Route path="/masters" element={<PrintedTests/>}/>
+            <Route path='/accounting/transactions' element={<AccountingPage/>}/>
+            <Route path='/dashboard' element={<Dashboard/>}/>
             <Route path="/" element={
               <ProtectedRoute>
-                <HomePage backendUrl={backendUrl} />
+                <HomePage />
               </ProtectedRoute>
             } />
-            <Route path="/signup" element={<SignupPage backendUrl={backendUrl} />} />
-            <Route path="/login" element={<LoginPage backendUrl={backendUrl} />} />
+            <Route path="/signup" element={<SignupPage />} />
+            <Route path="/login" element={<LoginPage />} />
             <Route path="/dashboard" element={
               <ProtectedRoute>
-                <DashboardPage backendUrl={backendUrl} />
+                <DashboardPage />
               </ProtectedRoute>
             } />
             <Route path="/profile" element={
               <ProtectedRoute>
-                <ProfilePage backendUrl={backendUrl} />
+                <ProfilePage />
               </ProtectedRoute>
             } />
-            <Route path="*" element={<NotFoundPage backendUrl={backendUrl} />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </div>
       </AuthProvider>

@@ -12,7 +12,7 @@ function SignupPage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:4000/signup', { email, password });
+            const response = await axios.post('https://frontend-osa.vercel.app/signup', { email, password });
             alert(response.data); // Use the server's response message
             navigate('/login');
         } catch (error) {
