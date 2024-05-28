@@ -1,35 +1,52 @@
 /* Container styling for QR code display */
 .barcode-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background: linear-gradient(to bottom right, #8e2de2, #4a00e0);
-    color: #ffffff;
-    font-family: 'Arial', sans-serif;
-    text-align: center;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, #8e2de2, #4a00e0);
+  color: #ffffff;
+  font-family: 'Arial', sans-serif;
+  text-align: center;
+  padding: 20px;
+}
+
+h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+p {
+  margin-top: 20px;
+  font-size: 16px;
+  color: #ddd;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
   h2 {
-    margin-bottom: 20px;
-    font-size: 24px;
-    font-weight: bold;
-  }
-  
-  p {
-    margin-top: 20px;
-    font-size: 16px;
-    color: #ddd;
-  }
-  
-  @media (max-width: 768px) {
-    h2 {
       font-size: 20px;
-    }
-  
-    p {
-      font-size: 14px;
-    }
   }
-  
+
+  p {
+      font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .barcode-container {
+      padding: 10px;
+  }
+
+  h2 {
+      font-size: 18px;
+      margin-bottom: 15px;
+  }
+
+  p {
+      font-size: 12px;
+      margin-top: 15px;
+  }
+}

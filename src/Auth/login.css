@@ -16,6 +16,7 @@ body, html {
 
 .login-container {
     display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     width: 100%;
@@ -47,8 +48,10 @@ body, html {
     font-size: 24px;
     margin-bottom: 20px;
 }
-.login-image .img{
-    size: 100;
+
+.login-image .img {
+    width: 100%;
+    max-width: 100px;
 }
 
 .login-image p {
@@ -133,4 +136,91 @@ body, html {
 .login .create-account:hover,
 .login .forgot-password:hover {
     text-decoration: underline;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .login-container {
+        flex-direction: column;
+        max-width: 100%;
+    }
+
+    .login-image {
+        padding: 20px;
+    }
+
+    .login {
+        padding: 20px;
+    }
+
+    .login h1 {
+        font-size: 20px;
+    }
+
+    .login input[type="email"], .login input[type="password"] {
+        padding: 10px 12px;
+        margin-bottom: 10px;
+    }
+
+    .login button {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .login-image h2 {
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
+
+    .login-image p {
+        font-size: 14px;
+    }
+
+    .login .forgot-password,
+    .login .create-account {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-container {
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .login-image {
+        padding: 15px;
+    }
+
+    .login {
+        padding: 15px;
+    }
+
+    .login h1 {
+        font-size: 18px;
+    }
+
+    .login input[type="email"], .login input[type="password"] {
+        padding: 8px 10px;
+        margin-bottom: 8px;
+    }
+
+    .login button {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .login-image h2 {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .login-image p {
+        font-size: 12px;
+    }
+
+    .login .forgot-password,
+    .login .create-account {
+        font-size: 12px;
+    }
 }

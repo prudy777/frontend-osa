@@ -131,3 +131,60 @@ body, html {
 .signup .forgot-password:hover {
     text-decoration: underline;
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .signup-container {
+        flex-direction: column;
+        max-width: 100%;
+        box-shadow: none;
+    }
+
+    .signup-image, .signup {
+        flex: none;
+        width: 100%;
+        padding: 20px;
+    }
+
+    .signup-image {
+        padding: 20px 10px;
+    }
+
+    .signup h1 {
+        font-size: 20px;
+    }
+
+    .signup input[type="email"], .signup input[type="password"], .signup button {
+        font-size: 14px;
+        padding: 10px 12px;
+    }
+
+    .signup .forgot-password, .signup .create-account {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .signup-image h2 {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+
+    .signup-image p {
+        font-size: 14px;
+    }
+
+    .signup h1 {
+        font-size: 18px;
+        margin-bottom: 16px;
+    }
+
+    .signup input[type="email"], .signup input[type="password"], .signup button {
+        font-size: 12px;
+        padding: 8px 10px;
+    }
+
+    .signup .forgot-password, .signup .create-account {
+        font-size: 12px;
+    }
+}
