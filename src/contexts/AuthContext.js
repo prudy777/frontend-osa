@@ -9,8 +9,10 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem('user'));
-        if (user) {
+        const token = localStorage.getItem('token');
+        if (user && token) {
             setCurrentUser(user);
+            // Optionally, you can add a token validation or refresh logic here
         }
     }, []);
 
