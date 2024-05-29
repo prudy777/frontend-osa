@@ -16,7 +16,7 @@ const AccountingPage = () => {
 
   const fetchTransactions = useCallback(async () => {
     try {
-      const response = await axios.get('https://frontend-osa.vercel.app/accounting/transactions');
+      const response = await axios.get('http://localhost:4000/accounting/transactions');
       setTransactions(response.data);
       calculateSummary(response.data);
     } catch (error) {
@@ -26,7 +26,7 @@ const AccountingPage = () => {
 
   const fetchBudgetReport = useCallback(async () => {
     try {
-      const response = await axios.get('https://frontend-osa.vercel.app/api/budget-report');
+      const response = await axios.get('http://localhost:4000/api/budget-report');
       setBudgetData(response.data);
     } catch (error) {
       console.error('Error fetching budget report:', error);

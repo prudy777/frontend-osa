@@ -62,7 +62,7 @@ const TestBooking = () => {
         }
       }
 
-      const response = await axios.post('https://backend-osa.vercel.app/test-booking', {
+      const response = await axios.post('http://localhost:4000/test-booking', {
         ...patientData,
         tests,
       });

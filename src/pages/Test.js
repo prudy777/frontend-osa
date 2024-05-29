@@ -17,7 +17,7 @@ const TestBookingsList = () => {
   useEffect(() => {
     const fetchTestBookings = async () => {
       try {
-        const response = await axios.get('https://frontend-osa.vercel.app/test-bookings');
+        const response = await axios.get('http://localhost:4000/test-bookings');
         const bookings = response.data;
         console.log('Fetched Test Bookings:', bookings); // Debugging log
         setTestBookings(bookings);
@@ -132,7 +132,7 @@ const TestBookingsList = () => {
 
   const savePrintedTests = async (tests) => {
     try {
-      await axios.post('https://backend-osa.vercel.app/masters', { tests });
+      await axios.post('http://localhost:4000/masters', { tests });
     } catch (error) {
       console.error('Error saving printed tests:', error);
     }
@@ -146,7 +146,7 @@ const TestBookingsList = () => {
       return;
     }
     const deleteRequests = selectedRows.map(booking => 
-      axios.delete(`https://backend-osa.vercel.app/test-bookings/${booking.id}`)
+      axios.delete(`http://localhost:4000/test-bookings/${booking.id}`)
     );
     Promise.all(deleteRequests)
       .then(() => {
@@ -173,7 +173,7 @@ const TestBookingsList = () => {
 
 
   return (
-    <Container maxWidth="lg" sx={{ marginTop: 60 }}>
+    <Container maxWidth="lg" sx={{ marginTop: 10 }}>
       <Paper sx={{ padding: 4 }}>
         <Grid container justifyContent="space-between" alignItems="center">
           <Typography variant="h4" gutterBottom>Test Results</Typography>
