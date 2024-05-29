@@ -1,4 +1,3 @@
-// src/pages/LoginPage.js
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../contexts/AuthContext';
@@ -15,7 +14,7 @@ function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:4000/login', { email, password });
+      const response = await axios.post('https://backend-osa.vercel.app/login', { email, password });
       login({ email }, response.data.token);
       navigate('/');
     } catch (error) {
