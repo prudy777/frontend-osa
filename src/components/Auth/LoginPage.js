@@ -10,7 +10,6 @@ function LoginPage() {
   const [password, setPassword] = useState('');
   const { login } = useAuth();
   const navigate = useNavigate();
-  const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,35 +18,22 @@ function LoginPage() {
       login({ email }, response.data.token);
       navigate('/');
     } catch (error) {
-      setError(error.response ? error.response.data : 'Login failed');
+      alert(error.response ? error.response.data : 'Login failed');
     }
   };
 
   return (
     <div className="login-container">
       <div className="login-image">
-        <img src={Logo} alt="Company Logo" />
+        <img src={Logo} alt="Logo" />
         <h2>We are The Lotus Team</h2>
         <p>We are more than just a company. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
       </div>
       <div className="login">
         <h1>Login</h1>
-        {error && <div className="error">{error}</div>}
         <form onSubmit={handleSubmit}>
-          <input
-            type="email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            placeholder="Email"
-            required
-          />
-          <input
-            type="password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            placeholder="Password"
-            required
-          />
+          <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" required />
+          <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" required />
           <button type="submit">Login</button>
         </form>
         <div className="create-account">
