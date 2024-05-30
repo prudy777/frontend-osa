@@ -14,7 +14,7 @@ function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://backend-osa.vercel.app/login', { email, password });
+      const response = await axios.post('https://backend-osa.onrender.com/login', { email, password });
       login({ email }, response.data.token);
       navigate('/');
     } catch (error) {
