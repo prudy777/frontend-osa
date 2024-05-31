@@ -16,6 +16,7 @@ function LoginPage() {
     try {
       const response = await axios.post('https://backend-osa.onrender.com/login', { email, password });
       login({ email }, response.data.token);
+      prompt("Login Succesfully")
       navigate('/');
     } catch (error) {
       alert(error.response ? error.response.data : 'Login failed');
