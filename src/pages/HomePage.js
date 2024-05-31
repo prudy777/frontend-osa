@@ -34,7 +34,7 @@ const HomePage = () => {
       <footer className="footer">
         <div className="footer-item">Today's Date: {dateString}</div>
         <div className="footer-item">Today's Booking Amount: 0.00</div>
-        <div className="footer-item">Exit</div>
+        <div className="footer-item"><Link to='/login'><button style={{width: 90, height:40}}>Exit</button></Link></div>
       </footer>
     </div>
   );

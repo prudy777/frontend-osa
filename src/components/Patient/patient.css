@@ -1,4 +1,18 @@
 /* Basic Styles */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.patient-list-container{
+  animation: fadeInUp 1s ease-out forwards;
+}
 .patient-list-container {
   padding: 20px;
   max-width: 1000px;

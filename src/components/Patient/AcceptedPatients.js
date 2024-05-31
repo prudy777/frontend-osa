@@ -9,7 +9,7 @@ const AcceptedPatients = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:4000/accepted-patients')
+    axios.get('https://backend-osa.onrender.com/accepted-patients')
       .then(response => {
         setPatients(response.data);
         setLoading(false);

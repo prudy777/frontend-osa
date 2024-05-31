@@ -1,5 +1,6 @@
 /* global.css */
 body {
   padding-top: 70px; /* Adjust this based on your navbar height */
-  margin: 0;
+  max-width: 2000px;
+  min-height:  auto;
 }

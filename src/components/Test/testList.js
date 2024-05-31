@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Container, Grid, TextField, MenuItem, Button, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Container, Grid, TextField,MenuItem, Button, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Fade } from '@mui/material';
 
 const TestBooking = () => {
   const initialPatientData = {
@@ -62,7 +62,7 @@ const TestBooking = () => {
         }
       }
 
-      const response = await axios.post('http://localhost:4000/test-booking', {
+      const response = await axios.post('https://backend-osa.onrender.com/test-booking', {
         ...patientData,
         tests,
       });
@@ -80,9 +80,19 @@ const TestBooking = () => {
     setPatientData(initialPatientData);
     setTests(initialTests.map(test => ({ ...test, rate: 0, referenceRange: '', interpretation: '' })));
   };
+  
 
   return (
-    <Container maxWidth="lg" sx={{ marginTop: 80 }}>
+      <Fade in={true} timeout={1000} appear>
+        <Container
+          maxWidth="lg"
+          sx={{
+            marginTop: 80,
+            opacity: 1,
+            transition: 'opacity 1s ease-out',
+            transform: 'translate3d(0, 0, 0)',
+          }}
+        >
       <Paper sx={{ padding: 4 }}>
         <Typography variant="h4" gutterBottom>Test Booking</Typography>
         <Grid container spacing={3}>
@@ -279,6 +289,7 @@ const TestBooking = () => {
         </Grid>
       </Paper>
     </Container>
+   </Fade>
   );
 };
 

@@ -1,0 +1,109 @@
+@keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 100%, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+  
+  .py-5 {
+    animation: fadeInUp 1s ease-out forwards;
+  }
+/* profile.css */
+.py-5 {
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+  }
+  
+  .container {
+    max-width: 1200px;
+  }
+  
+  .card {
+    box-shadow: none;
+    margin-bottom: 2rem;
+  }
+  
+  .card-body p,
+  .card-body ul {
+    font-size: 1rem;
+  }
+  
+  .card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .text-primary {
+    margin-right: 0.5rem;
+  }
+  
+  .text-secondary {
+    color: #6c757d !important;
+  }
+  
+  .lead {
+    font-size: 1.25rem;
+    font-weight: 300;
+  }
+  
+  .img-fluid {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .rounded-circle {
+    border-radius: 50% !important;
+  }
+  .img-fluid rounded-circle{
+    animation: spin 4s linear infinite;
+  }
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  
+  /* Responsive styles */
+  @media (max-width: 767px) {
+    .lead {
+      font-size: 1rem;
+    }
+  
+    .card-title {
+      font-size: 1.25rem;
+    }
+  
+    .container {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+  
+  /* Additional styles for devices with a maximum width of 480px */
+  @media (max-width: 480px) {
+    .lead {
+      font-size: 0.875rem; /* Adjusting lead font size for smaller screens */
+    }
+  
+    .card-title {
+      font-size: 1rem; /* Adjusting card title font size for smaller screens */
+    }
+  
+    .container {
+      padding-left: 0.5rem; /* Adjusting padding for smaller screens */
+      padding-right: 0.5rem; /* Adjusting padding for smaller screens */
+    }
+  
+    .card-body p,
+    .card-body ul {
+      font-size: 0.875rem; /* Adjusting card body text size for smaller screens */
+    }
+  }

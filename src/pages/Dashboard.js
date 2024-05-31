@@ -29,13 +29,13 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const salesResponse = await axios.get('http://localhost:4000/api/sales');
-        const revenueResponse = await axios.get('http://localhost:4000/api/revenue');
-        const customersResponse = await axios.get('http://localhost:4000/api/customers');
-        const reportsResponse = await axios.get('http://localhost:4000/api/reports');
-        const recentSalesResponse = await axios.get('http://localhost:4000/api/recent-sales');
-        const topSellingResponse = await axios.get('http://localhost:4000/api/top-selling');
-        const recentActivityResponse = await axios.get('http://localhost:4000/api/recent-activity');
+        const salesResponse = await axios.get('https://backend-osa.onrender.com/api/sales');
+        const revenueResponse = await axios.get('https://backend-osa.onrender.com/api/revenue');
+        const customersResponse = await axios.get('https://backend-osa.onrender.com/api/customers');
+        const reportsResponse = await axios.get('https://backend-osa.onrender.com/api/reports');
+        const recentSalesResponse = await axios.get('https://backend-osa.onrender.com/api/recent-sales');
+        const topSellingResponse = await axios.get('https://backend-osa.onrender.com/api/top-selling');
+        const recentActivityResponse = await axios.get('https://backend-osa.onrender.com/api/recent-activity');
 
         setSales(salesResponse.data);
         setRevenue(revenueResponse.data);

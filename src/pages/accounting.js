@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import { Container, Typography, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button, TextField, Select, MenuItem, Checkbox, FormControlLabel } from '@mui/material';
+import { Container, Typography, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button, TextField, Select, MenuItem, Checkbox, FormControlLabel, Fade } from '@mui/material';
 import 'chart.js/auto';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ApexCharts from 'apexcharts';
@@ -16,7 +16,7 @@ const AccountingPage = () => {
 
   const fetchTransactions = useCallback(async () => {
     try {
-      const response = await axios.get('http://localhost:4000/accounting/transactions');
+      const response = await axios.get('https://backend-osa.onrender.com/accounting/transactions');
       setTransactions(response.data);
       calculateSummary(response.data);
     } catch (error) {
@@ -26,7 +26,7 @@ const AccountingPage = () => {
 
   const fetchBudgetReport = useCallback(async () => {
     try {
-      const response = await axios.get('http://localhost:4000/api/budget-report');
+      const response = await axios.get('https://backend-osa.onrender.com/api/budget-report');
       setBudgetData(response.data);
     } catch (error) {
       console.error('Error fetching budget report:', error);
@@ -98,8 +98,11 @@ const AccountingPage = () => {
     // Add logic to handle deleting a transaction
   };
 
-  return (
-    <Container maxWidth={false} sx={{ marginTop: 50, maxWidth: '1200px', width: '1300px' }}>
+  return ( 
+    <Fade in={true} timeout={1000} appear>
+    <Container maxWidth={false} sx={{ marginTop: 50, maxWidth: '1200px', width: '1300px', opacity: 1,
+    transition: 'opacity 1s ease-out',
+    transform: 'translate3d(0, 0, 0)',}}>
       <Paper sx={{ padding: 4 }}>
         <Typography variant="h4" gutterBottom>Accounting Overview</Typography>
         <Grid container spacing={3} sx={{ marginBottom: 4 }}>
@@ -199,6 +202,7 @@ const AccountingPage = () => {
         </div>
       </Paper>
     </Container>
+    </Fade>
   );
 };
 const PrintedTests = () => {
@@ -209,7 +213,7 @@ const PrintedTests = () => {
   useEffect(() => {
     const fetchPrintedTests = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/printed-tests');
+        const response = await axios.get('https://backend-osa.onrender.com/printed-tests');
         setPrintedTests(response.data);
         setLoading(false);
       } catch (error) {
@@ -231,6 +235,7 @@ const PrintedTests = () => {
   }
 
   return (
+    <Fade in={true} timeout={1000} appear>
     <Container maxWidth="lg" sx={{ marginTop: 60 }}>
       <Paper sx={{ padding: 4 }}>
         <Typography variant="h4" gutterBottom>Printed Tests</Typography>
@@ -282,6 +287,7 @@ const PrintedTests = () => {
         </TableContainer>
       </Paper>
     </Container>
+    </Fade>
   );
 };
 

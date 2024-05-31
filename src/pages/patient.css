@@ -1,4 +1,18 @@
 /* Base styles for the patient container */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.patient-container{
+  animation: fadeInUp 1s ease-out forwards;
+}
 .patient-container {
   padding: 20px;
   max-width: 600px;

@@ -10,7 +10,7 @@ const Patient = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    axios.get(`http://localhost:4000/patients/${id}`)
+    axios.get(`https://backend-osa.onrender.com/patients/${id}`)
       .then(response => {
         setPatient(response.data);
         setLoading(false);

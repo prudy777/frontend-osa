@@ -17,7 +17,7 @@ const TestBookingsList = () => {
   useEffect(() => {
     const fetchTestBookings = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/test-bookings');
+        const response = await axios.get('https://backend-osa.onrender.com/test-bookings');
         const bookings = response.data;
         console.log('Fetched Test Bookings:', bookings); // Debugging log
         setTestBookings(bookings);
@@ -132,7 +132,7 @@ const TestBookingsList = () => {
 
   const savePrintedTests = async (tests) => {
     try {
-      await axios.post('http://localhost:4000/masters', { tests });
+      await axios.post('https://backend-osa.onrender.com/masters', { tests });
     } catch (error) {
       console.error('Error saving printed tests:', error);
     }
@@ -146,7 +146,7 @@ const TestBookingsList = () => {
       return;
     }
     const deleteRequests = selectedRows.map(booking => 
-      axios.delete(`http://localhost:4000/test-bookings/${booking.id}`)
+      axios.delete(`https://backend-osa.onrender.com/test-bookings/${booking.id}`)
     );
     Promise.all(deleteRequests)
       .then(() => {

@@ -13,7 +13,20 @@ body, html {
     font-family: 'Helvetica Neue', Arial, sans-serif;
     background-color: #f7f7f7;
 }
-
+@keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 100%, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+  
+  .signup-container{
+    animation: fadeInUp 1s ease-out forwards;
+  }
 .signup-container {
     display: flex;
     justify-content: center;

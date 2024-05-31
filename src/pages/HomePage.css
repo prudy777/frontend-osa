@@ -1,4 +1,18 @@
 /* Global Styling */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.homepage-container{
+  animation: fadeInUp 1s ease-out forwards;
+}
 * {
   margin: 0;
   padding: 0;
@@ -81,6 +95,10 @@ body {
 }
 
 @media (max-width: 768px) {
+  .homepage-container{
+    margin-top: 50px;
+    margin-bottom: 60px;
+  }
   .grid-container {
       grid-template-columns: repeat(2, 1fr);
   }
@@ -90,12 +108,20 @@ body {
   }
 
   .header, .footer {
-      padding: 15px 0;
-      font-size: 20px;
-  }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 0;
+    font-size: 20px;
+}
+
 }
 
 @media (max-width: 480px) {
+  .homepage-container{
+    margin-top: 470px;
+    margin-bottom: 160px;
+  }
   .grid-container {
       grid-template-columns: 1fr;
   }
@@ -108,10 +134,15 @@ body {
       width: 100px;
   }
 
-  .header, .footer {
-      padding: 10px 0;
-      font-size: 18px;
-  }
+  .footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 140;
+    padding: 15px 0;
+    font-size: 20px;
+}
+
 
   .footer {
       flex-direction: column;

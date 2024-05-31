@@ -7,7 +7,6 @@ import HomePage from './pages/HomePage';
 import LoginPage from './components/Auth/LoginPage';
 import SignupPage from './components/Auth/SignupPage';
 import DashboardPage from './pages/Dashboard';
-import ProfilePage from './pages/Profile';
 import NotFoundPage from './pages/NotFound';
 import BarcodeGenerator from './hooks/BarcodeGenerator';
 import Register from './hooks/Register';
@@ -20,6 +19,7 @@ import TestBookingsList from './pages/Test';
 import AccountingPage from './pages/accounting';
 import Dashboard from './pages/Dashboard';
 import PrintedTests from './pages/master';
+import About from './pages/Profile';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
@@ -54,7 +54,7 @@ const App = () => {
             } />
             <Route path="/profile" element={
               <ProtectedRoute>
-                <ProfilePage />
+                <About />
               </ProtectedRoute>
             } />
             <Route path="*" element={<NotFoundPage />} />
