@@ -33,6 +33,9 @@ p {
   p {
       font-size: 14px;
   }
+  .qr{
+    size: 250;
+  }
 }
 
 @media (max-width: 480px) {
@@ -48,5 +51,8 @@ p {
   p {
       font-size: 12px;
       margin-top: 15px;
+  }
+  .qr{
+    size: 200;
   }
 }

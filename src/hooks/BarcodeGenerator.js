@@ -15,7 +15,7 @@ const BarcodeGenerator = () => {
         <div style={{ textAlign: 'center' }}>
             <h2>Patient Registration Barcode</h2>
             {registrationUrl && (
-                <QRCode
+                <QRCode className='qr'
                     value={registrationUrl}
                     size={400}
                     bgColor={"#ffffff"}

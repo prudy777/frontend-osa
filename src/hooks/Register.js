@@ -23,7 +23,7 @@ const Register = ({ onRegisterSuccess }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:4000/register', {
+      await axios.post('https://backend-osa.onrender.com/register', {
         first_name: formData.firstName,
         last_name: formData.lastName,
         dob: formData.dateOfBirth,
