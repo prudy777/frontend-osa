@@ -4,6 +4,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 import './login.css';
 import Logo from '../../assets/company.png';
+import { AlertTitle } from '@mui/material';
 
 function LoginPage() {
   const [email, setEmail] = useState('');
@@ -16,7 +17,7 @@ function LoginPage() {
     try {
       const response = await axios.post('https://backend-osa.onrender.com/login', { email, password });
       login({ email }, response.data.token);
-      prompt("Login Succesfully")
+      AlertTitle("Login Succesfully")
       navigate('/');
     } catch (error) {
       alert(error.response ? error.response.data : 'Login failed');
