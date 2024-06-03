@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './AcceptedPatients.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const AcceptedPatients = () => {
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios.get('https://backend-osa.onrender.com/accepted-patients')
@@ -29,11 +30,14 @@ const AcceptedPatients = () => {
     return <div>{error}</div>;
   }
 
+  const handleRowClick = (patient) => {
+    navigate('/test-booking', { state: { patient } });
+  };
+
   return (
     <div className="patient-container">
       <h2>Accepted Patients</h2>
       <table className="patient-details-table">
-      <Link to="/test-booking" >
         <thead>
           <tr>
             <th>ID</th>
@@ -48,7 +52,7 @@ const AcceptedPatients = () => {
         </thead>
         <tbody>
           {patients.map(patient => (
-            <tr key={patient.id}>
+            <tr key={patient.id} onClick={() => handleRowClick(patient)}>
               <td>{patient.id}</td>
               <td>{patient.first_name}</td>
               <td>{patient.last_name}</td>
@@ -60,7 +64,6 @@ const AcceptedPatients = () => {
             </tr>
           ))}
         </tbody>
-        </Link>
       </table>
     </div>
   );
