@@ -38,7 +38,7 @@ const TestBooking = () => {
   };
 
   const initialTests = [
-    { id: `${TwoId(patient?.test_ype || '')}`, name: `${patient?.test_type || ''}`, rate: 30, referenceRange: '', interpretation: '' },
+    { id: `${TwoId(patient?.test_type )}`, name: `${patient?.test_type || ''}`, rate: 30, referenceRange: '', interpretation: '' },
   ];
 
   const [patientData, setPatientData] = useState(initialPatientData);
