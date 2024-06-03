@@ -23,7 +23,7 @@ const PatientList = ({ refresh }) => {
 
   const handleStatusChange = async (id, status) => {
     try {
-      const response = await axios.put(`https://backend-osa.onrender.com/${id}/status`, { status });
+      const response = await axios.put(`https://backend-osa.onrender.com/patients/${id}/status`, { status });
       setPatients(prevPatients => prevPatients.map(patient => 
         patient.id === id ? { ...patient, status } : patient
       ));
