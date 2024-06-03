@@ -33,13 +33,7 @@ const TestBooking = () => {
   };
 
   const initialTests = [
-    { id: 'HB', name: 'HAEMOGLOBIN', rate: 30, referenceRange: '', interpretation: '' },
-    { id: 'TLC', name: 'TOTAL LEUCOCYTE COUNT', rate: 30, referenceRange: '', interpretation: '' },
-    { id: 'BG', name: 'BLOOD GROUP', rate: 0, referenceRange: '', interpretation: '' },
-    { id: 'ESR', name: 'E.S.R', rate: 40, referenceRange: '', interpretation: '' },
-    { id: 'BSPP', name: 'BL. Sugar (PP)', rate: 40, referenceRange: '', interpretation: '' },
-    { id: '078', name: 'ROUTINE URINE ANALYSIS', rate: 40, referenceRange: '', interpretation: '' },
-    { id: 'US', name: 'URINE SUGAR', rate: 30, referenceRange: '', interpretation: '' },
+    { id: 'HB', name: `${patient?.test_type || ''}`, rate: 30, referenceRange: '', interpretation: '' },
   ];
 
   const [patientData, setPatientData] = useState(initialPatientData);
