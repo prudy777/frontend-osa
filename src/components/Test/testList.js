@@ -19,7 +19,12 @@ const TestBooking = () => {
 
     return age;
   };
-
+  const TwoId = (word) => {
+    if (word.length < 2) {
+      return word;
+    }
+    return word.substring(0, 2);
+  };
   const initialPatientData = {
     patientId: patient?.id || '',
     labNo: '041219025',
@@ -33,7 +38,7 @@ const TestBooking = () => {
   };
 
   const initialTests = [
-    { id: 'HB', name: `${patient?.test_type || ''}`, rate: 30, referenceRange: '', interpretation: '' },
+    { id: `${TwoId(patient?.test_ype || '')}`, name: `${patient?.test_type || ''}`, rate: 30, referenceRange: '', interpretation: '' },
   ];
 
   const [patientData, setPatientData] = useState(initialPatientData);
