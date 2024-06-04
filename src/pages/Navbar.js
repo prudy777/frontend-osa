@@ -4,7 +4,7 @@ import './NavBar.css';
 import Logo from "../assets/company.png";
 
 const NavBar = () => {
-  const [collapsed, setCollapsed] = useState(window.innerWidth < 800);
+  const [collapsed, setCollapsed] = useState(true);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 800);
 
   const toggleCollapse = () => {
@@ -28,9 +28,9 @@ const NavBar = () => {
     };
   }, []);
 
-  // Set the initial state for collapsed based on window width on component mount
   useEffect(() => {
-    setCollapsed(window.innerWidth < 800);
+    setIsMobile(window.innerWidth < 800);
+    setCollapsed(window.innerWidth < 800); // Ensure collapsed is true on initial load if mobile
   }, []);
 
   return (
@@ -46,7 +46,7 @@ const NavBar = () => {
             <i className="bx bx-menu"></i>
           </button>
         ) : null}
-        <div className={`nav-links ${isMobile && collapsed ? 'show' : ''}`}>
+        <div className={`nav-links ${isMobile && collapsed ? '' : 'show'}`}>
           <ul className="links">
             <li><Link to="/">Home</Link></li>
             <li><Link to="/dashboard">Dashboard</Link></li>
@@ -64,7 +64,7 @@ const NavBar = () => {
             </li>
           </ul>
         </div>
-        <div className={`search-box ${isMobile && !collapsed ? 'hidden' : ''}`}>
+        <div className={`search-box ${isMobile && collapsed ? 'hidden' : ''}`}>
           <i className="bx bx-search"></i>
           <div className="input-box">
             <input type="text" placeholder="Search..." />
