@@ -24,7 +24,7 @@ function SignupPage() {
         <div className="signup-container">
             <div className="signup-image">
                 <img src={Company} alt="Logo" />
-                <h2>We are The Lotus Team</h2>
+                <h2>We are The OSAMEDIC Team</h2>
                 <p>We are more than just a company. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
             </div>
             <div className="signup">

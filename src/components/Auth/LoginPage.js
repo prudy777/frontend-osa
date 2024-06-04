@@ -27,8 +27,8 @@ function LoginPage() {
     <div className="login-container">
       <div className="login-image">
         <img src={Logo} alt="Logo" />
-        <h2>We are The Lotus Team</h2>
-        <p>We are more than just a company. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <h2>WELCOME TO OSAMEDIC</h2>
+        <p>We are more than just a company. We Provide Evolutional Services and Accurate Tests</p>
       </div>
       <div className="login">
         <h1>Login</h1>
