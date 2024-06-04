@@ -39,7 +39,7 @@ const NavBar = () => {
             <i className="bx bx-menu"></i>
           </button>
         ) : null}
-        <div className={`nav-links ${isMobile && collapsed ? 'show' : ''}`}>
+        <div className={`nav-links ${isMobile && collapsed ? 'hidden' : ''}`}>
           <ul className="links">
             <li><Link to="/">Home</Link></li>
             <li><Link to="/dashboard">Dashboard</Link></li>
