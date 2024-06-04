@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './NavBar.css';
-import Logo from ".././assets/company.png"
+import Logo from "../assets/company.png";
 
 const NavBar = () => {
   const [collapsed, setCollapsed] = useState(window.innerWidth < 800);
@@ -16,6 +16,8 @@ const NavBar = () => {
     setIsMobile(isMobileView);
     if (!isMobileView) {
       setCollapsed(false);
+    } else {
+      setCollapsed(true); // Collapse by default if mobile view
     }
   };
 
@@ -24,6 +26,11 @@ const NavBar = () => {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
+  }, []);
+
+  // Set the initial state for collapsed based on window width on component mount
+  useEffect(() => {
+    setCollapsed(window.innerWidth < 800);
   }, []);
 
   return (
@@ -35,11 +42,11 @@ const NavBar = () => {
           </Link>
         </div>
         {isMobile ? (
-          <button  className="navbar-toggler" type="button" onClick={toggleCollapse}>
+          <button className="navbar-toggler" type="button" onClick={toggleCollapse}>
             <i className="bx bx-menu"></i>
           </button>
         ) : null}
-        <div className={`nav-links ${isMobile && collapsed ? 'hidden' : ''}`}>
+        <div className={`nav-links ${isMobile && collapsed ? 'show' : ''}`}>
           <ul className="links">
             <li><Link to="/">Home</Link></li>
             <li><Link to="/dashboard">Dashboard</Link></li>

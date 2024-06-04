@@ -108,7 +108,7 @@ nav {
   }
 
   .nav-links.show {
-    display: flex;
+    display: block;
     max-height: 500px; /* Adjust based on the content height */
   }
 
@@ -130,5 +130,8 @@ nav {
   .input-box {
     display: block;
     width: 100%;
+  }
+  .search-box.hidden {
+    display: none;
   }
 }
