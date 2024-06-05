@@ -332,7 +332,7 @@ const TestBooking = () => {
   return (
     <Fade in>
       <Container maxWidth="md">
-        <Paper elevation={3} sx={{ padding: 3, marginTop: 4 }}>
+        <Paper elevation={3} sx={{ padding: 3, marginTop: 150 }}>
           <Grid container justifyContent="center" spacing={2}>
             <Grid item>
               <img src={company} alt="Company Logo" style={{ width: '100px' }} />
