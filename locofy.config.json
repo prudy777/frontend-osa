@@ -1,0 +1,10 @@
+{
+  "components": [
+    "./src/components/logins.jsx"
+  ],
+  "wrapper": "./src",
+  "webpack": "./webpack.locofy.js",
+  "publicPath": "./public/assets",
+  "projectId": "665f892c2d576621a3ca7d88",
+  "projectName": "Registration Form Design | Event Registration UI Design | Registration System, Login and Signup Page (Community)"
+}

@@ -14,7 +14,20 @@ html, body {
   height: 100%;
   margin: 0;
   overflow: auto;
-  background: linear-gradient(to right, #e0f7fa, #ffebee); /* Very light blue to very light red gradient background */
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+  background: url(https://cdn.dribbble.com/userupload/14908151/file/original-59116bdcaac0a2942c1ba195a05a9b8a.png?resize=1024x768) no-repeat center center fixed;
+  background-size: cover;
+}
+
+@media (max-width: 800px) {
+  html, body {
+    background: url(https://cdn.dribbble.com/userupload/14908151/file/original-59116bdcaac0a2942c1ba195a05a9b8a.png?resize=1024x768) no-repeat center center fixed;
+    background-size: cover;
+  }
+}
+
+@media (max-width: 480px) {
+  html, body {
+    background: url(https://cdn.dribbble.com/userupload/14908151/file/original-59116bdcaac0a2942c1ba195a05a9b8a.png?resize=1024x768) no-repeat center center fixed;
+    background-size: cover;
+  }
 }

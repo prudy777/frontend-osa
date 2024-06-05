@@ -19,12 +19,14 @@ const TestBooking = () => {
 
     return age;
   };
+
   const TwoId = (word) => {
     if (word.length < 2) {
       return word;
     }
     return word.substring(0, 2);
   };
+
   const initialPatientData = {
     patientId: patient?.id || '',
     labNo: '041219025',
@@ -38,7 +40,7 @@ const TestBooking = () => {
   };
 
   const initialTests = [
-    { id: (`${TwoId(patient?.test_type ).toUpperCase()}`), name: `${patient?.test_type || ''}`, rate: 30, referenceRange: '', interpretation: '' },
+    { id: `${TwoId(patient?.test_type).toUpperCase()}`, name: `${patient?.test_type || ''}`, rate: 30, referenceRange: '', interpretation: '' },
   ];
 
   const [patientData, setPatientData] = useState(initialPatientData);
@@ -49,7 +51,6 @@ const TestBooking = () => {
       setPatientData(initialPatientData);
     }
   }, [patient]);
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -74,10 +75,10 @@ const TestBooking = () => {
   const handleRemoveTest = (index) => {
     setTests((prevTests) => prevTests.filter((_, i) => i !== index));
   };
+  
 
   const handleSubmit = async () => {
     try {
-      // Validate that all required fields are filled
       for (const test of tests) {
         if (!test.referenceRange || !test.interpretation) {
           alert('Please fill all the reference range and interpretation fields');
@@ -109,41 +110,20 @@ const TestBooking = () => {
       <Container
         maxWidth="lg"
         sx={{
-          marginTop: 80,
+          marginTop: 480,
           opacity: 1,
           transition: 'opacity 1s ease-out',
           transform: 'translate3d(0, 0, 0)',
         }}
       >
         <Paper sx={{ padding: 4 }}>
-          <Typography variant="h4" gutterBottom>Test Listings</Typography>
+          <Typography variant="h4" gutterBottom>LABORATORY INVESTIGATION REPORT</Typography>
+          <Typography variant="h6" align="center" color="primary" gutterBottom>BIODATA</Typography>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
-                label="Patient ID"
-                name="patientId"
-                value={patientData.patientId}
-                onChange={handleChange}
-                variant="outlined"
-                size="medium"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="LAB No"
-                name="labNo"
-                value={patientData.labNo}
-                onChange={handleChange}
-                variant="outlined"
-                size="medium"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Name"
+                label="Name Of Patient"
                 name="name"
                 value={patientData.name}
                 onChange={handleChange}
@@ -152,6 +132,28 @@ const TestBooking = () => {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Lab. No."
+                name="labNo"
+                value={patientData.labNo}
+                onChange={handleChange}
+                variant="outlined"
+                size="medium"
+              />
+            </Grid>
+            <Grid item xs={12} sm={2}>
+              <TextField
+                fullWidth
+                label="Age"
+                name="age"
+                value={patientData.age}
+                onChange={handleChange}
+                variant="outlined"
+                size="medium"
+              />
+            </Grid>
+            <Grid item xs={12} sm={2}>
               <TextField
                 select
                 fullWidth
@@ -166,39 +168,23 @@ const TestBooking = () => {
                 <MenuItem value="FEMALE">Female</MenuItem>
               </TextField>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={4}>
               <TextField
                 fullWidth
-                label="Age"
-                name="age"
-                value={patientData.age}
+                label="Specimen"
+                name="specimen"
+                value={patientData.specimen}
                 onChange={handleChange}
                 variant="outlined"
                 size="medium"
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                select
-                fullWidth
-                label="Age Unit"
-                name="ageUnit"
-                value={patientData.ageUnit}
-                onChange={handleChange}
-                variant="outlined"
-                size="medium"
-              >
-                <MenuItem value="Days">Days</MenuItem>
-                <MenuItem value="Months">Months</MenuItem>
-                <MenuItem value="Years">Years</MenuItem>
-              </TextField>
-            </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
               <TextField
                 fullWidth
-                label="Panel"
-                name="panel"
-                value={patientData.panel}
+                label="Investigations"
+                name="investigations"
+                value={patientData.investigations}
                 onChange={handleChange}
                 variant="outlined"
                 size="medium"
@@ -207,21 +193,40 @@ const TestBooking = () => {
             <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
-                label="Referred By"
-                name="referredBy"
-                value={patientData.referredBy}
-                onChange={handleChange}
-                variant="outlined"
-                size="medium"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Date"
+                label="Date Of Specimen Collection"
                 name="date"
                 type="date"
                 value={patientData.date}
+                onChange={handleChange}
+                variant="outlined"
+                size="medium"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Time"
+                name="time"
+                type="time"
+                value={patientData.time}
+                onChange={handleChange}
+                variant="outlined"
+                size="medium"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Date of Result Reporting"
+                name="dateOfResultReporting"
+                type="date"
+                value={patientData.dateOfResultReporting}
                 onChange={handleChange}
                 variant="outlined"
                 size="medium"

@@ -54,12 +54,12 @@ const NavBar = () => {
             <li><Link to="/register">Register</Link></li>
             <li><Link to="/barcode">Barcode Generator</Link></li>
             <li>
-              <a href="#">More</a>
+              <Link to="#">More</Link>
               <i className="bx bxs-chevron-down arrow"></i>
               <ul className="sub-menu">
-                <li><a href="#">Option 1</a></li>
-                <li><a href="#">Option 2</a></li>
-                <li><a href="#">Option 3</a></li>
+                <li>< Link to="#">Option 1</Link></li>
+                <li><Link to="#">Option 2</Link></li>
+                <li><Link to="#">Option 3</Link></li>
               </ul>
             </li>
           </ul>

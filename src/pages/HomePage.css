@@ -10,9 +10,10 @@
   }
 }
 
-.homepage-container{
+.homepage-container {
   animation: fadeInUp 1s ease-out forwards;
 }
+
 * {
   margin: 0;
   padding: 0;
@@ -26,7 +27,7 @@ body {
   font-size: 16px;
 }
 
-.homepage-container{
+.homepage-container {
   margin-top: 200px;
 }
 
@@ -49,7 +50,7 @@ body {
 }
 
 .grid-item {
-  background-color: #ffffff;
+  background-color: transparent;
   border-radius: 10px;
   padding: 20px;
   text-align: center;
@@ -62,8 +63,22 @@ body {
   margin-bottom: 10px;
 }
 
+/* Define the keyframes for the background color change */
+@keyframes backgroundColorChange {
+  0% {
+    background-color: transparent;
+  }
+  100% {
+    background: #e1eec3; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #f05053, #e1eec3); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #f05053, #e1eec3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  }
+}
+
+/* Apply the animation on hover */
 .grid-item:hover {
   transform: translateY(-10px);
+  animation: backgroundColorChange 0.5s forwards;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
@@ -79,6 +94,10 @@ body {
   bottom: 0;
 }
 
+.footer:hover {
+  background-image: linear-gradient(to top, #feada6 0%, #f5efef 100%);
+}
+
 .footer-item {
   text-align: center;
 }
@@ -86,25 +105,26 @@ body {
 /* Responsive Adjustments */
 @media (max-width: 1024px) {
   .grid-container {
-      grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .grid-item img {
-      width: 150px;
+    width: 150px;
   }
 }
 
 @media (max-width: 768px) {
-  .homepage-container{
+  .homepage-container {
     margin-top: 50px;
     margin-bottom: 60px;
   }
+
   .grid-container {
-      grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .grid-item img {
-      width: 120px;
+    width: 120px;
   }
 
   .header, .footer {
@@ -113,38 +133,34 @@ body {
     align-items: center;
     padding: 15px 0;
     font-size: 20px;
-}
-
+  }
 }
 
 @media (max-width: 480px) {
-  .homepage-container{
+  .homepage-container {
     margin-top: 470px;
     margin-bottom: 160px;
   }
+
   .grid-container {
-      grid-template-columns: 1fr;
+    grid-template-columns: 1fr;
   }
 
   .grid-item {
-      padding: 10px;
+    padding: 10px;
   }
 
   .grid-item img {
-      width: 100px;
+    width: 100px;
   }
 
   .footer {
     display: flex;
+    margin-top: 20px;
     justify-content: center;
     align-items: center;
-    margin-right: 140;
-    padding: 15px 0;
+    padding: 5px 0;
     font-size: 20px;
-}
-
-
-  .footer {
-      flex-direction: column;
+    flex-direction: column;
   }
 }
