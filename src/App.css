@@ -7,7 +7,7 @@
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 1000; /* Ensure it stays on top */
+  z-index: 100; /* Ensure it stays on top */
 }
 
 html, body {
@@ -22,6 +22,7 @@ html, body {
   html, body {
     background: url(https://cdn.dribbble.com/userupload/14908151/file/original-59116bdcaac0a2942c1ba195a05a9b8a.png?resize=1024x768) no-repeat center center fixed;
     background-size: cover;
+    opacity: 0.5;
   }
 }
 

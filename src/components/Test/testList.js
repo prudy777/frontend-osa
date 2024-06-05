@@ -1,7 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
-import { Container, Grid, TextField, MenuItem, Button, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Fade } from '@mui/material';
+import company from '../../assets/company.png';
+import {
+  Container,
+  Grid,
+  TextField,
+  MenuItem,
+  Button,
+  Typography,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Fade
+} from '@mui/material';
 
 const TestBooking = () => {
   const location = useLocation();
@@ -40,7 +56,13 @@ const TestBooking = () => {
   };
 
   const initialTests = [
-    { id: `${TwoId(patient?.test_type).toUpperCase()}`, name: `${patient?.test_type || ''}`, rate: 30, referenceRange: '', interpretation: '' },
+    {
+      id: `${TwoId(patient?.test_type).toUpperCase()}`,
+      name: `${patient?.test_type || ''}`,
+      rate: 30,
+      referenceRange: '',
+      interpretation: ''
+    }
   ];
 
   const [patientData, setPatientData] = useState(initialPatientData);
@@ -69,13 +91,15 @@ const TestBooking = () => {
   };
 
   const handleAddTest = () => {
-    setTests((prevTests) => [...prevTests, { id: '', name: '', rate: 0, referenceRange: '', interpretation: '' }]);
+    setTests((prevTests) => [
+      ...prevTests,
+      { id: '', name: '', rate: 0, referenceRange: '', interpretation: '' }
+    ]);
   };
 
   const handleRemoveTest = (index) => {
     setTests((prevTests) => prevTests.filter((_, i) => i !== index));
   };
-  
 
   const handleSubmit = async () => {
     try {
@@ -102,150 +126,146 @@ const TestBooking = () => {
 
   const handleCancel = () => {
     setPatientData(initialPatientData);
-    setTests(initialTests.map(test => ({ ...test, rate: 0, referenceRange: '', interpretation: '' })));
+    setTests(initialTests.map(test => ({
+      ...test,
+      rate: 0,
+      referenceRange: '',
+      interpretation: ''
+    })));
   };
 
-  return (
-    <Fade in={true} timeout={1000} appear>
-      <Container
-        maxWidth="lg"
-        sx={{
-          marginTop: 480,
-          opacity: 1,
-          transition: 'opacity 1s ease-out',
-          transform: 'translate3d(0, 0, 0)',
-        }}
-      >
-        <Paper sx={{ padding: 4 }}>
-          <Typography variant="h4" gutterBottom>LABORATORY INVESTIGATION REPORT</Typography>
-          <Typography variant="h6" align="center" color="primary" gutterBottom>BIODATA</Typography>
-          <Grid container spacing={3}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Name Of Patient"
-                name="name"
-                value={patientData.name}
-                onChange={handleChange}
-                variant="outlined"
-                size="medium"
-              />
+  const sections = [
+    {
+      title: 'BIODATA',
+      fields: [
+        { label: 'Name Of Patient', name: 'name', type: 'text' },
+        { label: 'Lab. No.', name: 'labNo', type: 'text' },
+        { label: 'Age', name: 'age', type: 'text' },
+        { label: 'Sex', name: 'sex', type: 'select', options: ['MALE', 'FEMALE'] },
+        { label: 'Specimen', name: 'specimen', type: 'text' },
+        { label: 'Investigations', name: 'investigations', type: 'text' },
+        { label: 'Date Of Specimen Collection', name: 'date', type: 'date' },
+        { label: 'Time', name: 'time', type: 'time' },
+      ]
+    },
+    {
+      title: 'SEROLOGY',
+      tableData: [
+        { test: 'HEPATITIS B Ab.', methodology: 'Rapid Chromatographic immunoassay', result: 'NON-REACTIVE' },
+        { test: 'SYPHILIS TEST (VDRL)', methodology: 'Rapid Chromatographic immunoassay', result: 'NON-REACTIVE' },
+        { test: 'HEPATITIS C Ab.', methodology: 'Rapid Chromatographic immunoassay', result: 'NON-REACTIVE' },
+        { test: 'HIV TEST (1&2)', methodology: 'Rapid Chromatographic immunoassay', result: 'NON-REACTIVE' },
+        { test: 'GHONNORRHEA Ab.', methodology: 'Rapid Chromatographic immunoassay', result: 'NEGATIVE' },
+        { test: 'H. PYLORI Ab.', methodology: 'Rapid Chromatographic immunoassay', result: 'POSITIVE' }
+      ]
+    },
+    {
+      title: 'WIDAL TEST',
+      tableData: [
+        { antigen: 'Salmonella Typhi H', dilution: '1/20' },
+        { antigen: 'Paratyphi A H', dilution: '1/20' },
+        { antigen: 'Paratyphi B H', dilution: '1/20' },
+        { antigen: 'Paratyphi C H', dilution: '1/20' },
+        { antigen: 'Salmonella Typhi O', dilution: '1/20' },
+        { antigen: 'Paratyphi A O', dilution: '1/20' },
+        { antigen: 'Paratyphi B O', dilution: '1/20' },
+        { antigen: 'Paratyphi C O', dilution: '1/160' }
+      ]
+    },
+    {
+      title: 'MALARIA PARASITE TEST',
+      fields: [
+        { label: 'Malaria Parasite', name: 'malariaParasite', type: 'text' }
+      ]
+    },
+    {
+      title: 'TEST RESULTS',
+      tests: true
+    }
+  ];
+
+  const renderSection = (section) => {
+    if (section.fields) {
+      return (
+        <Grid container spacing={3}>
+          {section.fields.map((field, index) => (
+            <Grid item xs={12} sm={field.type === 'select' ? 2 : 6} key={index}>
+              {field.type === 'select' ? (
+                <TextField
+                  select
+                  fullWidth
+                  label={field.label}
+                  name={field.name}
+                  value={patientData[field.name]}
+                  onChange={handleChange}
+                  variant="outlined"
+                  size="medium"
+                >
+                  {field.options.map((option, idx) => (
+                    <MenuItem key={idx} value={option}>
+                      {option}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              ) : (
+                <TextField
+                  fullWidth
+                  label={field.label}
+                  name={field.name}
+                  type={field.type}
+                  value={patientData[field.name]}
+                  onChange={handleChange}
+                  variant="outlined"
+                  size="medium"
+                  InputLabelProps={{
+                    shrink: field.type === 'date' || field.type === 'time',
+                  }}
+                />
+              )}
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Lab. No."
-                name="labNo"
-                value={patientData.labNo}
-                onChange={handleChange}
-                variant="outlined"
-                size="medium"
-              />
-            </Grid>
-            <Grid item xs={12} sm={2}>
-              <TextField
-                fullWidth
-                label="Age"
-                name="age"
-                value={patientData.age}
-                onChange={handleChange}
-                variant="outlined"
-                size="medium"
-              />
-            </Grid>
-            <Grid item xs={12} sm={2}>
-              <TextField
-                select
-                fullWidth
-                label="Sex"
-                name="sex"
-                value={patientData.sex}
-                onChange={handleChange}
-                variant="outlined"
-                size="medium"
-              >
-                <MenuItem value="MALE">Male</MenuItem>
-                <MenuItem value="FEMALE">Female</MenuItem>
-              </TextField>
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextField
-                fullWidth
-                label="Specimen"
-                name="specimen"
-                value={patientData.specimen}
-                onChange={handleChange}
-                variant="outlined"
-                size="medium"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Investigations"
-                name="investigations"
-                value={patientData.investigations}
-                onChange={handleChange}
-                variant="outlined"
-                size="medium"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Date Of Specimen Collection"
-                name="date"
-                type="date"
-                value={patientData.date}
-                onChange={handleChange}
-                variant="outlined"
-                size="medium"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Time"
-                name="time"
-                type="time"
-                value={patientData.time}
-                onChange={handleChange}
-                variant="outlined"
-                size="medium"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Date of Result Reporting"
-                name="dateOfResultReporting"
-                type="date"
-                value={patientData.dateOfResultReporting}
-                onChange={handleChange}
-                variant="outlined"
-                size="medium"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-            </Grid>
-          </Grid>
+          ))}
+        </Grid>
+      );
+    }
+
+    if (section.tableData) {
+      return (
+        <TableContainer component={Paper} sx={{ marginTop: 4 }}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell align="center">TEST</TableCell>
+                <TableCell align="center">METHODOLOGY</TableCell>
+                <TableCell align="center">RESULT</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {section.tableData.map((row, index) => (
+                <TableRow key={index}>
+                  <TableCell>{row.test}</TableCell>
+                  <TableCell>{row.methodology}</TableCell>
+                  <TableCell align="center">{row.result}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      );
+    }
+
+    if (section.tests) {
+      return (
+        <>
           <TableContainer component={Paper} sx={{ marginTop: 4 }}>
             <Table>
               <TableHead>
                 <TableRow>
                   <TableCell>Test ID</TableCell>
                   <TableCell>Test Name</TableCell>
-                  <TableCell align="right">Rate</TableCell>
-                  <TableCell align="right">Reference Range</TableCell>
-                  <TableCell align="right">Interpretation</TableCell>
-                  <TableCell align="right">Actions</TableCell>
+                  <TableCell>Rate</TableCell>
+                  <TableCell>Reference Range</TableCell>
+                  <TableCell>Interpretation</TableCell>
+                  <TableCell>Action</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -255,63 +275,99 @@ const TestBooking = () => {
                       <TextField
                         value={test.id}
                         onChange={(e) => handleTestChange(index, 'id', e.target.value)}
-                        variant="outlined"
-                        size="small"
                       />
                     </TableCell>
                     <TableCell>
                       <TextField
                         value={test.name}
                         onChange={(e) => handleTestChange(index, 'name', e.target.value)}
-                        variant="outlined"
-                        size="small"
                       />
                     </TableCell>
-                    <TableCell align="right">
+                    <TableCell>
                       <TextField
                         type="number"
                         value={test.rate}
                         onChange={(e) => handleTestChange(index, 'rate', e.target.value)}
-                        variant="outlined"
-                        size="small"
                       />
                     </TableCell>
-                    <TableCell align="right">
+                    <TableCell>
                       <TextField
                         value={test.referenceRange}
                         onChange={(e) => handleTestChange(index, 'referenceRange', e.target.value)}
-                        variant="outlined"
-                        size="small"
                       />
                     </TableCell>
-                    <TableCell align="right">
+                    <TableCell>
                       <TextField
                         value={test.interpretation}
                         onChange={(e) => handleTestChange(index, 'interpretation', e.target.value)}
-                        variant="outlined"
-                        size="small"
                       />
                     </TableCell>
-                    <TableCell align="right">
-                      <Button variant="contained" color="secondary" onClick={() => handleRemoveTest(index)}>Remove</Button>
+                    <TableCell>
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={() => handleRemoveTest(index)}
+                      >
+                        Remove
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
           </TableContainer>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleAddTest}
+            sx={{ marginTop: 4 }}
+          >
+            Add Test
+          </Button>
+        </>
+      );
+    }
+  };
 
-          <Button variant="contained" color="primary" sx={{ marginTop: 2 }} onClick={handleAddTest}>Add New Test</Button>
+  return (
+    <Fade in>
+      <Container maxWidth="md">
+        <Paper elevation={3} sx={{ padding: 3, marginTop: 4 }}>
+          <Grid container justifyContent="center" spacing={2}>
+            <Grid item>
+              <img src={company} alt="Company Logo" style={{ width: '100px' }} />
+            </Grid>
+          </Grid>
 
-          <Grid container spacing={3} sx={{ marginTop: 3 }}>
-            <Grid item xs={12} sm={4}>
-              <Button variant="contained" fullWidth size="medium" onClick={handleSubmit}>Submit</Button>
+          {sections.map((section, index) => (
+            <div key={index}>
+              <Typography variant="h6" align="center" color="primary" sx={{ marginTop: 4 }}>
+                {section.title}
+              </Typography>
+              {renderSection(section)}
+            </div>
+          ))}
+
+          <Grid container spacing={3} sx={{ marginTop: 4 }}>
+            <Grid item xs={12} sm={6}>
+              <Button
+                fullWidth
+                variant="contained"
+                color="primary"
+                onClick={handleSubmit}
+              >
+                Submit
+              </Button>
             </Grid>
-            <Grid item xs={12} sm={4}>
-              <Button variant="contained" fullWidth size="medium" onClick={handleCancel}>Cancel</Button>
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <Button variant="contained" fullWidth size="medium">Exit</Button>
+            <Grid item xs={12} sm={6}>
+              <Button
+                fullWidth
+                variant="outlined"
+                color="secondary"
+                onClick={handleCancel}
+              >
+                Cancel
+              </Button>
             </Grid>
           </Grid>
         </Paper>
