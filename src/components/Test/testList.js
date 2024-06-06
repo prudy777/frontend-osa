@@ -134,7 +134,29 @@ const TestBooking = () => {
         [key]: value,
       }));
     };
-
+    // Reusable component for editable table rows
+const EditableSerologyTableRow = ({ row, index, handleInputChange }) => (
+  <TableRow>
+    <TableCell>
+      <TextField
+        value={row.test}
+        onChange={(e) => handleInputChange(index, 'test', e.target.value)}
+      />
+    </TableCell>
+    <TableCell>
+      <TextField
+        value={row.methodology}
+        onChange={(e) => handleInputChange(index, 'methodology', e.target.value)}
+      />
+    </TableCell>
+    <TableCell align="center">
+      <TextField
+        value={row.result}
+        onChange={(e) => handleInputChange(index, 'result', e.target.value)}
+      />
+    </TableCell>
+  </TableRow>
+);
   
     const serologyData = [
       { test: 'HEPATITIS B Ab.', methodology: 'Rapid Chromatographic immunoassay', result: 'NON-REACTIVE' },
