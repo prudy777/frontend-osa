@@ -177,7 +177,10 @@ const EditableSerologyTableRow = ({ row, index, handleInputChange }) => (
         return newData;
       });
     };
-
+    const [marData, setMarData] = useState([
+      { test: 'MALARIA PARASITE', methodology: 'Rapid Chromatographic immunoassay', result: '' },
+    ]);
+    
     // Reusable component for editable parasitology table rows
 const EditableParasitologyTableRow = ({ row, index, handleInputChange }) => (
   <TableRow>
@@ -201,6 +204,7 @@ const EditableParasitologyTableRow = ({ row, index, handleInputChange }) => (
     </TableCell>
   </TableRow>
 );
+
 
   
   return (
@@ -465,7 +469,7 @@ const EditableParasitologyTableRow = ({ row, index, handleInputChange }) => (
       </TableRow>
     </TableHead>
     <TableBody>
-      {malData.map((row, index) => (
+      {marData.map((row, index) => (
         <EditableParasitologyTableRow
           key={index}
           row={row}
