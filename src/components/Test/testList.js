@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import company from '../../assets/company.png';
-import { makeStyles } from '@material-ui/core/styles';
 import { Container, Grid, TextField, MenuItem, Button, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Fade } from '@mui/material';
 
 const TestBooking = () => {
@@ -295,19 +294,38 @@ const handleChangei = (event) => {
   }));
 };
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    padding: theme.spacing(2),
-  },
-  table: {
-    minWidth: 300,
-  },
+const Root = styled(Paper)(({ theme }) => ({
+  padding: theme.spacing(2),
+  margin: theme.spacing(2),
 }));
 
-const Report = ({ name, role }) => {
-  const classes = useStyles();
+const CustomTable = styled(Table)({
+  minWidth: 300,
+});
+
+const Report = ({ title = 'Report', initialFields = [], footer = 'END OF REPORT', authorizedBy }) => {
+  const [fields, setFields] = useState(initialFields);
+
+  const handleChanges= (index, event) => {
+    const newFields = fields.map((field, idx) => {
+      if (idx === index) {
+        return { ...field, value: event.target.value };
+      }
+      return field;
+    });
+    setFields(newFields);
+  };
 }
   
+const initialFields = [
+  { label: 'Name', value: 'OSAWEMEN EMMANUEL' },
+  { label: 'Title', value: 'Medical Laboratory Scientist' }
+];
+
+const authorizedBy = {
+  name: 'Dr. John Doe',
+  title: 'Chief Medical Officer',
+};
   return (
     <Fade in={true} timeout={1000} appear>
       <Container
@@ -862,30 +880,48 @@ const Report = ({ name, role }) => {
               </Grid>
             </Grid>
           ))}
-           <Paper className={classes.root}>
+          <Root>
       <Typography variant="h6" gutterBottom>
-        Report
+        {title}
       </Typography>
       <TableContainer>
-        <Table className={classes.table} aria-label="simple table">
+        <CustomTable aria-label="simple table">
           <TableBody>
-            <TableRow>
-              <TableCell component="th" scope="row">
-                Name:
-              </TableCell>
-              <TableCell>{name}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell component="th" scope="row"></TableCell>
-              <TableCell><em>({role})</em></TableCell>
-            </TableRow>
+            {fields.map((field, index) => (
+              <TableRow key={index}>
+                <TableCell component="th" scope="row">
+                  {field.label}:
+                </TableCell>
+                <TableCell>
+                  <TextField
+                    value={field.value}
+                    onChange={(event) => handleChanges(index, event)}
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                  />
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
-        </Table>
+        </CustomTable>
       </TableContainer>
       <Typography variant="body2" gutterBottom>
-        END OF REPORT
+        {footer}
       </Typography>
-    </Paper>
+      {authorizedBy && (
+        <Typography variant="body2" gutterBottom>
+          AUTHORIZED BY: {authorizedBy.name} ({authorizedBy.title})
+        </Typography>
+      )}
+      <Button variant="contained" color="primary" onClick={() => console.log(fields)}>
+        Save
+      </Button>
+    </Root>
+    <div>
+      <Report title="Medical Report" initialFields={initialFields} footer="END OF MEDICAL REPORT" authorizedBy={authorizedBy} />
+    </div>
+
           <Button variant="outlined" color="primary" onClick={handleAddTest}>Add Test</Button>
           <Grid container spacing={3} sx={{ marginTop: 3 }}>
             <Grid item xs={12} sm={6}>
