@@ -293,6 +293,19 @@ const handleChangei = (event) => {
     [name]: value
   }));
 };
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    padding: theme.spacing(2),
+  },
+  table: {
+    minWidth: 300,
+  },
+}));
+
+const Report = ({ name, role }) => {
+  const classes = useStyles();
+}
   
   return (
     <Fade in={true} timeout={1000} appear>
@@ -848,6 +861,30 @@ const handleChangei = (event) => {
               </Grid>
             </Grid>
           ))}
+           <Paper className={classes.root}>
+      <Typography variant="h6" gutterBottom>
+        Report
+      </Typography>
+      <TableContainer>
+        <Table className={classes.table} aria-label="simple table">
+          <TableBody>
+            <TableRow>
+              <TableCell component="th" scope="row">
+                Name:
+              </TableCell>
+              <TableCell>{name}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell component="th" scope="row"></TableCell>
+              <TableCell><em>({role})</em></TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <Typography variant="body2" gutterBottom>
+        END OF REPORT
+      </Typography>
+    </Paper>
           <Button variant="outlined" color="primary" onClick={handleAddTest}>Add Test</Button>
           <Grid container spacing={3} sx={{ marginTop: 3 }}>
             <Grid item xs={12} sm={6}>
