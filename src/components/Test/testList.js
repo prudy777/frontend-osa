@@ -205,7 +205,94 @@ const EditableParasitologyTableRow = ({ row, index, handleInputChange }) => (
   </TableRow>
 );
 
+  const initialData = [
+    { investigation: 'Total WBC', result: '6.7', referenceRange: '4.0 – 10.0 X10^3/μL' },
+    { investigation: 'Neutrophils', result: '61.0', referenceRange: '45.0 – 70.0 % (2.5-7.5 x10^9/L)' },
+    { investigation: 'Lymphocytes', result: '35.0', referenceRange: '20.0 – 40.0 % (1.2- 4.0 x10^9/L)' },
+    { investigation: 'Monocytes', result: '3.0', referenceRange: '02-10% (0.2-1.0 x10^9/L)' },
+    { investigation: 'Eosinophils', result: '1.0', referenceRange: '1-6% (0.02 – 0.6 x10^9/L)' },
+    { investigation: 'Basophils', result: '0.10', referenceRange: '0-2% (0.01- 0.1x10^9/L)' },
+    { investigation: 'RBC', result: '4.5', referenceRange: '4.5 - 6.5/pl' },
+    { investigation: 'MCV', result: '91.2', referenceRange: '80-100 fl' },
+    { investigation: 'MCH', result: '31.6', referenceRange: '27-34pg' },
+    { investigation: 'MCHC', result: '33.1', referenceRange: '32-36g/dl' },
+    { investigation: 'HGB', result: '13.6', referenceRange: '11.5 – 16.0 g/dL' },
+    { investigation: 'HCT (PCV)', result: '43', referenceRange: '32.0 – 49.0 %' },
+    { investigation: 'Platelets', result: '250', referenceRange: '150 – 450 X10^3/μL' },
+  ];
 
+  const [herData, setHerData] = useState(initialData);
+  const [comments, setComments] = useState({
+    redBloodCells: 'Normocytic Normochromic red cells.',
+    whiteBloodCells: 'Leucocyte values are within normal limits.',
+    platelets: 'Normal and adequate.',
+  });
+
+  const handleInputChange = (index, field, value) => {
+    const newData = [...data];
+    newData[index][field] = value;
+    setData(newData);
+  };
+
+  const handleCommentsChange = (field, value) => {
+    setComments({ ...comments, [field]: value });
+  };
+
+  const [urinalysis, setUrinalysis] = useState({
+    colour: 'Yellow',
+    appearance: 'Slightly Turbid',
+    pH: '6.5',
+    specificGravity: '1.025',
+    urobilinogen: 'Normal',
+    leukocyte: 'Trace',
+    bilirubin: 'Negative',
+    blood: 'Negative',
+    nitrite: 'Negative',
+    protein: 'Negative',
+    glucose: 'Nil',
+    ketones: 'Negative',
+    comment: 'Normal.'
+});
+
+
+const handleUrinalysisChange = (event) => {
+    const { name, value } = event.target;
+    setUrinalysis(prevState => ({
+        ...prevState,
+        [name]: value
+    }));
+};
+const initData = {
+  bilirubinTotal: '0.6',
+  bilirubinDirect: '0.2',
+  astSgot: '31',
+  altSgpt: '32',
+  alp: '209',
+  albumin: '4.0',
+  totalProtein: '82',
+  urea: '20',
+  creatinine: '1.0',
+  sodium: '138',
+  potassium: '3.6',
+  chloride: '98',
+  bicarbonate: '25',
+  totalCholesterol: '152',
+  hdl: '72',
+  ldl: '65',
+  triglycerides: '74',
+  vldl: '26',
+  fastingBloodSugar: '101'
+};
+
+const [sData, setSData] = useState(initData);
+
+const handleChangei = (event) => {
+  const { name, value } = event.target;
+  setSData((prevData) => ({
+    ...prevData,
+    [name]: value
+  }));
+};
   
   return (
     <Fade in={true} timeout={1000} appear>
@@ -483,6 +570,219 @@ const EditableParasitologyTableRow = ({ row, index, handleInputChange }) => (
 <Typography variant="body2" align="center" sx={{ lineHeight: '115%', fontSize: '14pt', color: '#4f81bd' }}>
   &nbsp;
 </Typography>
+<Typography variant="h5" style={{ marginBottom: '16px', color: '#00b0f0', fontFamily: 'Century Gothic' }}>
+        HAEMATOLOGY AND COAGULATION STUDIES
+      </Typography>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell><strong>INVESTIGATION</strong></TableCell>
+              <TableCell align="center"><strong>RESULT</strong></TableCell>
+              <TableCell><strong>REFERENCE RANGE</strong></TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {herData.map((row, index) => (
+              <TableRow key={index}>
+                <TableCell>{row.investigation}</TableCell>
+                <TableCell align="center">
+                  <TextField
+                    value={row.result}
+                    onChange={(e) => handleInputChange(index, 'result', e.target.value)}
+                    variant="outlined"
+                    size="small"
+                  />
+                </TableCell>
+                <TableCell>{row.referenceRange}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <Typography variant="h6" style={{ marginTop: '16px', textAlign: 'center' }}><strong>Comments</strong></Typography>
+      <Typography variant="body1"><u>Blood film review</u></Typography>
+      <Typography variant="body1">
+        Red Blood Cells: 
+        <TextField
+          value={comments.redBloodCells}
+          onChange={(e) => handleCommentsChange('redBloodCells', e.target.value)}
+          variant="outlined"
+          size="small"
+          fullWidth
+          multiline
+          style={{ marginTop: '8px' }}
+        />
+      </Typography>
+      <Typography variant="body1">
+        White Blood Cells: 
+        <TextField
+          value={comments.whiteBloodCells}
+          onChange={(e) => handleCommentsChange('whiteBloodCells', e.target.value)}
+          variant="outlined"
+          size="small"
+          fullWidth
+          multiline
+          style={{ marginTop: '8px' }}
+        />
+      </Typography>
+      <Typography variant="body1">
+        Platelets: 
+        <TextField
+          value={comments.platelets}
+          onChange={(e) => handleCommentsChange('platelets', e.target.value)}
+          variant="outlined"
+          size="small"
+          fullWidth
+          multiline
+          style={{ marginTop: '8px' }}
+        />
+      </Typography>
+      <Typography variant="h5" align="center" gutterBottom>
+                <strong>MEDICAL MICROBIOLOGY</strong>
+            </Typography>
+            <TableContainer component={Paper} style={{ marginBottom: '20px' }}>
+                <Table style={{ border: '0.75pt solid #000000' }}>
+                    <TableBody>
+                        <TableRow>
+                            <TableCell style={{ width: '144.95pt', borderRight: '0.75pt solid #000000', borderBottom: '0.75pt solid #000000', paddingRight: '5.03pt', paddingLeft: '5.03pt', verticalAlign: 'top' }}>
+                                <Typography variant="h6"><strong>URINALYSIS</strong></Typography>
+                            </TableCell>
+                            <TableCell style={{ width: '145.05pt', borderLeft: '0.75pt solid #000000', borderBottom: '0.75pt solid #000000', paddingRight: '5.03pt', paddingLeft: '5.03pt', verticalAlign: 'top' }}></TableCell>
+                        </TableRow>
+                        {Object.entries(urinalysis).map(([key, value]) => (
+                            <TableRow key={key}>
+                                <TableCell style={{ width: '144.95pt', borderTop: '0.75pt solid #000000', borderRight: '0.75pt solid #000000', borderBottom: '0.75pt solid #000000', paddingRight: '5.03pt', paddingLeft: '5.03pt', verticalAlign: 'top' }}>
+                                    <Typography variant="body1">{key}</Typography>
+                                </TableCell>
+                                <TableCell style={{ width: '145.05pt', borderTop: '0.75pt solid #000000', borderLeft: '0.75pt solid #000000', borderBottom: '0.75pt solid #000000', paddingRight: '5.03pt', paddingLeft: '5.03pt', verticalAlign: 'top' }}>
+                                    <TextField
+                                        name={key}
+                                        value={value}
+                                        onChange={handleUrinalysisChange}
+                                        fullWidth
+                                        margin="normal"
+                                        variant="outlined"
+                                    />
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            <Typography variant="h6" component="div" gutterBottom>
+        <strong style={{ color: '#00b0f0' }}>CHEMICAL PATHOLOGY (CHEMISTRY)</strong>
+      </Typography>
+      <TableContainer component={Paper} style={{ width: '514.65pt', marginRight: '9pt', marginLeft: '9pt' }}>
+        <Table aria-label="chemical pathology table" style={{ borderCollapse: 'collapse', float: 'left' }}>
+          <TableHead>
+            <TableRow style={{ height: '10.8pt' }}>
+              <TableCell style={{ width: '95.75pt', border: '0.75pt solid #000000', paddingRight: '5.03pt', paddingLeft: '5.03pt', verticalAlign: 'top' }}>
+                <strong>INVESTIGATION</strong>
+              </TableCell>
+              <TableCell style={{ width: '144.9pt', border: '0.75pt solid #000000', paddingRight: '5.03pt', paddingLeft: '5.03pt', verticalAlign: 'top' }}>
+                <strong>METHODOLOGY</strong>
+              </TableCell>
+              <TableCell colSpan={2} style={{ width: '79.1pt', border: '0.75pt solid #000000', paddingRight: '5.03pt', paddingLeft: '5.03pt', verticalAlign: 'top' }}>
+                <strong>VALUE</strong>
+              </TableCell>
+              <TableCell colSpan={2} style={{ width: '150.95pt', border: '0.75pt solid #000000', paddingRight: '5.03pt', paddingLeft: '5.03pt', verticalAlign: 'top' }}>
+                <strong>REFERENCE RANGES</strong>
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {/* Liver Function Test */}
+            <TableRow>
+              <TableCell colSpan={6} style={{ width: '503.1pt', border: '0.75pt solid #000000', paddingRight: '5.03pt', paddingLeft: '5.03pt', verticalAlign: 'top' }}>
+                <strong>LIVER FUNCTION TEST</strong>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Bilirubin Total</TableCell>
+              <TableCell>Modified TAB (End Point)</TableCell>
+              <TableCell colSpan={2}>
+                <TextField
+                  name="bilirubinTotal"
+                  value={sData.bilirubinTotal}
+                  onChange={handleChangei}
+                  variant="outlined"
+                  size="small"
+                />
+              </TableCell>
+              <TableCell colSpan={2}>&lt;1.3 mg/dL</TableCell>
+            </TableRow>
+            {/* Add more liver function test rows here */}
+            {/* Kidney Function Test */}
+            <TableRow>
+              <TableCell colSpan={6} style={{ width: '503.1pt', border: '0.75pt solid #000000', paddingRight: '5.03pt', paddingLeft: '5.03pt', verticalAlign: 'top' }}>
+                <strong>KIDNEY FUNCTION TEST</strong>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Urea</TableCell>
+              <TableCell colSpan={2}>Modified Berthelot (End Point)</TableCell>
+              <TableCell colSpan={2}>
+                <TextField
+                  name="urea"
+                  value={sData.urea}
+                  onChange={handleChangei}
+                  variant="outlined"
+                  size="small"
+                />
+              </TableCell>
+              <TableCell>10-55 mg/dL</TableCell>
+            </TableRow>
+            {/* Add more kidney function test rows here */}
+            {/* Lipid Profile */}
+            <TableRow>
+              <TableCell colSpan={6} style={{ width: '503.1pt', border: '0.75pt solid #000000', paddingRight: '5.03pt', paddingLeft: '5.03pt', verticalAlign: 'top' }}>
+                <strong>LIPID PROFILE</strong>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Total Cholesterol</TableCell>
+              <TableCell colSpan={2}>CHOD- PAP Method</TableCell>
+              <TableCell colSpan={2}>
+                <TextField
+                  name="totalCholesterol"
+                  value={sData.totalCholesterol}
+                  onChange={handleChangei}
+                  variant="outlined"
+                  size="small"
+                />
+              </TableCell>
+              <TableCell>
+                <p style={{ marginBottom: '0pt' }}>Rec: &lt;200mg/dL</p>
+                <p style={{ marginBottom: '0pt' }}>Low risk: 200- 239 mg/dL</p>
+                <p style={{ marginBottom: '0pt', lineHeight: 'normal' }}>High Risk: &ge; 240 mg/dL</p>
+              </TableCell>
+            </TableRow>
+            {/* Add more lipid profile rows here */}
+            {/* Blood Sugar Test */}
+            <TableRow>
+              <TableCell colSpan={6} style={{ width: '503.1pt', border: '0.75pt solid #000000', paddingRight: '5.03pt', paddingLeft: '5.03pt', verticalAlign: 'top' }}>
+                <strong>BLOOD SUGAR TEST</strong>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>Fasting Blood Sugar</TableCell>
+              <TableCell colSpan={2}>Glucometer</TableCell>
+              <TableCell colSpan={2}>
+                <TextField
+                  name="fastingBloodSugar"
+                  value={sData.fastingBloodSugar}
+                  onChange={handleChange}
+                  variant="outlined"
+                  size="small"
+                />
+              </TableCell>
+              <TableCell>80 - 120 mg/dL</TableCell>
+            </TableRow>
+            {/* Add more blood sugar test rows here */}
+          </TableBody>
+        </Table>
+      </TableContainer>
 
           <Typography variant="h6" align="center" color="primary" gutterBottom>TESTS</Typography>
           {tests.map((test, index) => (
