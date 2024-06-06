@@ -104,46 +104,51 @@ const TestBooking = () => {
     setPatientData(initialPatientData);
     setTests(initialTests.map(test => ({ ...test, rate: 0, referenceRange: '', interpretation: '' })));
   };
-  const SerologyTableRow = ({ test, methodology, result }) => (
-    <TableRow>
-      <TableCell>{test}</TableCell>
-      <TableCell>{methodology}</TableCell>
-      <TableCell align="center">{result}</TableCell>
-    </TableRow>
-  );
-  
-  const serologyData = [
-    { test: 'HEPATITIS B Ab.', methodology: 'Rapid Chromatographic immunoassay', result: 'NON-REACTIVE' },
-    { test: 'SYPHILIS TEST (VDRL)', methodology: 'Rapid Chromatographic immunoassay', result: 'NON-REACTIVE' },
-    { test: 'HEPATITIS C Ab.', methodology: 'Rapid Chromatographic immunoassay', result: 'NON-REACTIVE' },
-    { test: 'HIV TEST (1&2)', methodology: 'Rapid Chromatographic immunoassay', result: 'NON-REACTIVE' },
-    { test: 'GHONNORRHEA Ab.', methodology: 'Rapid Chromatographic immunoassay', result: 'NEGATIVE' },
-    { test: 'H. PYLORI Ab.', methodology: 'Rapid Chromatographic immunoassay', result: 'POSITIVE' },
-  ];
-  
-  const renderSerologyTable = () => (
-    <TableContainer component={Paper} sx={{ marginTop: 4 }}>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell align="center">TEST</TableCell>
-            <TableCell align="center">METHODOLOGY</TableCell>
-            <TableCell align="center">RESULT</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {serologyData.map((row, index) => (
-            <SerologyTableRow 
-              key={index}
-              test={row.test}
-              methodology={row.methodology}
-              result={row.result}
-            />
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  );
+    // Reusable component for editable table rows
+const EditableSerologyTableRow = ({ row, index, handleInputChange }) => (
+  <TableRow>
+    <TableCell>
+      <TextField
+        value={row.test}
+        onChange={(e) => handleInputChange(index, 'test', e.target.value)}
+      />
+    </TableCell>
+    <TableCell>
+      <TextField
+        value={row.methodology}
+        onChange={(e) => handleInputChange(index, 'methodology', e.target.value)}
+      />
+    </TableCell>
+    <TableCell align="center">
+      <TextField
+        value={row.result}
+        onChange={(e) => handleInputChange(index, 'result', e.target.value)}
+      />
+    </TableCell>
+  </TableRow>
+);
+
+const serologyData = [
+  { test: 'HEPATITIS B Ab.', methodology: 'Rapid Chromatographic immunoassay', result: 'NON-REACTIVE' },
+  { test: 'SYPHILIS TEST (VDRL)', methodology: 'Rapid Chromatographic immunoassay', result: 'NON-REACTIVE' },
+  { test: 'HEPATITIS C Ab.', methodology: 'Rapid Chromatographic immunoassay', result: 'NON-REACTIVE' },
+  { test: 'HIV TEST (1&2)', methodology: 'Rapid Chromatographic immunoassay', result: 'NON-REACTIVE' },
+  { test: 'GHONNORRHEA Ab.', methodology: 'Rapid Chromatographic immunoassay', result: 'NEGATIVE' },
+  { test: 'H. PYLORI Ab.', methodology: 'Rapid Chromatographic immunoassay', result: 'POSITIVE' },
+];
+
+const renderSerologyTable = () => {
+  const [data, setData] = useState(serologyData);
+
+  // Function to handle input change
+  const handleInputChange = (index, key, value) => {
+    setData((prevData) => {
+      const newData = [...prevData];
+      newData[index] = { ...newData[index], [key]: value };
+      return newData;
+    });
+  };
+}
 
     const [data, setData] = useState({
       salmonellaTyphiH: '1/20',
@@ -308,7 +313,27 @@ const TestBooking = () => {
 
           {/* Serology Section */}
           <Typography variant="h6" align="center" color="primary" gutterBottom>SEROLOGY</Typography>
-          {renderSerologyTable()}
+          <TableContainer component={Paper} sx={{ marginTop: 4 }}>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell align="center">TEST</TableCell>
+            <TableCell align="center">METHODOLOGY</TableCell>
+            <TableCell align="center">RESULT</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {data.map((row, index) => (
+            <EditableSerologyTableRow
+              key={index}
+              row={row}
+              index={index}
+              handleInputChange={handleInputChange}
+            />
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
           
       <Typography variant="h6" align="center" color="primary" gutterBottom>
         TYPHOID TEST (WIDAL)
