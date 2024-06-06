@@ -295,6 +295,7 @@ const handleChangei = (event) => {
   }));
 };
 
+// Define the styled components
 const Root = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
   margin: theme.spacing(2),
@@ -304,20 +305,7 @@ const CustomTable = styled(Table)({
   minWidth: 300,
 });
 
-const Report = ({ title = 'Report', initialFields = [], footer = 'END OF REPORT', authorizedBy }) => {
-  const [fields, setFields] = useState(initialFields);
-
-  const handleChanges= (index, event) => {
-    const newFields = fields.map((field, idx) => {
-      if (idx === index) {
-        return { ...field, value: event.target.value };
-      }
-      return field;
-    });
-    setFields(newFields);
-  };
-}
-  
+// Define the Report component
 const initialFields = [
   { label: 'Name', value: 'OSAWEMEN EMMANUEL' },
   { label: 'Title', value: 'Medical Laboratory Scientist' }
@@ -327,6 +315,18 @@ const authorizedBy = {
   name: 'Dr. John Doe',
   title: 'Chief Medical Officer',
 };
+
+const [fields, setFields] = useState(initialFields);
+
+  const handleChanges = (index, event) => {
+    const newFields = fields.map((field, idx) => {
+      if (idx === index) {
+        return { ...field, value: event.target.value };
+      }
+      return field;
+    });
+    setFields(newFields);
+  };
   return (
     <Fade in={true} timeout={1000} appear>
       <Container
@@ -805,7 +805,7 @@ const authorizedBy = {
                 <TextField
                   name="fastingBloodSugar"
                   value={sData.fastingBloodSugar}
-                  onChange={handleChange}
+                  onChange={handleChangei}
                   variant="outlined"
                   size="small"
                 />
@@ -881,9 +881,9 @@ const authorizedBy = {
               </Grid>
             </Grid>
           ))}
-          <Root>
+        <Root>
       <Typography variant="h6" gutterBottom>
-        {title}
+        MEDICAL REPORTS
       </Typography>
       <TableContainer>
         <CustomTable aria-label="simple table">
@@ -908,7 +908,7 @@ const authorizedBy = {
         </CustomTable>
       </TableContainer>
       <Typography variant="body2" gutterBottom>
-        {footer}
+        END OF MEDICAL REPORTS 
       </Typography>
       {authorizedBy && (
         <Typography variant="body2" gutterBottom>
@@ -920,7 +920,6 @@ const authorizedBy = {
       </Button>
     </Root>
     <div>
-      <Report title="Medical Report" initialFields={initialFields} footer="END OF MEDICAL REPORT" authorizedBy={authorizedBy} />
     </div>
 
           <Button variant="outlined" color="primary" onClick={handleAddTest}>Add Test</Button>
