@@ -19,30 +19,35 @@ const TestBookingsList = () => {
       try {
         const response = await axios.get('https://backend-osa.onrender.com/test-bookings');
         const bookings = response.data;
-        console.log('Fetched Test Bookings:', bookings); // Debugging log
+
         setTestBookings(bookings);
 
         const prices = bookings.reduce((acc, booking) => {
-          acc[`${booking.id}-${booking.test_id}`] = booking.price_naira;
+          booking.tests.forEach(test => {
+            acc[`${booking.id}-${test.test_name}`] = test.price_naira;
+          });
           return acc;
         }, {});
         setEditablePrices(prices);
 
         const ranges = bookings.reduce((acc, booking) => {
-          acc[`${booking.id}-${booking.test_id}`] = booking.reference_range || '';
+          booking.tests.forEach(test => {
+            acc[`${booking.id}-${test.test_name}`] = test.reference_range || '';
+          });
           return acc;
         }, {});
         setEditableRanges(ranges);
 
         const interpretations = bookings.reduce((acc, booking) => {
-          acc[`${booking.id}-${booking.test_id}`] = booking.interpretation || '';
+          booking.tests.forEach(test => {
+            acc[`${booking.id}-${test.test_name}`] = test.interpretation || '';
+          });
           return acc;
         }, {});
         setEditableInterpretations(interpretations);
 
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching test bookings:', error);
         setError('Failed to fetch test bookings');
         setLoading(false);
       }
@@ -53,10 +58,13 @@ const TestBookingsList = () => {
 
   useEffect(() => {
     const calculateTotalPrice = () => {
-      const selectedRows = testBookings.filter(booking => selectedBookings[`${booking.id}-${booking.test_id}`]);
+      const selectedRows = testBookings.filter(booking => selectedBookings[`${booking.id}`]);
       const total = selectedRows.reduce((acc, booking) => {
-        const price = parseFloat(editablePrices[`${booking.id}-${booking.test_id}`]) || 0;
-        return acc + price;
+        const bookingTotal = booking.tests.reduce((sum, test) => {
+          const price = parseFloat(editablePrices[`${booking.id}-${test.test_name}`]) || 0;
+          return sum + price;
+        }, 0);
+        return acc + bookingTotal;
       }, 0);
       setTotalPrice(total);
     };
@@ -64,67 +72,67 @@ const TestBookingsList = () => {
     calculateTotalPrice();
   }, [selectedBookings, editablePrices, testBookings]);
 
-  const handlePriceChange = (id, testId, value) => {
-    const key = `${id}-${testId}`;
+  const handlePriceChange = (id, testName, value) => {
+    const key = `${id}-${testName}`;
     setEditablePrices((prevPrices) => ({
       ...prevPrices,
       [key]: value,
     }));
   };
 
-  const handleRangeChange = (id, testId, value) => {
-    const key = `${id}-${testId}`;
+  const handleRangeChange = (id, testName, value) => {
+    const key = `${id}-${testName}`;
     setEditableRanges((prevRanges) => ({
       ...prevRanges,
       [key]: value,
     }));
   };
 
-  const handleInterpretationChange = (id, testId, value) => {
-    const key = `${id}-${testId}`;
+  const handleInterpretationChange = (id, testName, value) => {
+    const key = `${id}-${testName}`;
     setEditableInterpretations((prevInterpretations) => ({
       ...prevInterpretations,
       [key]: value,
     }));
   };
 
-  const handleCheckboxChange = (id, testId) => {
-    const key = `${id}-${testId}`;
+  const handleCheckboxChange = (id) => {
     setSelectedBookings((prevSelected) => ({
       ...prevSelected,
-      [key]: !prevSelected[key],
+      [id]: !prevSelected[id],
     }));
   };
 
   const handlePrint = async () => {
-    const selectedRows = testBookings.filter(booking => selectedBookings[`${booking.id}-${booking.test_id}`]);
+    const selectedRows = testBookings.filter(booking => selectedBookings[`${booking.id}`]);
     if (selectedRows.length === 0) {
       alert('No bookings selected for printing.');
       return;
     }
     const doc = new jsPDF();
     doc.text('Test Bookings', 14, 16);
-    doc.autoTable({
-      startY: 20,
-      head: [['ID', 'Patient ID', 'Lab No', 'Name', 'Sex', 'Age', 'Age Unit', 'Panel', 'Referred By', 'Date', 'Test ID', 'Test Name', 'Rate', 'Price (Naira)', 'Reference Range', 'Interpretation']],
-      body: selectedRows.map(booking => [
-        booking.id,
-        booking.patient_id,
-        booking.lab_no,
-        booking.name,
-        booking.sex,
-        booking.age,
-        booking.age_unit,
-        booking.panel,
-        booking.referred_by,
-        booking.date,
-        booking.test_id,
-        booking.test_name,
-        booking.rate,
-        editablePrices[`${booking.id}-${booking.test_id}`],  // Use editable price
-        editableRanges[`${booking.id}-${booking.test_id}`],  // Use editable reference range
-        editableInterpretations[`${booking.id}-${booking.test_id}`],  // Use editable interpretation
-      ]),
+    selectedRows.forEach(booking => {
+      doc.autoTable({
+        startY: doc.lastAutoTable ? doc.lastAutoTable.finalY + 10 : 20,
+        head: [['ID', 'Patient No', 'Lab No', 'Name', 'Sex', 'Age', 'Age Unit', 'Panel', 'Referred By', 'Date', 'Test Name', 'Rate', 'Price (Naira)', 'Reference Range', 'Interpretation']],
+        body: booking.tests.map(test => [
+          booking.id,
+          booking.patient_no,
+          booking.lab_no,
+          booking.name,
+          booking.sex,
+          booking.age,
+          booking.age_unit,
+          booking.panel,
+          booking.referred_by,
+          booking.date,
+          test.test_name,
+          test.rate,
+          editablePrices[`${booking.id}-${test.test_name}`],
+          editableRanges[`${booking.id}-${test.test_name}`],
+          editableInterpretations[`${booking.id}-${test.test_name}`],
+        ]),
+      });
     });
     doc.save('test-results.pdf');
     await savePrintedTests(selectedRows);
@@ -137,143 +145,88 @@ const TestBookingsList = () => {
       console.error('Error saving printed tests:', error);
     }
   };
-   
 
-  const handleDelete = () => {
-    const selectedRows = testBookings.filter(booking => selectedBookings[`${booking.id}-${booking.test_id}`]);
-    if (selectedRows.length === 0) {
-      alert('No bookings selected for deletion.');
-      return;
+  const handleDeleteSelected = async () => {
+    const selectedIds = testBookings.filter(booking => selectedBookings[`${booking.id}`]).map(booking => booking.id);
+    try {
+      await axios.post('https://backend-osa.onrender.com/test-bookings/delete', { ids: selectedIds });
+      setTestBookings(prevBookings => prevBookings.filter(booking => !selectedIds.includes(booking.id)));
+      setSelectedBookings({});
+      setTotalPrice(0);
+    } catch (error) {
+      console.error('Error deleting selected bookings:', error);
     }
-    const deleteRequests = selectedRows.map(booking => 
-      axios.delete(`https://backend-osa.onrender.com/test-bookings/${booking.id}`)
-    );
-    Promise.all(deleteRequests)
-      .then(() => {
-        alert('Selected bookings deleted successfully.');
-        setTestBookings(prevBookings => 
-          prevBookings.filter(booking => !selectedBookings[`${booking.id}-${booking.test_id}`])
-        );
-        setSelectedBookings({});
-      })
-      .catch(error => {
-        console.error('Error deleting test bookings:', error);
-        alert('Failed to delete selected bookings.');
-      });
   };
 
   if (loading) {
-    return <Typography variant="h6">Loading...</Typography>;
+    return <div>Loading...</div>;
   }
 
   if (error) {
-    return <Typography variant="h6" color="error">{error}</Typography>;
+    return <div>{error}</div>;
   }
 
-
-
   return (
-    <Container maxWidth="lg" sx={{ marginTop: 10 }}>
-      <Paper sx={{ padding: 4 }}>
-        <Grid container justifyContent="space-between" alignItems="center">
-          <Typography variant="h4" gutterBottom>Test Results</Typography>
-        </Grid>
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Select</TableCell>
-                <TableCell>ID</TableCell>
-                <TableCell>Patient ID</TableCell>
-                <TableCell>Lab No</TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell>Sex</TableCell>
-                <TableCell>Age</TableCell>
-                <TableCell>Age Unit</TableCell>
-                <TableCell>Panel</TableCell>
-                <TableCell>Referred By</TableCell>
-                <TableCell>Date</TableCell>
-                <TableCell>Test ID</TableCell>
-                <TableCell>Test Name</TableCell>
-                <TableCell>Rate</TableCell>
-                <TableCell>Price (Naira)</TableCell>
-                <TableCell>Reference Range</TableCell>
-                <TableCell>Interpretation</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {testBookings.map((booking) => (
-                <TableRow key={`${booking.id}-${booking.test_id}`}>
-                  <TableCell>
+    <Container>
+      <Typography variant="h6">Test Bookings</Typography>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell padding="checkbox">
+                <Checkbox />
+              </TableCell>
+              <TableCell>Patient Name</TableCell>
+              <TableCell>Test Name</TableCell>
+              <TableCell>Price (Naira)</TableCell>
+              <TableCell>Reference Range</TableCell>
+              <TableCell>Interpretation</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {testBookings.map(booking => (
+              booking.tests.map(test => (
+                <TableRow key={`${booking.id}-${test.test_name}`}>
+                  <TableCell padding="checkbox">
                     <Checkbox
-                      checked={!!selectedBookings[`${booking.id}-${booking.test_id}`]}
-                      onChange={() => handleCheckboxChange(booking.id, booking.test_id)}
+                      checked={selectedBookings[`${booking.id}`] || false}
+                      onChange={() => handleCheckboxChange(booking.id)}
                     />
                   </TableCell>
-                  <TableCell>{booking.id}</TableCell>
-                  <TableCell>{booking.patient_id}</TableCell>
-                  <TableCell>{booking.lab_no}</TableCell>
                   <TableCell>{booking.name}</TableCell>
-                  <TableCell>{booking.sex}</TableCell>
-                  <TableCell>{booking.age}</TableCell>
-                  <TableCell>{booking.age_unit}</TableCell>
-                  <TableCell>{booking.panel}</TableCell>
-                  <TableCell>{booking.referred_by}</TableCell>
-                  <TableCell>{booking.date}</TableCell>
-                  <TableCell>{booking.test_id}</TableCell>
-                  <TableCell>{booking.test_name}</TableCell>
-                  <TableCell>{booking.rate}</TableCell>
+                  <TableCell>{test.test_name}</TableCell>
                   <TableCell>
                     <TextField
+                      value={editablePrices[`${booking.id}-${test.test_name}`]}
+                      onChange={e => handlePriceChange(booking.id, test.test_name, e.target.value)}
                       type="number"
-                      value={editablePrices[`${booking.id}-${booking.test_id}`] || ''}
-                      onChange={(e) => handlePriceChange(booking.id, booking.test_id, e.target.value)}
-                      variant="outlined"
-                      size="small"
-                      sx={{ width: '150px' }}
-                      inputProps={{
-                        min: 0,
-                        style: { textAlign: 'right' },
-                      }}
                     />
                   </TableCell>
                   <TableCell>
                     <TextField
-                      type="text"
-                      value={editableRanges[`${booking.id}-${booking.test_id}`] || ''}
-                      onChange={(e) => handleRangeChange(booking.id, booking.test_id, e.target.value)}
-                      variant="outlined"
-                      size="small"
-                      sx={{ width: '150px' }}
+                      value={editableRanges[`${booking.id}-${test.test_name}`]}
+                      onChange={e => handleRangeChange(booking.id, test.test_name, e.target.value)}
                     />
                   </TableCell>
                   <TableCell>
                     <TextField
-                      type="text"
-                      value={editableInterpretations[`${booking.id}-${booking.test_id}`] || ''}
-                      onChange={(e) => handleInterpretationChange(booking.id, booking.test_id, e.target.value)}
-                      variant="outlined"
-                      size="small"
-                      sx={{ width: '150px' }}
+                      value={editableInterpretations[`${booking.id}-${test.test_name}`]}
+                      onChange={e => handleInterpretationChange(booking.id, test.test_name, e.target.value)}
                     />
                   </TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <Typography variant="h6" sx={{ marginTop: 2 }}>
-          Total Price (Naira): {totalPrice.toFixed(2)}
-        </Typography>
-        <Grid container justifyContent="flex-end" spacing={2} sx={{ marginTop: 2 }}>
-          <Grid item>
-            <Button variant="contained" color="primary" onClick={handlePrint}>Print</Button>
-          </Grid>
-          <Grid item>
-            <Button variant="contained" color="secondary" onClick={handleDelete}>Delete</Button>
-          </Grid>
-        </Grid>
-      </Paper>
+              ))
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <Typography variant="h6">Total Price: {totalPrice}</Typography>
+      <Button variant="contained" color="primary" onClick={handlePrint}>
+        Print
+      </Button>
+      <Button variant="contained" color="secondary" onClick={handleDeleteSelected}>
+        Delete Selected
+      </Button>
     </Container>
   );
 };

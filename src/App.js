@@ -20,6 +20,8 @@ import AccountingPage from './pages/accounting';
 import Dashboard from './pages/Dashboard';
 import PrintedTests from './pages/master';
 import About from './pages/Profile';
+import TestBookings from './pages/generalscreening';
+import TestBookingmen from './pages/malescreening';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
@@ -40,6 +42,8 @@ const App = () => {
             <Route path="/masters" element={<PrintedTests/>}/>
             <Route path='/accounting/transactions' element={<AccountingPage/>}/>
             <Route path='/dashboard' element={<Dashboard/>}/>
+            <Route path='/general' element={<TestBookings/>}/>
+            <Route path='/generals' element={<TestBookingmen/>}/>
             <Route path="/" element={
               <ProtectedRoute>
                 <HomePage />

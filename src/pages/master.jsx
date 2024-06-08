@@ -11,7 +11,8 @@ import {
   Paper,
   Typography,
   Box,
-  useMediaQuery
+  useMediaQuery,
+  CircularProgress
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
@@ -27,10 +28,10 @@ const PrintedTests = () => {
       try {
         const response = await axios.get('https://backend-osa.onrender.com/masters');
         setPrintedTests(response.data);
-        setLoading(false);
       } catch (error) {
         console.error('Error fetching printed tests:', error);
         setError('Failed to fetch printed tests');
+      } finally {
         setLoading(false);
       }
     };
@@ -39,23 +40,31 @@ const PrintedTests = () => {
   }, []);
 
   if (loading) {
-    return <Typography variant="h6">Loading...</Typography>;
+    return (
+      <Container maxWidth="lg" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <CircularProgress />
+      </Container>
+    );
   }
 
   if (error) {
-    return <Typography variant="h6" color="error">{error}</Typography>;
+    return (
+      <Container maxWidth="lg" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <Typography variant="h6" color="error">{error}</Typography>
+      </Container>
+    );
   }
 
   return (
     <Container
       maxWidth="lg"
       sx={{
-        marginTop: 1,
-        marginLeft: isMobile ? 160 : 0, // Significantly increase left margin for mobile devices
-        padding: isMobile ? 20 : 0, // Add padding for mobile devices
+        marginTop: 4,
+        marginLeft: isMobile ? 0 : 'auto',
+        padding: isMobile ? 2 : 0,
       }}
     >
-      <Paper sx={{ padding: 4 }}>
+      <Paper sx={{ padding: 2 }}>
         <Typography variant="h4" gutterBottom>Printed Tests</Typography>
         <TableContainer component={Paper}>
           <Box sx={{ overflowX: 'auto' }}>
