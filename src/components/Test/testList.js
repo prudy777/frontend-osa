@@ -44,7 +44,7 @@ const TestBooking = () => {
   };
 
   const initialTests = [
-    { id: `${TwoId(patient?.test_type).toUpperCase()}`, name: `${patient?.test_type || ''}`, rate: 30, referenceRange: '', interpretation: '' },
+    { id: `${TwoId(patient?.test_type).toUpperCase()}`, name: `${patient?.test_type || ''}`, rate: 30, referenceRange: 'whe', interpretation: 'wrefrd' },
   ];
 
   const [patientData, setPatientData] = useState(initialPatientData);
@@ -351,7 +351,7 @@ const [fields, setFields] = useState(initialFields);
     <TextField
       fullWidth
       label="Patient ID"
-      name="patientId"
+      name="patient_no"
       value={patientData.patient_no}
       onChange={handleChange}
       variant="outlined"
@@ -373,7 +373,7 @@ const [fields, setFields] = useState(initialFields);
     <TextField
       fullWidth
       label="Lab. No."
-      name="labNo"
+      name="lab_no"
       value={patientData.lab_no}
       onChange={handleChange}
       variant="outlined"
