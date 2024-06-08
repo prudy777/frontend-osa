@@ -40,7 +40,7 @@ const TestBooking = () => {
     investigation: '',
     referredBy: '',
     time: '',
-    date: patient?.dob || '',
+    date: patient?.dob || new Date().toISOString().split('T')[0],
   };
 
   const initialTests = [
@@ -448,21 +448,6 @@ const [fields, setFields] = useState(initialFields);
                 name="time"
                 type="time"
                 value={patientData.time}
-                onChange={handleChange}
-                variant="outlined"
-                size="medium"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Date of Result Reporting"
-                name="dateOfResultReporting"
-                type="date"
-                value={patientData.date}
                 onChange={handleChange}
                 variant="outlined"
                 size="medium"
