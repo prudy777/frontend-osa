@@ -86,12 +86,12 @@ const TestBooking = () => {
           return;
         }
       }
-
+  
       const response = await axios.post('https://backend-osa.onrender.com/test-booking', {
         ...patientData,
         tests,
       });
-
+  
       if (response.status === 201) {
         alert('Test booking saved successfully');
       }
@@ -100,6 +100,7 @@ const TestBooking = () => {
       alert('Failed to save test booking');
     }
   };
+  
 
   const handleCancel = () => {
     setPatientData(initialPatientData);
