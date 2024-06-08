@@ -38,8 +38,8 @@ const TestBooking = () => {
     ageUnit: 'Years',
     specimen: '',
     investigation: '',
+    referredBy: '',
     time: '',
-    referredBy: 'Dr. Arun Fotedar',
     date: patient?.dob || '',
   };
 
@@ -315,7 +315,7 @@ const initialFields = [
 ];
 
 const authorizedBy = {
-  name: 'Dr. John Doe',
+  name: 'OSAWEMEN EMMANUEL',
   title: 'Chief Medical Officer',
 };
 
@@ -345,6 +345,17 @@ const [fields, setFields] = useState(initialFields);
           <Typography variant="h4" gutterBottom>LABORATORY INVESTIGATION REPORT <img src={company} alt="Company Logo" /></Typography>
           <Typography variant="h6" align="center" color="primary" gutterBottom>BIODATA</Typography>
           <Grid container spacing={3}>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+              label="Patient ID"
+              name="patientId"
+              value={patientData.patientId}
+              onChange={handleChange}
+              variant="outlined"
+              size="medium"
+            />
+          </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
@@ -460,6 +471,17 @@ const [fields, setFields] = useState(initialFields);
                 }}
               />
             </Grid>
+            <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+              label="Referred By"
+              name="referredBy"
+              value={patientData.referredBy}
+              onChange={handleChange}
+              variant="outlined"
+              size="medium"
+            />
+          </Grid>
           </Grid>
           <Typography variant="h6" align="center" color="primary" gutterBottom>SEROLOGY</Typography>
           <TableContainer component={Paper} sx={{ marginTop: 4 }}>
