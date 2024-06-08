@@ -408,7 +408,7 @@ const [fields, setFields] = useState(initialFields);
               <TextField
                 fullWidth
                 label="Investigations"
-                name="investigations"
+                name="investigation"
                 value={patientData.investigation}
                 onChange={handleChange}
                 variant="outlined"
