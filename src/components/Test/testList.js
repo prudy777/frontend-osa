@@ -36,7 +36,7 @@ const TestBooking = () => {
     sex: 'MALE',
     age: patient ? calculateAge(patient.dob) : '',
     ageUnit: 'Years',
-    panel: 'CBSE',
+    panel: '',
     referredBy: 'Dr. Arun Fotedar',
     date: patient?.dob || '',
   };
@@ -396,7 +396,7 @@ const [fields, setFields] = useState(initialFields);
                 fullWidth
                 label="Specimen"
                 name="specimen"
-                value={patientData.specimen}
+                value={patientData.panel}
                 onChange={handleChange}
                 variant="outlined"
                 size="medium"
@@ -407,7 +407,7 @@ const [fields, setFields] = useState(initialFields);
                 fullWidth
                 label="Investigations"
                 name="investigations"
-                value={patientData.investigations}
+                value={patientData.panel}
                 onChange={handleChange}
                 variant="outlined"
                 size="medium"
@@ -419,7 +419,7 @@ const [fields, setFields] = useState(initialFields);
                 label="Date Of Specimen Collection"
                 name="date"
                 type="date"
-                value={patientData.date}
+                value={patientData.ageUnit}
                 onChange={handleChange}
                 variant="outlined"
                 size="medium"
@@ -434,7 +434,7 @@ const [fields, setFields] = useState(initialFields);
                 label="Time"
                 name="time"
                 type="time"
-                value={patientData.time}
+                value={patientData.date}
                 onChange={handleChange}
                 variant="outlined"
                 size="medium"
@@ -449,7 +449,7 @@ const [fields, setFields] = useState(initialFields);
                 label="Date of Result Reporting"
                 name="dateOfResultReporting"
                 type="date"
-                value={patientData.dateOfResultReporting}
+                value={patientData.date}
                 onChange={handleChange}
                 variant="outlined"
                 size="medium"
