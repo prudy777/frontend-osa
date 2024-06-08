@@ -30,8 +30,8 @@ const TestBooking = () => {
   };
 
   const initialPatientData = {
-    patientId: patient?.id || '',
-    labNo: '041219025',
+    patient_no: patient?.id || '',
+    lab_no: '041219025',
     name: `${patient?.first_name || ''} ${patient?.last_name || ''}`,
     sex: patient?.sex || 'MALE',
     age: patient ? calculateAge(patient.dob) : '',
@@ -352,7 +352,7 @@ const [fields, setFields] = useState(initialFields);
       fullWidth
       label="Patient ID"
       name="patientId"
-      value={patientData.patientId}
+      value={patientData.patient_no}
       onChange={handleChange}
       variant="outlined"
       size="medium"
@@ -374,7 +374,7 @@ const [fields, setFields] = useState(initialFields);
       fullWidth
       label="Lab. No."
       name="labNo"
-      value={patientData.labNo}
+      value={patientData.lab_no}
       onChange={handleChange}
       variant="outlined"
       size="medium"
