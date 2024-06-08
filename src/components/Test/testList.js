@@ -36,7 +36,9 @@ const TestBooking = () => {
     sex: 'MALE',
     age: patient ? calculateAge(patient.dob) : '',
     ageUnit: 'Years',
-    panel: '',
+    specimen: '',
+    investigation: '',
+    time: '',
     referredBy: 'Dr. Arun Fotedar',
     date: patient?.dob || '',
   };
@@ -396,7 +398,7 @@ const [fields, setFields] = useState(initialFields);
                 fullWidth
                 label="Specimen"
                 name="specimen"
-                value={patientData.panel}
+                value={patientData.specimen}
                 onChange={handleChange}
                 variant="outlined"
                 size="medium"
@@ -407,7 +409,7 @@ const [fields, setFields] = useState(initialFields);
                 fullWidth
                 label="Investigations"
                 name="investigations"
-                value={patientData.panel}
+                value={patientData.investigation}
                 onChange={handleChange}
                 variant="outlined"
                 size="medium"
@@ -419,7 +421,7 @@ const [fields, setFields] = useState(initialFields);
                 label="Date Of Specimen Collection"
                 name="date"
                 type="date"
-                value={patientData.ageUnit}
+                value={patientData.date}
                 onChange={handleChange}
                 variant="outlined"
                 size="medium"
@@ -434,7 +436,7 @@ const [fields, setFields] = useState(initialFields);
                 label="Time"
                 name="time"
                 type="time"
-                value={patientData.date}
+                value={patientData.time}
                 onChange={handleChange}
                 variant="outlined"
                 size="medium"
