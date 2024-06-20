@@ -26,7 +26,7 @@ const PrintedTests = () => {
   useEffect(() => {
     const fetchPrintedTests = async () => {
       try {
-        const response = await axios.get('https://backend-osa.onrender.com/masters');
+        const response = await axios.get('http://localhost:4000/masters');
         setPrintedTests(response.data);
       } catch (error) {
         console.error('Error fetching printed tests:', error);
@@ -65,49 +65,45 @@ const PrintedTests = () => {
       }}
     >
       <Paper sx={{ padding: 2 }}>
-        <Typography variant="h4" gutterBottom>Printed Tests</Typography>
+        <Typography variant="h4" gutterBottom>Printed Tests Results</Typography>
         <TableContainer component={Paper}>
           <Box sx={{ overflowX: 'auto' }}>
             <Table size={isMobile ? 'small' : 'medium'}>
               <TableHead>
                 <TableRow>
-                  <TableCell>ID</TableCell>
                   <TableCell>Patient ID</TableCell>
                   <TableCell>Lab No</TableCell>
                   <TableCell>Name</TableCell>
                   <TableCell>Sex</TableCell>
                   <TableCell>Age</TableCell>
-                  <TableCell>Age Unit</TableCell>
-                  <TableCell>Panel</TableCell>
+                  <TableCell>Investigation</TableCell>
+                  <TableCell>Specimen</TableCell>
                   <TableCell>Referred By</TableCell>
                   <TableCell>Date</TableCell>
-                  <TableCell>Test ID</TableCell>
-                  <TableCell>Test Name</TableCell>
                   <TableCell>Rate</TableCell>
                   <TableCell>Price (Naira)</TableCell>
                   <TableCell>Reference Range</TableCell>
                   <TableCell>Interpretation</TableCell>
+                  <TableCell>Remark</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {printedTests.map((test) => (
-                  <TableRow key={test.id}>
-                    <TableCell>{test.id}</TableCell>
-                    <TableCell>{test.patient_id}</TableCell>
-                    <TableCell>{test.lab_no}</TableCell>
-                    <TableCell>{test.name}</TableCell>
-                    <TableCell>{test.sex}</TableCell>
-                    <TableCell>{test.age}</TableCell>
-                    <TableCell>{test.age_unit}</TableCell>
-                    <TableCell>{test.panel}</TableCell>
-                    <TableCell>{test.referred_by}</TableCell>
-                    <TableCell>{test.date}</TableCell>
-                    <TableCell>{test.test_id}</TableCell>
-                    <TableCell>{test.test_name}</TableCell>
-                    <TableCell>{test.rate}</TableCell>
-                    <TableCell>{test.price_naira}</TableCell>
-                    <TableCell>{test.reference_range}</TableCell>
-                    <TableCell>{test.interpretation}</TableCell>
+                  <TableRow key={test.test_id}>
+                    <TableCell>{test.patient_id ?? 'N/A'}</TableCell>
+                    <TableCell>{test.lab_no ?? 'N/A'}</TableCell>
+                    <TableCell>{test.name ?? 'N/A'}</TableCell>
+                    <TableCell>{test.sex ?? 'N/A'}</TableCell>
+                    <TableCell>{test.age ?? 'N/A'}</TableCell>
+                    <TableCell>{test.investigation ?? 'N/A'}</TableCell>
+                    <TableCell>{test.specimen ?? 'N/A'}</TableCell>
+                    <TableCell>{test.referred_by ?? 'N/A'}</TableCell>
+                    <TableCell>{test.date ?? 'N/A'}</TableCell>
+                    <TableCell>{test.rate ?? 'N/A'}</TableCell>
+                    <TableCell>{test.price_naira ?? 'N/A'}</TableCell>
+                    <TableCell>{test.reference_range ?? 'N/A'}</TableCell>
+                    <TableCell>{test.interpretation ?? 'N/A'}</TableCell>
+                    <TableCell>{test.remark ?? 'N/A'}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

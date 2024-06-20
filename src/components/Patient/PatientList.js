@@ -9,7 +9,7 @@ const PatientList = ({ refresh }) => {
 
   const fetchPatients = async () => {
     try {
-      const response = await axios.get('https://backend-osa.onrender.com/patients');
+      const response = await axios.get('http://localhost:4000/patients');
       setPatients(response.data);
     } catch (error) {
       console.error(error);
@@ -23,7 +23,7 @@ const PatientList = ({ refresh }) => {
 
   const handleStatusChange = async (id, status) => {
     try {
-      const response = await axios.put(`https://backend-osa.onrender.com/patients/${id}/status`, { status });
+      const response = await axios.put(`http://localhost:4000/patients/${id}/status`, { status });
       setPatients(prevPatients => prevPatients.map(patient => 
         patient.id === id ? { ...patient, status } : patient
       ));
@@ -39,7 +39,7 @@ const PatientList = ({ refresh }) => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`https://backend-osa.onrender.com/patients/${id}`);
+      await axios.delete(`http://localhost:4000/patients/${id}`);
       setPatients(prevPatients => prevPatients.filter(patient => patient.id !== id));
       alert('Patient declined and deleted successfully!');
     } catch (error) {

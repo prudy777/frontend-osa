@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './AcceptedPatients.css';
-import { Link, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 
 const AcceptedPatients = () => {
   const [patients, setPatients] = useState([]);
@@ -10,7 +10,7 @@ const AcceptedPatients = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('https://backend-osa.onrender.com/accepted-patients')
+    axios.get('http://localhost:4000/accepted-patients')
       .then(response => {
         setPatients(response.data);
         setLoading(false);

@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { styled } from '@mui/system';
+import { Document, Packer, Paragraph, ImageRun } from 'docx';
+import * as htmlToImage from 'html-to-image';
+import { saveAs } from 'file-saver';
 import company from '../../assets/company.png';
 import { Container, Grid, TextField, MenuItem, Button, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Fade } from '@mui/material';
 
@@ -44,7 +47,7 @@ const TestBooking = () => {
   };
 
   const initialTests = [
-    { id: `${TwoId(patient?.test_type).toUpperCase()}`, name: `${patient?.test_type || ''}`, rate: 30, referenceRange: 'whe', interpretation: 'wrefrd' },
+    { id: `${TwoId(patient?.test_type).toUpperCase()}`, name: `${patient?.test_type || ''}`, rate: 0, referenceRange: 'whe', interpretation: 'wrefrd' },
   ];
 
   const [patientData, setPatientData] = useState(initialPatientData);
@@ -80,134 +83,111 @@ const TestBooking = () => {
     setTests((prevTests) => prevTests.filter((_, i) => i !== index));
   };
 
-  const handleSubmit = async () => {
-    try {
-      for (const test of tests) {
-        if (!test.referenceRange || !test.interpretation) {
-          alert('Please fill all the reference range and interpretation fields');
-          return;
-        }
-      }
-      console.log(patientData)
-      const response = await axios.post('https://backend-osa.onrender.com/test-booking', {
-        ...patientData,
-        tests,
-      });
-  
-      if (response.status === 201) {
-        alert('Test booking saved successfully');
-      }
-    } catch (error) {
-      console.error('Error saving test booking:', error);
-      alert('Failed to save test booking');
-    }
-  };
-  
-
   const handleCancel = () => {
     setPatientData(initialPatientData);
     setTests(initialTests.map(test => ({ ...test, rate: 0, referenceRange: '', interpretation: '' })));
   };
 
+  const [data, setData] = useState({
+    salmonellaTyphiH: '1/20',
+    paratyphiAH: '1/20',
+    paratyphiBH: '1/20',
+    paratyphiCH: '1/20',
+    salmonellaTyphiO: '1/20',
+    paratyphiAO: '1/20',
+    paratyphiBO: '1/20',
+    paratyphiCO: '1/160',
+  });
 
-    const [data, setData] = useState({
-      salmonellaTyphiH: '1/20',
-      paratyphiAH: '1/20',
-      paratyphiBH: '1/20',
-      paratyphiCH: '1/20',
-      salmonellaTyphiO: '1/20',
-      paratyphiAO: '1/20',
-      paratyphiBO: '1/20',
-      paratyphiCO: '1/160',
+  const [maldata, setMalData] = useState({
+    malariaParasite: '',
+  });
+
+  const handleDataChange = (key, value) => {
+    setData((prevState) => ({
+      ...prevState,
+      [key]: value,
+    }));
+  };
+
+  const handleMalDataChange = (key, value) => {
+    setMalData((prevState) => ({
+      ...prevState,
+      [key]: value,
+    }));
+  };
+
+  // Reusable component for editable table rows
+  const EditableSerologyTableRow = ({ row, index, handleInputChange }) => (
+    <TableRow>
+      <TableCell>
+        <TextField
+          value={row.test}
+          onChange={(e) => handleInputChange(index, 'test', e.target.value)}
+        />
+      </TableCell>
+      <TableCell>
+        <TextField
+          value={row.methodology}
+          onChange={(e) => handleInputChange(index, 'methodology', e.target.value)}
+        />
+      </TableCell>
+      <TableCell align="center">
+        <TextField
+          value={row.result}
+          onChange={(e) => handleInputChange(index, 'result', e.target.value)}
+        />
+      </TableCell>
+    </TableRow>
+  );
+
+  const serologyData = [
+    { test: 'HEPATITIS B Ab.', methodology: 'Rapid Chromatographic immunoassay', result: 'NON-REACTIVE' },
+    { test: 'SYPHILIS TEST (VDRL)', methodology: 'Rapid Chromatographic immunoassay', result: 'NON-REACTIVE' },
+    { test: 'HEPATITIS C Ab.', methodology: 'Rapid Chromatographic immunoassay', result: 'NON-REACTIVE' },
+    { test: 'HIV TEST (1&2)', methodology: 'Rapid Chromatographic immunoassay', result: 'NON-REACTIVE' },
+    { test: 'GHONNORRHEA Ab.', methodology: 'Rapid Chromatographic immunoassay', result: 'NEGATIVE' },
+    { test: 'H. PYLORI Ab.', methodology: 'Rapid Chromatographic immunoassay', result: 'POSITIVE' },
+  ];
+
+  const [serData, setSerData] = useState(serologyData);
+
+  // Function to handle input change
+  const handleSerologyInputChange = (index, key, value) => {
+    setSerData((prevData) => {
+      const newData = [...prevData];
+      newData[index] = { ...newData[index], [key]: value };
+      return newData;
     });
+  };
 
-    const [maldata, setMalData] = useState({
-      malariaParasite: '',
-    });
+  const [marData, setMarData] = useState([
+    { test: 'MALARIA PARASITE', methodology: 'Rapid Chromatographic immunoassay', result: '' },
+  ]);
 
-    const handleDataChange = (key, value) => {
-      setData((prevState) => ({
-        ...prevState,
-        [key]: value,
-      }));
-    };
-  
-    const handleMalDataChange = (key, value) => {
-      setMalData((prevState) => ({
-        ...prevState,
-        [key]: value,
-      }));
-    };
-    // Reusable component for editable table rows
-const EditableSerologyTableRow = ({ row, index, handleInputChange }) => (
-  <TableRow>
-    <TableCell>
-      <TextField
-        value={row.test}
-        onChange={(e) => handleInputChange(index, 'test', e.target.value)}
-      />
-    </TableCell>
-    <TableCell>
-      <TextField
-        value={row.methodology}
-        onChange={(e) => handleInputChange(index, 'methodology', e.target.value)}
-      />
-    </TableCell>
-    <TableCell align="center">
-      <TextField
-        value={row.result}
-        onChange={(e) => handleInputChange(index, 'result', e.target.value)}
-      />
-    </TableCell>
-  </TableRow>
-);
-  
-    const serologyData = [
-      { test: 'HEPATITIS B Ab.', methodology: 'Rapid Chromatographic immunoassay', result: 'NON-REACTIVE' },
-      { test: 'SYPHILIS TEST (VDRL)', methodology: 'Rapid Chromatographic immunoassay', result: 'NON-REACTIVE' },
-      { test: 'HEPATITIS C Ab.', methodology: 'Rapid Chromatographic immunoassay', result: 'NON-REACTIVE' },
-      { test: 'HIV TEST (1&2)', methodology: 'Rapid Chromatographic immunoassay', result: 'NON-REACTIVE' },
-      { test: 'GHONNORRHEA Ab.', methodology: 'Rapid Chromatographic immunoassay', result: 'NEGATIVE' },
-      { test: 'H. PYLORI Ab.', methodology: 'Rapid Chromatographic immunoassay', result: 'POSITIVE' },
-    ];
-  
-    const [serData, setSerData] = useState(serologyData);
-  
-    // Function to handle input change
-    const handleSerologyInputChange = (index, key, value) => {
-      setSerData((prevData) => {
-        const newData = [...prevData];
-        newData[index] = { ...newData[index], [key]: value };
-        return newData;
-      });
-    };
-    const [marData, setMarData] = useState([
-      { test: 'MALARIA PARASITE', methodology: 'Rapid Chromatographic immunoassay', result: '' },
-    ]);
-    
-    // Reusable component for editable parasitology table rows
-const EditableParasitologyTableRow = ({ row, index, handleInputChange }) => (
-  <TableRow>
-    <TableCell>
-      <TextField
-        value={row.test}
-        onChange={(e) => handleInputChange(index, 'test', e.target.value)}
-      />
-    </TableCell>
-    <TableCell>
-      <TextField
-        value={row.methodology}
-        onChange={(e) => handleInputChange(index, 'methodology', e.target.value)}
-      />
-    </TableCell>
-    <TableCell align="center">
-      <TextField
-        value={row.result}
-        onChange={(e) => handleInputChange(index, 'result', e.target.value)}
-      />
-    </TableCell>
-  </TableRow>
-);
+  // Reusable component for editable parasitology table rows
+  const EditableParasitologyTableRow = ({ row, index, handleInputChange }) => (
+    <TableRow>
+      <TableCell>
+        <TextField
+          value={row.test}
+          onChange={(e) => handleInputChange(index, 'test', e.target.value)}
+        />
+      </TableCell>
+      <TableCell>
+        <TextField
+          value={row.methodology}
+          onChange={(e) => handleInputChange(index, 'methodology', e.target.value)}
+        />
+      </TableCell>
+      <TableCell align="center">
+        <TextField
+          value={row.result}
+          onChange={(e) => handleInputChange(index, 'result', e.target.value)}
+        />
+      </TableCell>
+    </TableRow>
+  );
 
   const initialData = [
     { investigation: 'Total WBC', result: '6.7', referenceRange: '4.0 – 10.0 X10^3/μL' },
@@ -256,70 +236,70 @@ const EditableParasitologyTableRow = ({ row, index, handleInputChange }) => (
     glucose: 'Nil',
     ketones: 'Negative',
     comment: 'Normal.'
-});
+  });
 
-
-const handleUrinalysisChange = (event) => {
+  const handleUrinalysisChange = (event) => {
     const { name, value } = event.target;
     setUrinalysis(prevState => ({
-        ...prevState,
-        [name]: value
+      ...prevState,
+      [name]: value
     }));
-};
-const initData = {
-  bilirubinTotal: '0.6',
-  bilirubinDirect: '0.2',
-  astSgot: '31',
-  altSgpt: '32',
-  alp: '209',
-  albumin: '4.0',
-  totalProtein: '82',
-  urea: '20',
-  creatinine: '1.0',
-  sodium: '138',
-  potassium: '3.6',
-  chloride: '98',
-  bicarbonate: '25',
-  totalCholesterol: '152',
-  hdl: '72',
-  ldl: '65',
-  triglycerides: '74',
-  vldl: '26',
-  fastingBloodSugar: '101'
-};
+  };
 
-const [sData, setSData] = useState(initData);
+  const initData = {
+    bilirubinTotal: '0.6',
+    bilirubinDirect: '0.2',
+    astSgot: '31',
+    altSgpt: '32',
+    alp: '209',
+    albumin: '4.0',
+    totalProtein: '82',
+    urea: '20',
+    creatinine: '1.0',
+    sodium: '138',
+    potassium: '3.6',
+    chloride: '98',
+    bicarbonate: '25',
+    totalCholesterol: '152',
+    hdl: '72',
+    ldl: '65',
+    triglycerides: '74',
+    vldl: '26',
+    fastingBloodSugar: '101'
+  };
 
-const handleChangei = (event) => {
-  const { name, value } = event.target;
-  setSData((prevData) => ({
-    ...prevData,
-    [name]: value
+  const [sData, setSData] = useState(initData);
+
+  const handleChangei = (event) => {
+    const { name, value } = event.target;
+    setSData((prevData) => ({
+      ...prevData,
+      [name]: value
+    }));
+  };
+
+  // Define the styled components
+  const Root = styled(Paper)(({ theme }) => ({
+    padding: theme.spacing(2),
+    margin: theme.spacing(2),
   }));
-};
 
-// Define the styled components
-const Root = styled(Paper)(({ theme }) => ({
-  padding: theme.spacing(2),
-  margin: theme.spacing(2),
-}));
+  const CustomTable = styled(Table)({
+    minWidth: 300,
+  });
 
-const CustomTable = styled(Table)({
-  minWidth: 300,
-});
+  // Define the Report component
+  const initialFields = [
+    { label: 'Name', value: 'OSAWEMEN EMMANUEL' },
+    { label: 'Title', value: 'Medical Laboratory Scientist' }
+  ];
 
-// Define the Report component
-const initialFields = [
-  { label: 'Name', value: 'OSAWEMEN EMMANUEL' },
-  { label: 'Title', value: 'Medical Laboratory Scientist' }
-];
+  const authorizedBy = {
+    name: 'OSAWEMEN EMMANUEL',
+    title: 'Chief Medical Officer',
+  };
 
-const authorizedBy = {
-  name: 'OSAWEMEN EMMANUEL',
-  title: 'Chief Medical Officer',
-};
-
-const [fields, setFields] = useState(initialFields);
+  const [fields, setFields] = useState(initialFields);
 
   const handleChanges = (index, event) => {
     const newFields = fields.map((field, idx) => {
@@ -330,19 +310,105 @@ const [fields, setFields] = useState(initialFields);
     });
     setFields(newFields);
   };
+
+  const handleSubmit = async () => {
+    try {
+      for (const test of tests) {
+        if (!test.referenceRange || !test.interpretation) {
+          alert('Please fill all the reference range and interpretation fields');
+          return;
+        }
+      }
+      console.log(patientData);
+      const response = await axios.post('http://localhost:4000/test-booking', {
+        ...patientData,
+        tests,
+        serData
+      });
+
+      if (response.status === 201) {
+        alert('Test booking saved successfully');
+      }
+    } catch (error) {
+      console.error('Error saving test booking:', error);
+      alert('Failed to save test booking');
+    }
+  };
+
+  const collectData = () => {
+    return {
+      patientData,
+      serData,
+      data,
+      marData,
+      herData,
+      comments,
+      urinalysis,
+      sData,
+      tests,
+      fields,
+      authorizedBy,
+    };
+  };
+
+  const contentRef = useRef(null);
+
+  const handlePrint = async () => {
+    const input = contentRef.current;
+    if (input) {
+      try {
+        // Convert the HTML content to an image
+        const dataUrl = await htmlToImage.toPng(input, { quality: 0.95 });
+
+        // Create a new Document
+        const doc = new Document({
+          sections: [
+            {
+              properties: {},
+              children: [
+                new Paragraph({
+                  children: [
+                    new ImageRun({
+                      data: dataUrl.split(',')[1], // Use base64 image data
+                      transformation: {
+                        width: 600, // Adjust the width as needed
+                        height: 800, // Adjust the height as needed
+                      },
+                    }),
+                  ],
+                }),
+              ],
+            },
+          ],
+        });
+
+        // Convert the Document to a Blob
+        const blob = await Packer.toBlob(doc);
+
+        // Save the Document as a .docx file
+        saveAs(blob, 'test-booking-report.docx');
+      } catch (error) {
+        console.error('Error generating document:', error);
+      }
+    } else {
+      console.error('Element not found: pdf-content');
+    }
+  };
+
+  
   return (
-    <Fade in={true} timeout={1000} appear>
+    <Fade in={true} timeout={1000} appear ref={contentRef} id='pdf-content'>
       <Container
         maxWidth="lg"
         sx={{
-          marginTop:1000,
+          marginTop:750,
           opacity: 1,
           transition: 'opacity 1s ease-out',
           transform: 'translate3d(0, 0, 0)',
         }}
       >
         <Paper sx={{ padding: 4 }}>
-          <Typography variant="h4" gutterBottom>LABORATORY INVESTIGATION REPORT <img src={company} alt="Company Logo" /></Typography>
+          <Typography variant="h4" gutterBottom>LABORATORY INVESTIGATION REPORT <img align='right' src={company} alt="Company Logo" /></Typography>
           <Typography variant="h6" align="center" color="primary" gutterBottom>
   BIODATA
 </Typography>
@@ -830,7 +896,7 @@ const [fields, setFields] = useState(initialFields);
         </Table>
       </TableContainer>
 
-          <Typography variant="h6" align="center" color="primary" gutterBottom>TESTS</Typography>
+          <Typography variant="h6" align="center" color="primary" gutterBottom>OVERALL TESTS</Typography>
           {tests.map((test, index) => (
             <Grid container spacing={3} key={index}>
               <Grid item xs={12} sm={4}>
@@ -889,6 +955,28 @@ const [fields, setFields] = useState(initialFields);
                   size="medium"
                 />
               </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="Price"
+                  name="price_naira"
+                  value={`${test.price_naira}`}
+                  onChange={(e) => handleTestChange(index, 'price_naira', e.target.value)}
+                  variant="outlined"
+                  size="medium"
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="Remark"
+                  name="remark"
+                  value={test.remark}
+                  onChange={(e) => handleTestChange(index, 'remark', e.target.value)}
+                  variant="outlined"
+                  size="medium"
+                />
+              </Grid>
               <Grid item xs={12} sm={2}>
                 <Button variant="outlined" color="secondary" onClick={() => handleRemoveTest(index)}>Remove</Button>
               </Grid>
@@ -938,7 +1026,7 @@ const [fields, setFields] = useState(initialFields);
           <Button variant="outlined" color="primary" onClick={handleAddTest}>Add Test</Button>
           <Grid container spacing={3} sx={{ marginTop: 3 }}>
             <Grid item xs={12} sm={6}>
-          
+            <Button fullWidth variant="contained" color="primary" onClick={handlePrint}>Download Data</Button>
               <Button fullWidth variant="contained" color="primary" onClick={handleSubmit}>Submit</Button>
             </Grid>
             <Grid item xs={12} sm={6}>

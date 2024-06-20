@@ -13,7 +13,9 @@
 html, body {
   height: 100%;
   margin: 0;
-  overflow: auto;
+  overflow-y: scroll; /* Enable vertical scrolling */
+  overflow-x: hidden;
+  overflow: hidden;
   background: url(https://cdn.dribbble.com/userupload/14908151/file/original-59116bdcaac0a2942c1ba195a05a9b8a.png?resize=1024x768) no-repeat center center fixed;
   background-size: cover;
 }

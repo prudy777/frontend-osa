@@ -15,7 +15,7 @@ function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://backend-osa.onrender.com/login', { email, password });
+      const response = await axios.post('http://localhost:4000/login', { email, password });
       login({ email }, response.data.token);
       navigate('/');
     } catch (error) {
