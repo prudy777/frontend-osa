@@ -29,11 +29,11 @@ function SignupPage() {
             </div>
             <div className="signup">
                 <h1>Sign Up</h1>
-                <form onSubmit={handleSubmit}>
+                {/* <form onSubmit={handleSubmit}>
                     <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" required />
                     <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" required />
-                    <button type="submit">Register</button>
-                </form>
+                    <button type="submit">Register</button> */}
+                <p>Sign-ups are currently disabled. Please contact support for more information.</p>
             </div>
         </div>
     );

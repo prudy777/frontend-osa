@@ -4,6 +4,7 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import Company from "../assets/company.png"
 import { Container, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Button, TextField, Checkbox, TabScrollButton, TablePagination } from '@mui/material';
+import { Row } from 'jspdf-autotable';
 
 const TestBookingsList = () => {
   const [testBookings, setTestBookings] = useState([]);
@@ -221,7 +222,7 @@ const TestBookingsList = () => {
                   <TableCell>
                     <TextField
                       type="number"
-                      value={editablePrices[`${booking.id}-${test.price_naira}`]}
+                      value={editablePrices[`${booking.id}-${test.test_name}`] || ''}
                       onChange={(e) => handlePriceChange(booking.id, test.test_name, e.target.value)}
                       variant="outlined"
                       size="small"
@@ -246,7 +247,7 @@ const TestBookingsList = () => {
                   </TableCell>
                   <TableCell>
                     <TextField
-                    value={editableRemark[`${booking.id}-${test.remark}`]}
+                    value={editableRemark[`${test.remark}`]}
                     onChange={e => handleRemarkChange(booking.id, test.test_name, e.target.value)} />
                   </TableCell>
                 </TableRow>

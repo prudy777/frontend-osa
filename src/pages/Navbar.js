@@ -18,7 +18,7 @@ const NavBar = () => {
       setCollapsed(false);
     } else {
       setCollapsed(true); // Collapse by default if mobile view
-    }
+    } 
   };
 
   useEffect(() => {

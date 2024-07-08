@@ -1,10 +1,12 @@
 // src/pages/LoginPage.js
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useAuth } from '../../contexts/AuthContext';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './login.css';
 import Logo from '../../assets/company.png';
+
+const allowedEmail = 'prudy777@gmail.com';
+const allowedPassword = 'progees';
 
 function LoginPage() {
   const [email, setEmail] = useState('');
@@ -12,14 +14,13 @@ function LoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post('http://localhost:4000/login', { email, password });
-      login({ email }, response.data.token);
+    if (email === allowedEmail && password === allowedPassword) {
+      login({ email, password }, 'fakeToken'); // fakeToken can be replaced with actual token logic if needed
       navigate('/');
-    } catch (error) {
-      alert(error.response ? error.response.data : 'Login failed');
+    } else {
+      alert('Invalid credentials');
     }
   };
 
@@ -38,7 +39,7 @@ function LoginPage() {
           <button type="submit">Login</button>
         </form>
         <div className="create-account">
-          Don't have an account? <Link to="/signup">CREATE NEW</Link>
+          {/* Sign up link can be removed or disabled */}
         </div>
       </div>
     </div>

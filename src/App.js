@@ -32,35 +32,22 @@ const App = () => {
         <NavBar />
         <div className="main-content">
           <Routes>
-            <Route path="/barcode" element={<BarcodeGenerator />} />
-            <Route path='/register' element={<Register />} />
-            <Route path='/accepted-patients' element={<AcceptedPatients />} />
-            <Route path="/patients" element={<PatientList />} />
-            <Route path="/test-booking" element={<TestBooking />} />
-            <Route path='/test-bookings' element={<TestBookingsList/>} />
-            <Route path="/patient/:id" element={<Patient />} />
-            <Route path="/masters" element={<PrintedTests/>}/>
-            <Route path='/accounting/transactions' element={<AccountingPage/>}/>
-            <Route path='/dashboard' element={<Dashboard/>}/>
-            <Route path='/general' element={<TestBookings/>}/>
-            <Route path='/generals' element={<TestBookingmen/>}/>
-            <Route path="/" element={
-              <ProtectedRoute>
-                <HomePage />
-              </ProtectedRoute>
-            } />
+            <Route path="/barcode" element={<BarcodeGenerator/>}/>
+            <Route path="/register" element={<Register/>}/>
+            <Route path="/accepted-patients" element={<ProtectedRoute><AcceptedPatients /></ProtectedRoute>} />
+            <Route path="/patients" element={<ProtectedRoute><PatientList /></ProtectedRoute>} />
+            <Route path="/test-booking" element={<ProtectedRoute><TestBooking /></ProtectedRoute>} />
+            <Route path="/test-bookings" element={<ProtectedRoute><TestBookingsList /></ProtectedRoute>} />
+            <Route path="/patient/:id" element={<ProtectedRoute><Patient /></ProtectedRoute>} />
+            <Route path="/masters" element={<ProtectedRoute><PrintedTests /></ProtectedRoute>} />
+            <Route path="/accounting/transactions" element={<ProtectedRoute><AccountingPage /></ProtectedRoute>} />
+            <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+            <Route path="/general" element={<ProtectedRoute><TestBookings /></ProtectedRoute>} />
+            <Route path="/generals" element={<ProtectedRoute><TestBookingmen /></ProtectedRoute>} />
+            <Route path="/" element={<HomePage />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/dashboard" element={
-              <ProtectedRoute>
-                <DashboardPage />
-              </ProtectedRoute>
-            } />
-            <Route path="/profile" element={
-              <ProtectedRoute>
-                <About />
-              </ProtectedRoute>
-            } />
+            <Route path="/profile" element={<ProtectedRoute><About /></ProtectedRoute>} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </div>
