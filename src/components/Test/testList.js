@@ -2,11 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { styled } from '@mui/system';
-import { Document, Packer, Paragraph, ImageRun } from 'docx';
-import * as htmlToImage from 'html-to-image';
-import { saveAs } from 'file-saver';
+import jsPDF from 'jspdf';
+import { Container, Checkbox, Grid, TextField, MenuItem, Button, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Fade } from '@mui/material';
 import company from '../../assets/company.png';
-import { Container,Checkbox, Grid, TextField, MenuItem, Button, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Fade, stepButtonClasses } from '@mui/material';
 
 const TestBooking = () => {
   const location = useLocation();
@@ -31,7 +29,7 @@ const TestBooking = () => {
     }
     return word.substring(0, 2);
   };
-   
+  
   const initialPatientData = {
     patient_no: patient?.id || '',
     lab_no: '041219025',
@@ -57,7 +55,7 @@ const TestBooking = () => {
     if (patient) {
       setPatientData(initialPatientData);
     }
-  }, [patient],[initialPatientData]);
+  }, [patient]);
 
   const [checkedItems, setCheckedItems] = useState({});
   const [loading, setLoading] = useState(false);
@@ -77,26 +75,14 @@ const TestBooking = () => {
       return updatedCheckedItems;
     });
   };
-  
-  
 
-const handleChange = (index, event, field) => {
-  if (event && event.target) {
-    const { value } = event.target;
-    setPatientData((prevData) => {
-      const updatedData = [...prevData];
-      updatedData[index] = {
-        ...updatedData[index],
-        [field]: value,
-      };
-      return updatedData;
-    });
-  } else {
-    console.error("Event or event.target is undefined");
-  }
-};
-  
-  
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setPatientData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
   const handleTestChange = (index, field, value) => {
     setTests((prevTests) => {
@@ -106,30 +92,9 @@ const handleChange = (index, event, field) => {
     });
   };
 
-  
   const handleCancel = () => {
-    if (patient) {
-      const initialPatientData = {
-        patient_no: patient?.id || '',
-        lab_no: '041219025',
-        name: `${patient?.first_name || ''} ${patient?.last_name || ''}`,
-        sex: patient?.sex || 'MALE',
-        age: patient ? calculateAge(patient.dob) : '',
-        ageUnit: 'Years',
-        specimen: '',
-        investigation: '',
-        referredBy: '',
-        time: '',
-        date: new Date().toISOString().split('T')[0],
-      };
-
-      const initialTests = [
-        { id: `${TwoId(patient?.test_type).toUpperCase()}`, name: `${patient?.test_type || ''}`, rate: 0, referenceRange: '', interpretation: '' },
-      ];
-
-      setPatientData(initialPatientData);
-      setTests(initialTests);
-    }
+    setPatientData(initialPatientData);
+    setTests(initialTests);
   };
 
   const [datas, setDatas] = useState([{
@@ -147,21 +112,24 @@ const handleChange = (index, event, field) => {
     malariaParasite: '',
   });
 
-  const handleDataChange = (key, value) => {
-    setDatas((prevState) => ({
-      ...prevState,
-      [key]: value,
-    }));
+  const handleDataChange = (index, event) => {
+    const { name, value } = event.target;
+    setDatas((prevData) => {
+      const updatedData = [...prevData];
+      updatedData[index] = {
+        ...updatedData[index],
+        [name]: value,
+      };
+      return updatedData;
+    });
   };
 
-  const handleMalDataChange = (key, value) => {
+  const handleMalDataChange = (index, key, value) => {
     setMalData((prevState) => ({
       ...prevState,
       [key]: value,
     }));
   };
-
-  
 
   const serologyData = [
     { test: 'HEPATITIS B Ab.', methodology: 'Rapid Chromatographic immunoassay', result: 'NON-REACTIVE' },
@@ -174,11 +142,11 @@ const handleChange = (index, event, field) => {
 
   const [serData, setSerData] = useState(serologyData);
 
-  // Function to handle input change
-  const handleSerologyInputChange = (index, key, value) => {
+  const handleSerologyInputChange = (index, event) => {
+    const { name, value } = event.target;
     setSerData((prevData) => {
       const newData = [...prevData];
-      newData[index] = { ...newData[index], [key]: value };
+      newData[index] = { ...newData[index], [name]: value };
       return newData;
     });
   };
@@ -187,14 +155,13 @@ const handleChange = (index, event, field) => {
     { test: 'MALARIA PARASITE', methodology: 'Rapid Chromatographic immunoassay', result: '' },
   ]);
 
-  // Reusable component for editable parasitology table rows
   const EditableParasitologyTableRow = ({ row, index, handleInputChange }) => (
     <TableRow>
       <TableCell>
-     <Checkbox
-                    checked={checkedItems['Parasitology']?.includes(index)}
-                    onChange={() => handleCheckboxChange('Parasitology', index)}
-                  />
+        <Checkbox
+          checked={checkedItems['Parasitology']?.includes(index)}
+          onChange={() => handleCheckboxChange('Parasitology', index)}
+        />
         <TextField
           value={row.test}
           onChange={(e) => handleInputChange(index, 'test', e.target.value)}
@@ -247,22 +214,63 @@ const handleChange = (index, event, field) => {
   const handleCommentsChange = (field, value) => {
     setComments({ ...comments, [field]: value });
   };
+ 
+  const initUri = [
+    {
+      urinalysis: 'colour', 
+      methodology: 'Yellow'
+    },
+    {
+      urinalysis: 'appearance', 
+      methodology: 'Slightly Turbid'
+    },
+    {
+      urinalysis: 'pH', 
+      methodology: '6.5'
+    },
+    {
+      urinalysis: 'specificGravity', 
+      methodology: '1.025'
+    },
+    {
+      urinalysis: 'urobilinogen', 
+      methodology: 'Normal'
+    },
+    {
+      urinalysis: 'leukocyte', 
+      methodology: 'Trace'
+    },
+    {
+      urinalysis: 'bilirubin', 
+      methodology: 'Negative'
+    },
+    {
+      urinalysis: 'blood', 
+      methodology: 'Negative'
+    },
+    {
+      urinalysis: 'nitrite', 
+      methodology: 'Negative'
+    },
+    {
+      urinalysis: 'protein', 
+      methodology: 'Negative'
+    },
+    {
+      urinalysis: 'glucose', 
+      methodology: 'Nil'
+    },
+    {
+      urinalysis: 'ketones', 
+      methodology: 'Negative'
+    },
+    {
+      comment: 'Normal.'
+    }
+  ];
+  
 
-  const [urinalysis, setUrinalysis] = useState([{
-    colour: 'Yellow',
-    appearance: 'Slightly Turbid',
-    pH: '6.5',
-    specificGravity: '1.025',
-    urobilinogen: 'Normal',
-    leukocyte: 'Trace',
-    bilirubin: 'Negative',
-    blood: 'Negative',
-    nitrite: 'Negative',
-    protein: 'Negative',
-    glucose: 'Nil',
-    ketones: 'Negative',
-    comment: 'Normal.'
-}]);
+  const [urinalysis, setUrinalysis] = useState(initUri)
 
   const handleUrinalysisChange = (event) => {
     const { name, value } = event.target;
@@ -299,26 +307,17 @@ const handleChange = (index, event, field) => {
   const handleChangei = (index, event) => {
     const { name, value } = event.target;
     setSData((prevData) => {
-        const updatedData = [...prevData];
-        updatedData[index] = {
-            ...updatedData[index],
-            [name]: value,
-        };
-        return updatedData;
+      const updatedData = [...prevData];
+      updatedData[index] = {
+        ...updatedData[index],
+        [name]: value,
+      };
+      return updatedData;
     });
-};
+  };
 
-  // Define the styled components
-  const Root = styled(Paper)(({ theme }) => ({
-    padding: theme.spacing(2),
-    margin: theme.spacing(2),
-  }));
+  
 
-  const CustomTable = styled(Table)({
-    minWidth: 300,
-  });
-
-  // Define the Report component
   const initialFields = [
     { label: 'Name', value: 'OSAWEMEN EMMANUEL' },
     { label: 'Title', value: 'Medical Laboratory Scientist' }
@@ -331,15 +330,7 @@ const handleChange = (index, event, field) => {
 
   const [fields, setFields] = useState(initialFields);
 
-  const handleChanges = (index, event) => {
-    const newFields = fields.map((field, idx) => {
-      if (idx === index) {
-        return { ...field, value: event.target.value };
-      }
-      return field;
-    });
-    setFields(newFields);
-  };
+  
 
   const handleSubmit = async () => {
     try {
@@ -349,7 +340,6 @@ const handleChange = (index, event, field) => {
           return;
         }
       }
-      console.log(patientData);
       const response = await axios.post('http://localhost:4000/test-booking', {
         ...patientData,
         tests,
@@ -383,90 +373,31 @@ const handleChange = (index, event, field) => {
 
   const contentRef = useRef(null);
 
-  const handlePrint = async () => {
-    const input = contentRef.current;
-    if (input) {
-      try {
-        // Convert the HTML content to an image
-        const dataUrl = await htmlToImage.toPng(input, { quality: 0.95 });
 
-        // Create a new Document
-        const doc = new Document({
-          sections: [
-            {
-              properties: {},
-              children: [
-                new Paragraph({
-                  children: [
-                    new ImageRun({
-                      data: dataUrl.split(',')[1], // Use base64 image data
-                      transformation: {
-                        width: 600, // Adjust the width as needed
-                        height: 800, // Adjust the height as needed
-                      },
-                    }),
-                  ],
-                }),
-              ],
-            },
-          ],
-        });
+  const handleSavePdf = () => {
+    try {
+      const doc = new jsPDF('p', 'pt', 'a4');
+      const content = document.getElementById('pdf-content');
 
-        // Convert the Document to a Blob
-        const blob = await Packer.toBlob(doc);
-
-        // Save the Document as a .docx file
-        saveAs(blob, 'test-booking-report.docx');
-      } catch (error) {
-        console.error('Error generating document:', error);
-      }
-    } else {
-      console.error('Element not found: pdf-content');
+      doc.html(content, {
+        callback: (doc) => {
+          doc.save('laboratory-investigation-report.pdf');
+        },
+        x: 10,
+        y: 10,
+        html2canvas: { scale: 0.5 },
+      });
+    } catch (error) {
+      console.error('Error creating PDF:', error);
     }
   };
 
+
   const handleAddTest = () => {
     setTests((prevTests) => [...prevTests, { id: '', name: '', rate: 0, referenceRange: '', interpretation: '' }]);
-    setDatas((prevTests) => [...prevTests, {salmonellaTyphiH: '1/20',
-      paratyphiAH: '1/20',
-      paratyphiBH: '1/20',
-      paratyphiCH: '1/20',
-      salmonellaTyphiO: '1/20',
-      paratyphiAO: '1/20',
-      paratyphiBO: '1/20',
-      paratyphiCO: '1/160',}]);
-    setHerData((prevTests) => [...prevTests, { investigation: 'Total WBC', result: '6.7', referenceRange: '4.0 – 10.0 X10^3/μL'}]);
-    setMarData((prevTests) => [...prevTests, { test: 'MALARIA PARASITE', methodology: 'Rapid Chromatographic immunoassay', result: '' }]);
-    setUrinalysis((prevTests) => [...prevTests, { colour: 'Yellow',
-      appearance: 'Slightly Turbid',
-      pH: '6.5',
-      specificGravity: '1.025',
-      urobilinogen: 'Normal',
-      leukocyte: 'Trace',
-      bilirubin: 'Negative',
-      blood: 'Negative',
-      nitrite: 'Negative',
-      protein: 'Negative',
-      glucose: 'Nil',
-      ketones: 'Negative',
-      comment: 'Normal.'}]);
-      setSerData((prevTests) => [...prevTests, { test: 'HEPATITIS B Ab.', methodology: 'Rapid Chromatographic immunoassay', result: 'NON-REACTIVE' }
-    ]);
-    setSData((prevTests) => [...prevTests, {bilirubinTotal: '0.6',
-      bilirubinDirect: '0.2',
-      astSgot: '31',
-      altSgpt: '32',
-      alp: '209',
-      albumin: '4.0',
-      totalProtein: '82',
-      urea: '20',
-      creatinine: '1.0',
-      sodium: '138'}]);
+  };
 
-};
-
-
-const handleRemoveTest = (index, dataType) => {
+  const handleRemoveTest = (index, dataType) => {
     const updateState = (setState) => {
       setState((prevTests) => prevTests.filter((_, i) => i !== index));
     };
@@ -478,9 +409,9 @@ const handleRemoveTest = (index, dataType) => {
       case 'widal-h':
         updateState(setDatas);
         break;
-      case 'Widal-h':
-         updateState(setDatas);
-         break;
+      case 'widal-h1':
+        updateState(setDatas);
+        break;
       case 'Parasitology':
         updateState(setMarData);
         break;
@@ -488,10 +419,10 @@ const handleRemoveTest = (index, dataType) => {
         updateState(setHerData);
         break;
       case 'liver': 
-         updateState(setSData);
-         break;
+        updateState(setSData);
+        break;
       case 'kidney': 
-         updateState(setSData);
+        updateState(setSData);
         break;
       case 'lipid': 
         updateState(setSData);
@@ -504,777 +435,777 @@ const handleRemoveTest = (index, dataType) => {
     }
   };
 
-
-const handleDelete = async () => {
-  setLoading(true);
-  try {
-    const response = await axios.post('http://localhost:4000/test-booking/delete', {
-      data: { ids: checkedItems }
-    });
-
-    console.log('Deletion response:', response.data);
-
-    // Function to filter tests based on checked items
-    const filterTests = (tests, table) => {
-      if (!Array.isArray(tests)) {
-        console.error(`${table} is not an array:`, tests);
-        return [];
-      }
-      return tests.filter(test => !checkedItems[table]?.includes(test.id));
-    };
-
-    // Remove the tests from the local state
-    setTests(prevTests => filterTests(prevTests, 'tests'));
-    setDatas(prevDatas => filterTests(prevDatas, 'datas'));
-    setSerData(prevSerData => filterTests(prevSerData, 'serology'));
-    setHerData(prevHerData => filterTests(prevHerData, 'herData'));
-    setMalData(prevMalData => filterTests(prevMalData, 'malData'));
-    setMarData(prevMarData => filterTests(prevMarData, 'marData'));
-    setSData(prevSData => filterTests(prevSData, 'sData'));
-    setUrinalysis(prevUrinalysis => filterTests(prevUrinalysis, 'urinalysis'));
-
-    // Update frontend state after successful deletion
-    setCheckedItems({});
-  } catch (error) {
-    console.error('Error deleting test bookings:', error);
-  } finally {
-    setLoading(false);
-  }
-};
-
-
+  const handleDelete = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.post('http://localhost:4000/test-booking/delete', {
+        data: { ids: checkedItems }
+      });
   
+      console.log('Deletion response:', response.data);
+  
+      const filterTests = (stateSetter, stateData, dataType) => {
+        stateSetter(prevState => prevState.filter((_, index) => !checkedItems[dataType]?.includes(index)));
+      };
+  
+      filterTests(setTests, tests, 'tests');
+      filterTests(setDatas, datas, 'datas');
+      filterTests(setSerData, serData, 'serology');
+      filterTests(setHerData, herData, 'Hearmotology');
+      filterTests(setMalData, maldata, 'malData');
+      filterTests(setMarData, marData, 'marData');
+      filterTests(setSData, sData, 'sData');
+      filterTests(setUrinalysis, urinalysis, 'urinalysis');
+  
+      setCheckedItems({});
+    } catch (error) {
+      console.error('Error deleting test bookings:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleChanges = (index, event) => {
+    const newFields = fields.map((field, idx) => {
+      if (idx === index) {
+        return { ...field, value: event.target.value };
+      }
+      return field;
+    });
+    setFields(newFields);
+  };
+
+  // Define Root and CustomTable styled components
+  const Root = styled(Paper)(({ theme }) => ({
+    padding: theme.spacing(2),
+    margin: theme.spacing(2),
+  }));
+
+  const CustomTable = styled(Table)({
+    minWidth: 300,
+  });
+
   return (
-    <Fade in={true} timeout={1000} appear ref={contentRef} id='pdf-content'>
-      <Container
-        maxWidth="lg"
-        sx={{
-          marginTop:750,
-          opacity: 1,
-          transition: 'opacity 1s ease-out',
-          transform: 'translate3d(0, 0, 0)',
-        }}
-      >
-        <Paper sx={{ padding: 4 }}>
-          <Typography variant="h4" gutterBottom>LABORATORY INVESTIGATION REPORT <img align='right' src={company} alt="Company Logo" /></Typography>
-          <Typography variant="h6" align="center" color="primary" gutterBottom>
-  BIODATA
-</Typography>
-<Grid container spacing={3}>
-  <Grid item xs={12} sm={6}>
-    <TextField
-      fullWidth
-      label="Patient ID"
-      name="patient_no"
-      value={patientData.patient_no}
-      onChange={handleChange}
-      variant="outlined"
-      size="medium"
-    />
-  </Grid>
-  <Grid item xs={12} sm={6}>
-    <TextField
-      fullWidth
-      label="Name Of Patient"
-      name="name"
-      value={patientData.name}
-      onChange={handleChange}
-      variant="outlined"
-      size="medium"
-    />
-  </Grid>
-  <Grid item xs={12} sm={6}>
-    <TextField
-      fullWidth
-      label="Lab. No."
-      name="lab_no"
-      value={patientData.lab_no}
-      onChange={handleChange}
-      variant="outlined"
-      size="medium"
-    />
-  </Grid>
-  <Grid item xs={12} sm={2}>
-    <TextField
-      fullWidth
-      label="Age"
-      name="age"
-      value={patientData.age}
-      onChange={handleChange}
-      variant="outlined"
-      size="medium"
-    />
-  </Grid>
-  <Grid item xs={12} sm={2}>
-    <TextField
-      select
-      fullWidth
-      label="Sex"
-      name="sex"
-      value={patientData.sex}
-      onChange={handleChange}
-      variant="outlined"
-      size="medium"
-    >
-      <MenuItem value="MALE">Male</MenuItem>
-      <MenuItem value="FEMALE">Female</MenuItem>
-    </TextField>
-  </Grid>
-  <Grid item xs={12} sm={4}>
-    <TextField
-      fullWidth
-      label="Specimen"
-      name="specimen"
-      value={patientData.specimen}
-      onChange={handleChange}
-      variant="outlined"
-      size="medium"
-    />
-  </Grid>
-  <Grid item xs={12}>
-    <TextField
-      fullWidth
-      label="Investigations"
-      name="investigation"
-      value={patientData.investigation}
-      onChange={handleChange}
-      variant="outlined"
-      size="medium"
-    />
-  </Grid>
-  <Grid item xs={12} sm={6}>
-    <TextField
-      fullWidth
-      label="Date Of Specimen Collection"
-      name="date"
-      type="date"
-      value={patientData.date}
-      onChange={handleChange}
-      variant="outlined"
-      size="medium"
-      InputLabelProps={{
-        shrink: true,
-      }}
-    />
-  </Grid>
-  <Grid item xs={12} sm={6}>
-    <TextField
-      fullWidth
-      label="Time"
-      name="time"
-      type="time"
-      value={patientData.time}
-      onChange={handleChange}
-      variant="outlined"
-      size="medium"
-      InputLabelProps={{
-        shrink: true,
-      }}
-    />
-  </Grid>
-  <Grid item xs={12} sm={6}>
-    <TextField
-      fullWidth
-      label="Referred By"
-      name="referredBy"
-      value={patientData.referredBy}
-      onChange={handleChange}
-      variant="outlined"
-      size="medium"
-    />
-  </Grid>
-</Grid>
-<Typography variant="h6" align="center" color="primary" gutterBottom>SEROLOGY</Typography>
-<TableContainer component={Paper} sx={{ marginTop: 4 }}>
-  <Table>
-    <TableHead>
-      <TableRow>
-        <TableCell align="center"></TableCell>
-        <TableCell align="center">TEST</TableCell>
-        <TableCell align="center">METHODOLOGY</TableCell>
-        <TableCell align="center">RESULT</TableCell>
-      </TableRow>
-    </TableHead>
-    <TableBody>
-      {serData.map((row, index) => (
-        <TableRow key={index}>
-          <TableCell align="center">
-             <Checkbox
-                    checked={checkedItems['serology']?.includes(index)}
-                    onChange={() => handleCheckboxChange('serology', index)}
-                  />
-          </TableCell>
-          <TableCell align="center">
-            <TextField
-              name="test"
-              value={row.test}
-              onChange={(event) => handleSerologyInputChange(index, event)}
-              variant="standard"
-            />
-          </TableCell>
-          <TableCell align="center">
-            <TextField
-              name="methodology"
-              value={row.methodology}
-              onChange={(event) => handleSerologyInputChange(index, event)}
-              variant="standard"
-            />
-          </TableCell>
-          <TableCell align="center">
-            <TextField
-              name="result"
-              value={row.result}
-              onChange={(event) => handleSerologyInputChange(index, event)}
-              variant="standard"
-            />
-          </TableCell>
-        </TableRow>
-      ))}
-    </TableBody>
-  </Table>
-</TableContainer>
+    <Root>
+      <Fade in={true} timeout={1000} appear ref={contentRef} id='pdf-content'>
+        <Container maxWidth={false} sx={{ marginTop: 1000, marginBottom: 60 }}>
+          <Paper sx={{ padding: 4 }}>
+            <Typography variant="h4" gutterBottom>
+              LABORATORY INVESTIGATION REPORT 
+              <img align='right' src={company} alt="Company Logo" />
+            </Typography>
+            <Typography variant="h6" align="center" color="primary" gutterBottom>BIODATA</Typography>
+            <Grid container spacing={3}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="Patient ID"
+                  name="patient_no"
+                  value={patientData.patient_no}
+                  onChange={handleChange}
+                  variant="outlined"
+                  size="medium"
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="Name Of Patient"
+                  name="name"
+                  value={patientData.name}
+                  onChange={handleChange}
+                  variant="outlined"
+                  size="medium"
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="Lab. No."
+                  name="lab_no"
+                  value={patientData.lab_no}
+                  onChange={handleChange}
+                  variant="outlined"
+                  size="medium"
+                />
+              </Grid>
+              <Grid item xs={12} sm={2}>
+                <TextField
+                  fullWidth
+                  label="Age"
+                  name="age"
+                  value={patientData.age}
+                  onChange={handleChange}
+                  variant="outlined"
+                  size="medium"
+                />
+              </Grid>
+              <Grid item xs={12} sm={2}>
+                <TextField
+                  select
+                  fullWidth
+                  label="Sex"
+                  name="sex"
+                  value={patientData.sex}
+                  onChange={handleChange}
+                  variant="outlined"
+                  size="medium"
+                >
+                  <MenuItem value="MALE">Male</MenuItem>
+                  <MenuItem value="FEMALE">Female</MenuItem>
+                </TextField>
+              </Grid>
+              <Grid item xs={12} sm={4}>
+                <TextField
+                  fullWidth
+                  label="Specimen"
+                  name="specimen"
+                  value={patientData.specimen}
+                  onChange={handleChange}
+                  variant="outlined"
+                  size="medium"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Investigations"
+                  name="investigation"
+                  value={patientData.investigation}
+                  onChange={handleChange}
+                  variant="outlined"
+                  size="medium"
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="Date Of Specimen Collection"
+                  name="date"
+                  type="date"
+                  value={patientData.date}
+                  onChange={handleChange}
+                  variant="outlined"
+                  size="medium"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="Time"
+                  name="time"
+                  type="time"
+                  value={patientData.time}
+                  onChange={handleChange}
+                  variant="outlined"
+                  size="medium"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="Referred By"
+                  name="referredBy"
+                  value={patientData.referredBy}
+                  onChange={handleChange}
+                  variant="outlined"
+                  size="medium"
+                />
+              </Grid>
+            </Grid>
 
-<Typography variant="h6" align="center" color="primary" gutterBottom>
-  TYPHOID TEST (WIDAL)
-</Typography>
-<TableContainer component={Paper} sx={{ marginTop: 2, border: '1px solid #000' }}>
-  <Table>
-    <TableHead>
-      <TableRow>
-        <TableCell>&nbsp;</TableCell>
-        <TableCell>Salmonella typhi</TableCell>
-        <TableCell>Paratyphi A</TableCell>
-        <TableCell>Paratyphi B</TableCell>
-        <TableCell>Paratyphi C</TableCell>
-      </TableRow>
-    </TableHead>
-    <TableBody>
-      {datas.map((data, index) => (
-        <React.Fragment key={index}>
-          <TableRow>
-            <TableCell align="center">
-               <Checkbox
-                      checked={checkedItems['Widal-h']?.includes(index)}
-                      onChange={() => handleCheckboxChange('Widal-h', index)}
-                    />
-            </TableCell>
-            <TableCell>ANTIBODY H</TableCell>
-            <TableCell>
-              <TextField
-                name="salmonellaTyphiH"
-                value={data.salmonellaTyphiH}
-                onChange={(event) => handleDataChange(index, event)}
-                variant="standard"
-              />
-            </TableCell>
-            <TableCell>
-              <TextField
-                name="paratyphiAH"
-                value={data.paratyphiAH}
-                onChange={(event) => handleDataChange(index, event)}
-                variant="standard"
-              />
-            </TableCell>
-            <TableCell>
-              <TextField
-                name="paratyphiBH"
-                value={data.paratyphiBH}
-                onChange={(event) => handleDataChange(index, event)}
-                variant="standard"
-              />
-            </TableCell>
-            <TableCell>
-              <TextField
-                name="paratyphiCH"
-                value={data.paratyphiCH}
-                onChange={(event) => handleDataChange(index, event)}
-                variant="standard"
-              />
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="center">
-              <Checkbox
-                      checked={checkedItems['widal-h']?.includes(index)}
-                      onChange={() => handleCheckboxChange('widal-h', index)}
-                    />
-            </TableCell>
-            <TableCell>ANTIBODY O</TableCell>
-            <TableCell>
-              <TextField
-                name="salmonellaTyphiO"
-                value={data.salmonellaTyphiO}
-                onChange={(event) => handleDataChange(index, event)}
-                variant="standard"
-              />
-            </TableCell>
-            <TableCell>
-              <TextField
-                name="paratyphiAO"
-                value={data.paratyphiAO}
-                onChange={(event) => handleDataChange(index, event)}
-                variant="standard"
-              />
-            </TableCell>
-            <TableCell>
-              <TextField
-                name="paratyphiBO"
-                value={data.paratyphiBO}
-                onChange={(event) => handleDataChange(index, event)}
-                variant="standard"
-              />
-            </TableCell>
-            <TableCell>
-              <TextField
-                name="paratyphiCO"
-                value={data.paratyphiCO}
-                onChange={(event) => handleDataChange(index, event)}
-                variant="standard"
-              />
-            </TableCell>
-          </TableRow>
-        </React.Fragment>
-      ))}
-    </TableBody>
-  </Table>
-</TableContainer>
+            {/* Serology Section */}
+            <Typography variant="h6" align="center" color="primary" gutterBottom>SEROLOGY</Typography>
+            <TableContainer component={Paper} sx={{ marginTop: 4 }}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell align="center"></TableCell>
+                    <TableCell align="center">TEST</TableCell>
+                    <TableCell align="center">METHODOLOGY</TableCell>
+                    <TableCell align="center">RESULT</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {serData.map((row, index) => (
+                    <TableRow key={index}>
+                      <TableCell align="center">
+                        <Checkbox
+                          checked={checkedItems['serology']?.includes(index)}
+                          onChange={() => handleCheckboxChange('serology', index)}
+                        />
+                      </TableCell>
+                      <TableCell align="center">
+                        <TextField
+                          name="test"
+                          value={row.test}
+                          onChange={(event) => handleSerologyInputChange(index, event)}
+                          variant="standard"
+                        />
+                      </TableCell>
+                      <TableCell align="center">
+                        <TextField
+                          name="methodology"
+                          value={row.methodology}
+                          onChange={(event) => handleSerologyInputChange(index, event)}
+                          variant="standard"
+                        />
+                      </TableCell>
+                      <TableCell align="center">
+                        <TextField
+                          name="result"
+                          value={row.result}
+                          onChange={(event) => handleSerologyInputChange(index, event)}
+                          variant="standard"
+                        />
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
 
-<Typography variant="body2" align="justify" sx={{ marginTop: 6 }}>
-  <strong>REFERENCE RANGES</strong><br />
-  Salmonellas: Significant value Titres ≥1/80 (O antibodies) and 1/160 (H antibodies) indicates recent infection.
-</Typography>
+            {/* Typhoid Test (Widal) Section */}
+            <Typography variant="h6" align="center" color="primary" gutterBottom>TYPHOID TEST (WIDAL)</Typography>
+            <TableContainer component={Paper} sx={{ marginTop: 2, border: '1px solid #000' }}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>&nbsp;</TableCell>
+                    <TableCell>Salmonella typhi</TableCell>
+                    <TableCell>Paratyphi A</TableCell>
+                    <TableCell>Paratyphi B</TableCell>
+                    <TableCell>Paratyphi C</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {datas.map((data, index) => (
+                    <React.Fragment key={index}>
+                      <TableRow>
+                        <TableCell align="center">
+                          <Checkbox
+                            checked={checkedItems['Widal-h']?.includes(index)}
+                            onChange={() => handleCheckboxChange('Widal-h', index)}
+                          />
+                        </TableCell>
+                        <TableCell>ANTIBODY H</TableCell>
+                        <TableCell>
+                          <TextField
+                            name="salmonellaTyphiH"
+                            value={data.salmonellaTyphiH}
+                            onChange={(event) => handleDataChange(index, event)}
+                            variant="standard"
+                          />
+                        </TableCell>
+                        <TableCell>
+                          <TextField
+                            name="paratyphiAH"
+                            value={data.paratyphiAH}
+                            onChange={(event) => handleDataChange(index, event)}
+                            variant="standard"
+                          />
+                        </TableCell>
+                        <TableCell>
+                          <TextField
+                            name="paratyphiBH"
+                            value={data.paratyphiBH}
+                            onChange={(event) => handleDataChange(index, event)}
+                            variant="standard"
+                          />
+                        </TableCell>
+                        <TableCell>
+                          <TextField
+                            name="paratyphiCH"
+                            value={data.paratyphiCH}
+                            onChange={(event) => handleDataChange(index, event)}
+                            variant="standard"
+                          />
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell align="center">
+                          <Checkbox
+                            checked={checkedItems['widal-h1']?.includes(index)}
+                            onChange={() => handleCheckboxChange('widal-h1', index)}
+                          />
+                        </TableCell>
+                        <TableCell>ANTIBODY O</TableCell>
+                        <TableCell>
+                          <TextField
+                            name="salmonellaTyphiO"
+                            value={data.salmonellaTyphiO}
+                            onChange={(event) => handleDataChange(index, event)}
+                            variant="standard"
+                          />
+                        </TableCell>
+                        <TableCell>
+                          <TextField
+                            name="paratyphiAO"
+                            value={data.paratyphiAO}
+                            onChange={(event) => handleDataChange(index, event)}
+                            variant="standard"
+                          />
+                        </TableCell>
+                        <TableCell>
+                          <TextField
+                            name="paratyphiBO"
+                            value={data.paratyphiBO}
+                            onChange={(event) => handleDataChange(index, event)}
+                            variant="standard"
+                          />
+                        </TableCell>
+                        <TableCell>
+                          <TextField
+                            name="paratyphiCO"
+                            value={data.paratyphiCO}
+                            onChange={(event) => handleDataChange(index, event)}
+                            variant="standard"
+                          />
+                        </TableCell>
+                      </TableRow>
+                    </React.Fragment>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
 
-<Typography variant="h6" align="center" sx={{ color: '#00b0f0', marginBottom: 0, lineHeight: '115%' }}>
-  PARASITOLOGY
-</Typography>
-<TableContainer component={Paper} sx={{ marginTop: 0, border: '0.75pt solid #000000' }}>
-  <Table sx={{ borderCollapse: 'collapse' }}>
-    <TableHead>
-      <TableRow sx={{ height: '4.6pt' }}>
-        <TableCell sx={{ borderRight: '0.75pt solid #000000', borderBottom: '0.75pt solid #000000', padding: '5.03pt', verticalAlign: 'top' }}>
-          <Typography variant="body2" align="justify" sx={{ lineHeight: '115%', fontFamily: 'Century Gothic', fontWeight: 'bold' }}>
-            TEST
-          </Typography>
-        </TableCell>
-        <TableCell sx={{ borderRight: '0.75pt solid #000000', borderLeft: '0.75pt solid #000000', borderBottom: '0.75pt solid #000000', padding: '5.03pt', verticalAlign: 'top' }}>
-          <Typography variant="body2" align="justify" sx={{ lineHeight: '115%', fontFamily: 'Century Gothic', fontWeight: 'bold' }}>
-            METHODOLOGY
-          </Typography>
-        </TableCell>
-        <TableCell sx={{ borderLeft: '0.75pt solid #000000', borderBottom: '0.75pt solid #000000', padding: '5.03pt', verticalAlign: 'top' }}>
-          <Typography variant="body2" align="center" sx={{ lineHeight: '115%', fontFamily: 'Century Gothic', fontWeight: 'bold' }}>
-            RESULTS
-          </Typography>
-        </TableCell>
-      </TableRow>
-    </TableHead>
-    <TableBody>
-      {marData.map((row, index) => (
-        <EditableParasitologyTableRow
-          key={index}
-          row={row}
-          index={index}
-          handleInputChange={handleMalDataChange}
-        />
-      ))}
-    </TableBody>
-  </Table>
-</TableContainer>
+            <Typography variant="body2" align="justify" sx={{ marginTop: 6 }}>
+              <strong>REFERENCE RANGES</strong><br />
+              Salmonellas: Significant value Titres ≥1/80 (O antibodies) and 1/160 (H antibodies) indicates recent infection.
+            </Typography>
 
-<Typography variant="body2" align="center" sx={{ lineHeight: '115%', fontSize: '14pt', color: '#4f81bd' }}>
-  &nbsp;
-</Typography>
-<Typography variant="h5" style={{ marginBottom: '16px', color: '#00b0f0', fontFamily: 'Century Gothic' }}>
-        HAEMATOLOGY AND COAGULATION STUDIES
-      </Typography>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell></TableCell>
-              <TableCell><strong>INVESTIGATION</strong></TableCell>
-              <TableCell align="center"><strong>RESULT</strong></TableCell>
-              <TableCell><strong>REFERENCE RANGE</strong></TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {herData.map((row, index) => (
-              <TableRow key={index}>
-                <TableCell align="center">
-               <Checkbox
-                      checked={checkedItems['Hearmotology']?.includes(index)}
-                      onChange={() => handleCheckboxChange('Hearmotology', index)}
-                    />
-             </TableCell>
-                <TableCell>{row.investigation}</TableCell>
-                <TableCell align="center">
-                  <TextField
-                    value={row.result}
-                    onChange={(e) => handleInputChange(index, 'result', e.target.value)}
-                    variant="outlined"
-                    size="small"
-                  />
-                </TableCell>
-                <TableCell>{row.referenceRange}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <Typography variant="h6" style={{ marginTop: '16px', textAlign: 'center' }}><strong>Comments</strong></Typography>
-      <Typography variant="body1"><u>Blood film review</u></Typography>
-      <Typography variant="body1">
-        Red Blood Cells: 
-        <TextField
-          value={comments.redBloodCells}
-          onChange={(e) => handleCommentsChange('redBloodCells', e.target.value)}
-          variant="outlined"
-          size="small"
-          fullWidth
-          multiline
-          style={{ marginTop: '8px' }}
-        />
-      </Typography>
-      <Typography variant="body1">
-        White Blood Cells: 
-        <TextField
-          value={comments.whiteBloodCells}
-          onChange={(e) => handleCommentsChange('whiteBloodCells', e.target.value)}
-          variant="outlined"
-          size="small"
-          fullWidth
-          multiline
-          style={{ marginTop: '8px' }}
-        />
-      </Typography>
-      <Typography variant="body1">
-        Platelets: 
-        <TextField
-          value={comments.platelets}
-          onChange={(e) => handleCommentsChange('platelets', e.target.value)}
-          variant="outlined"
-          size="small"
-          fullWidth
-          multiline
-          style={{ marginTop: '8px' }}
-        />
-      </Typography>
-      <Typography variant="h5" align="center" gutterBottom>
-        <strong>MEDICAL MICROBIOLOGY</strong>
-      </Typography>
-      <TableContainer component={Paper} style={{ marginBottom: '20px' }}>
-        <Table style={{ border: '0.75pt solid #000000' }}>
-          <TableBody>
-            <TableRow>
-              <TableCell style={{ width: '2.05pt', borderLeft: '0.75pt solid #000000', borderBottom: '0.75pt solid #000000', paddingRight: '1.03pt', paddingLeft: '1.03pt', verticalAlign: 'top' }}></TableCell>
-              <TableCell style={{ width: '144.95pt', borderRight: '0.75pt solid #000000', borderBottom: '0.75pt solid #000000', paddingRight: '5.03pt', paddingLeft: '5.03pt', verticalAlign: 'top' }}>
-                <Typography variant="h6"><strong>URINALYSIS</strong></Typography>
-              </TableCell>
-              <TableCell style={{ width: '145.05pt', borderLeft: '0.75pt solid #000000', borderBottom: '0.75pt solid #000000', paddingRight: '5.03pt', paddingLeft: '5.03pt', verticalAlign: 'top' }}></TableCell>
-            </TableRow>
-            {urinalysis.map((test, index) => (
-              <React.Fragment key={index}>
-                {Object.entries(test).map(([key, value]) => (
-                  <TableRow key={index}>
-                    <TableCell align="center">
-                    <Checkbox
-                      checked={checkedItems['urinalysis']?.includes(index)}
-                      onChange={() => handleCheckboxChange('urinalysis', index)}
-                    />
+            {/* Parasitology Section */}
+            <Typography variant="h6" align="center" sx={{ color: '#00b0f0', marginBottom: 0, lineHeight: '115%' }}>
+              PARASITOLOGY
+            </Typography>
+            <TableContainer component={Paper} sx={{ marginTop: 0, border: '0.75pt solid #000000' }}>
+              <Table sx={{ borderCollapse: 'collapse' }}>
+                <TableHead>
+                  <TableRow sx={{ height: '4.6pt' }}>
+                    <TableCell sx={{ borderRight: '0.75pt solid #000000', borderBottom: '0.75pt solid #000000', padding: '5.03pt', verticalAlign: 'top' }}>
+                      <Typography variant="body2" align="justify" sx={{ lineHeight: '115%', fontFamily: 'Century Gothic', fontWeight: 'bold' }}>
+                        TEST
+                      </Typography>
                     </TableCell>
-                    <TableCell style={{ width: '144.95pt', borderTop: '0.75pt solid #000000', borderRight: '0.75pt solid #000000', borderBottom: '0.75pt solid #000000', paddingRight: '5.03pt', paddingLeft: '5.03pt', verticalAlign: 'top' }}>
-                      <Typography variant="body1">{key}</Typography>
+                    <TableCell sx={{ borderRight: '0.75pt solid #000000', borderLeft: '0.75pt solid #000000', borderBottom: '0.75pt solid #000000', padding: '5.03pt', verticalAlign: 'top' }}>
+                      <Typography variant="body2" align="justify" sx={{ lineHeight: '115%', fontFamily: 'Century Gothic', fontWeight: 'bold' }}>
+                        METHODOLOGY
+                      </Typography>
                     </TableCell>
-                    <TableCell style={{ width: '145.05pt', borderTop: '0.75pt solid #000000', borderLeft: '0.75pt solid #000000', borderBottom: '0.75pt solid #000000', paddingRight: '5.03pt', paddingLeft: '5.03pt', verticalAlign: 'top' }}>
-                      <TextField
-                        name={key}
-                        value={value}
-                        onChange={handleUrinalysisChange}
-                        fullWidth
-                        margin="normal"
-                        variant="outlined"
-                      />
+                    <TableCell sx={{ borderLeft: '0.75pt solid #000000', borderBottom: '0.75pt solid #000000', padding: '5.03pt', verticalAlign: 'top' }}>
+                      <Typography variant="body2" align="center" sx={{ lineHeight: '115%', fontFamily: 'Century Gothic', fontWeight: 'bold' }}>
+                        RESULTS
+                      </Typography>
                     </TableCell>
                   </TableRow>
-                ))}
-              </React.Fragment>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+                </TableHead>
+                <TableBody>
+                  {marData.map((row, index) => (
+                    <EditableParasitologyTableRow
+                      key={index}
+                      row={row}
+                      index={index}
+                      handleInputChange={handleMalDataChange}
+                    />
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+
+            {/* Haematology Section */}
             <Typography variant="h6" component="div" gutterBottom>
-        <strong style={{ color: '#00b0f0' }}>CHEMICAL PATHOLOGY (CHEMISTRY)</strong>
-      </Typography>
-      <TableContainer component={Paper} style={{ width: '514.65pt', marginRight: '9pt', marginLeft: '9pt' }}>
-        <Table aria-label="chemical pathology table" style={{ borderCollapse: 'collapse', float: 'left' }}>
-          <TableHead>
-            <TableRow style={{ height: '10.8pt' }}>
-              
-              <TableCell style={{ width: '95.75pt', border: '0.75pt solid #000000', paddingRight: '5.03pt', paddingLeft: '5.03pt', verticalAlign: 'top' }}>
-                <strong>INVESTIGATION</strong>
-              </TableCell>
-              <TableCell style={{ width: '144.9pt', border: '0.75pt solid #000000', paddingRight: '5.03pt', paddingLeft: '5.03pt', verticalAlign: 'top' }}>
-                <strong>METHODOLOGY</strong>
-              </TableCell>
-              <TableCell colSpan={2} style={{ width: '79.1pt', border: '0.75pt solid #000000', paddingRight: '5.03pt', paddingLeft: '5.03pt', verticalAlign: 'top' }}>
-                <strong>VALUE</strong>
-              </TableCell>
-              <TableCell colSpan={2} style={{ width: '150.95pt', border: '0.75pt solid #000000', paddingRight: '5.03pt', paddingLeft: '5.03pt', verticalAlign: 'top' }}>
-                <strong>REFERENCE RANGES</strong>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {sData.map((sdata, index) => (
-            <React.Fragment key={index}>
-            <TableRow >
-              <TableCell colSpan={6} style={{ width: '503.1pt', border: '0.75pt solid #000000', paddingRight: '5.03pt', paddingLeft: '5.03pt', verticalAlign: 'top' }}>
-                <strong>LIVER FUNCTION TEST</strong>
-              </TableCell>
-            </TableRow>
-            <Checkbox
-                      checked={checkedItems['liver']?.includes(index)}
-                      onChange={() => handleCheckboxChange('liver', index)}
-                    />
-            <TableRow>
-              <TableCell>Bilirubin Total</TableCell>
-              <TableCell>Modified TAB (End Point)</TableCell>
-              <TableCell colSpan={2}>
-                <TextField
-                  name="bilirubinTotal"
-                  value={sdata.bilirubinTotal}
-                  onChange={handleChangei}
-                  variant="outlined"
-                  size="small"
-                />
-              </TableCell>
-              <TableCell colSpan={2}>&lt;1.3 mg/dL</TableCell>
-            </TableRow>
-            {/* Add more liver function test rows here */}
-            {/* Kidney Function Test */}
-            <TableRow>
-              <TableCell colSpan={6} style={{ width: '503.1pt', border: '0.75pt solid #000000', paddingRight: '5.03pt', paddingLeft: '5.03pt', verticalAlign: 'top' }}>
-                <strong>KIDNEY FUNCTION TEST</strong>
-              </TableCell>
-            </TableRow>
-             <Checkbox
-                      checked={checkedItems['kidney']?.includes(index)}
-                      onChange={() => handleCheckboxChange('kidney', index)}
-                    />
-            <TableRow>
-              <TableCell>Urea</TableCell>
-              <TableCell colSpan={2}>Modified Berthelot (End Point)</TableCell>
-              <TableCell colSpan={2}>
-                <TextField
-                  name="urea"
-                  value={sdata.urea}
-                  onChange={handleChangei}
-                  variant="outlined"
-                  size="small"
-                />
-              </TableCell>
-              <TableCell>10-55 mg/dL</TableCell>
-            </TableRow>
-            {/* Add more kidney function test rows here */}
-            {/* Lipid Profile */}
-            <TableRow>
-              <TableCell colSpan={6} style={{ width: '503.1pt', border: '0.75pt solid #000000', paddingRight: '5.03pt', paddingLeft: '5.03pt', verticalAlign: 'top' }}>
-                <strong>LIPID PROFILE</strong>
-              </TableCell>
-            </TableRow>
-             <Checkbox
-                      checked={checkedItems['lipid']?.includes(index)}
-                      onChange={() => handleCheckboxChange('lipid', index)}
-                    />
-            <TableRow>
-              <TableCell>Total Cholesterol</TableCell>
-              <TableCell colSpan={2}>CHOD- PAP Method</TableCell>
-              <TableCell colSpan={2}>
-                <TextField
-                  name="totalCholesterol"
-                  value={sdata.totalCholesterol}
-                  onChange={handleChangei}
-                  variant="outlined"
-                  size="small"
-                />
-              </TableCell>
-              <TableCell>
-                <p style={{ marginBottom: '0pt' }}>Rec: &lt;200mg/dL</p>
-                <p style={{ marginBottom: '0pt' }}>Low risk: 200- 239 mg/dL</p>
-                <p style={{ marginBottom: '0pt', lineHeight: 'normal' }}>High Risk: &ge; 240 mg/dL</p>
-              </TableCell>
-            </TableRow>
-            {/* Add more lipid profile rows here */}
-            {/* Blood Sugar Test */}
-            <TableRow>
-              <TableCell colSpan={6} style={{ width: '503.1pt', border: '0.75pt solid #000000', paddingRight: '5.03pt', paddingLeft: '5.03pt', verticalAlign: 'top' }}>
-                <strong>BLOOD SUGAR TEST</strong>
-              </TableCell>
-            </TableRow>
-            <Checkbox
-                      checked={checkedItems['blood']?.includes(index)}
-                      onChange={() => handleCheckboxChange('blood', index)}
-                    />
-            <TableRow>
-              <TableCell>Fasting Blood Sugar</TableCell>
-              <TableCell colSpan={2}>Glucometer</TableCell>
-              <TableCell colSpan={2}>
-                <TextField
-                  name="fastingBloodSugar"
-                  value={sdata.fastingBloodSugar}
-                  onChange={handleChangei}
-                  variant="outlined"
-                  size="small"
-                />
-              </TableCell>
-              <TableCell>80 - 120 mg/dL</TableCell>
-            </TableRow>
-            </React.Fragment>
-            ))}
-            {/* Add more blood sugar test rows here */}
-          </TableBody>
-        </Table>
-      </TableContainer>
-          <Typography variant="h6" align="center" color="primary" gutterBottom>OVERALL TESTS</Typography>
-          {tests.map((test, index) => (
-            <Grid container spacing={3} key={index}>
-              <Grid item xs={12} sm={4}>
-                <TextField
-                  fullWidth
-                  label="Test ID"
-                  name="id"
-                  value={test.id}
-                  onChange={(e) => handleTestChange(index, 'id', e.target.value)}
-                  variant="outlined"
-                  size="medium"
-                />
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <TextField
-                  fullWidth
-                  label="Test Name"
-                  name="name"
-                  value={test.name}
-                  onChange={(e) => handleTestChange(index, 'name', e.target.value)}
-                  variant="outlined"
-                  size="medium"
-                />
-              </Grid>
-              <Grid item xs={12} sm={2}>
-                <TextField
-                  fullWidth
-                  label="Rate"
-                  name="rate"
-                  value={test.rate}
-                  onChange={(e) => handleTestChange(index, 'rate', e.target.value)}
-                  variant="outlined"
-                  size="medium"
-                  type="number"
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Reference Range"
-                  name="referenceRange"
-                  value={test.referenceRange}
-                  onChange={(e) => handleTestChange(index, 'referenceRange', e.target.value)}
-                  variant="outlined"
-                  size="medium"
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Interpretation"
-                  name="interpretation"
-                  value={test.interpretation}
-                  onChange={(e) => handleTestChange(index, 'interpretation', e.target.value)}
-                  variant="outlined"
-                  size="medium"
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Price"
-                  name="price_naira"
-                  value={`${test.price_naira}`}
-                  onChange={(e) => handleTestChange(index, 'price_naira', e.target.value)}
-                  variant="outlined"
-                  size="medium"
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Remark"
-                  name="remark"
-                  value={test.remark}
-                  onChange={(e) => handleTestChange(index, 'remark', e.target.value)}
-                  variant="outlined"
-                  size="medium"
-                />
-              </Grid>
-              <Grid item xs={12} sm={2}>
-                <Button variant="outlined" color="secondary" onClick={() => handleRemoveTest(index)}>Remove</Button>
-              </Grid>
-            </Grid>
-          ))}
-        <Root>
-      <Typography variant="h6" gutterBottom>
-        MEDICAL REPORTS
-      </Typography>
-      <TableContainer>
-        <CustomTable aria-label="simple table">
-          <TableBody>
-            {fields.map((field, index) => (
-              <TableRow key={index}>
-                <TableCell component="th" scope="row">
-                  {field.label}:
-                </TableCell>
-                <TableCell>
+              <strong style={{ color: '#00b0f0' }}>HAEMATOLOGY AND COAGULATION STUDIES</strong>
+            </Typography>
+            <TableContainer component={Paper}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell></TableCell>
+                    <TableCell><strong>INVESTIGATION</strong></TableCell>
+                    <TableCell align="center"><strong>RESULT</strong></TableCell>
+                    <TableCell><strong>REFERENCE RANGE</strong></TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {herData.map((row, index) => (
+                    <TableRow key={index}>
+                      <TableCell align="center">
+                        <Checkbox
+                          checked={checkedItems['Hearmotology']?.includes(index)}
+                          onChange={() => handleCheckboxChange('Hearmotology', index)}
+                        />
+                      </TableCell>
+                      <TableCell>{row.investigation}</TableCell>
+                      <TableCell align="center">
+                        <TextField
+                          value={row.result}
+                          onChange={(e) => handleInputChange(index, 'result', e.target.value)}
+                          variant="outlined"
+                          size="small"
+                        />
+                      </TableCell>
+                      <TableCell>{row.referenceRange}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <Typography variant="h6" style={{ marginTop: '16px', textAlign: 'center' }}><strong>Comments</strong></Typography>
+            <Typography variant="body1"><u>Blood film review</u></Typography>
+            <Typography variant="body1">
+              Red Blood Cells: 
+              <TextField
+                value={comments.redBloodCells}
+                onChange={(e) => handleCommentsChange('redBloodCells', e.target.value)}
+                variant="outlined"
+                size="small"
+                fullWidth
+                multiline
+                style={{ marginTop: '8px' }}
+              />
+            </Typography>
+            <Typography variant="body1">
+              White Blood Cells: 
+              <TextField
+                value={comments.whiteBloodCells}
+                onChange={(e) => handleCommentsChange('whiteBloodCells', e.target.value)}
+                variant="outlined"
+                size="small"
+                fullWidth
+                multiline
+                style={{ marginTop: '8px' }}
+              />
+            </Typography>
+            <Typography variant="body1">
+              Platelets: 
+              <TextField
+                value={comments.platelets}
+                onChange={(e) => handleCommentsChange('platelets', e.target.value)}
+                variant="outlined"
+                size="small"
+                fullWidth
+                multiline
+                style={{ marginTop: '8px' }}
+              />
+            </Typography>
+
+            {/* Medical Microbiology Section */}
+            <Typography variant="h6" align="center" gutterBottom>
+              <strong>MEDICAL MICROBIOLOGY</strong>
+            </Typography>
+            <TableContainer component={Paper} style={{ marginBottom: '20px' }}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+
+                    <TableCell width={0.5}></TableCell>
+                    <TableCell width={400}><strong>URINALYSIS</strong></TableCell>
+                    <TableCell width={500}></TableCell>
+                    <TableCell width={400}></TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {urinalysis.map((row, index) => (
+                    <React.Fragment key={index}>
+                      {Object.entries(row).map(([key, value]) => (
+                        <TableRow key={index}>
+                          <TableCell align="center">
+                            <Checkbox
+                              checked={checkedItems['urinalysis']?.includes(index)}
+                              onChange={() => handleCheckboxChange('urinalysis', index)}
+                            />
+                          </TableCell>
+                          <TableCell style={{ width: '144.95pt', borderTop: '0.75pt solid #000000', borderRight: '0.75pt solid #000000', borderBottom: '0.75pt solid #000000', paddingRight: '5.03pt', paddingLeft: '5.03pt', verticalAlign: 'top' }}>
+                            <Typography variant="body1">{row.urinalysis}</Typography>
+                          </TableCell>
+                          <TableCell style={{ width: '145.05pt', borderTop: '0.75pt solid #000000', borderLeft: '0.75pt solid #000000', borderBottom: '0.75pt solid #000000', paddingRight: '5.03pt', paddingLeft: '5.03pt', verticalAlign: 'top' }}>
+                            <TextField
+                              name={key}
+                              value={value}
+                              onChange={(e) => handleInputChange(index, 'result', e.target.value)}
+                              fullWidth
+                              margin="normal"
+                              variant="outlined"
+                            />
+                          </TableCell>
+                          <TableCell>{row.methodology}</TableCell>
+                        </TableRow>
+                      ))}
+                    </React.Fragment>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+
+            {/* Chemical Pathology Section */}
+            <Typography variant="h6" component="div" gutterBottom>
+              <strong style={{ color: '#00b0f0' }}>CHEMICAL PATHOLOGY (CHEMISTRY)</strong>
+            </Typography>
+            <TableContainer component={Paper} style={{ width: '514.65pt', marginRight: '9pt', marginLeft: '9pt' }}>
+              <Table aria-label="chemical pathology table" style={{ borderCollapse: 'collapse', float: 'left' }}>
+                <TableHead>
+                  <TableRow style={{ height: '10.8pt' }}>
+                    <TableCell style={{ width: '95.75pt', border: '0.75pt solid #000000', paddingRight: '5.03pt', paddingLeft: '5.03pt', verticalAlign: 'top' }}>
+                      <strong>INVESTIGATION</strong>
+                    </TableCell>
+                    <TableCell style={{ width: '144.9pt', border: '0.75pt solid #000000', paddingRight: '5.03pt', paddingLeft: '5.03pt', verticalAlign: 'top' }}>
+                      <strong>METHODOLOGY</strong>
+                    </TableCell>
+                    <TableCell colSpan={2} style={{ width: '79.1pt', border: '0.75pt solid #000000', paddingRight: '5.03pt', paddingLeft: '5.03pt', verticalAlign: 'top' }}>
+                      <strong>VALUE</strong>
+                    </TableCell>
+                    <TableCell colSpan={2} style={{ width: '150.95pt', border: '0.75pt solid #000000', paddingRight: '5.03pt', paddingLeft: '5.03pt', verticalAlign: 'top' }}>
+                      <strong>REFERENCE RANGES</strong>
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {sData.map((sdata, index) => (
+                    <React.Fragment key={index}>
+                      <TableRow>
+                        <TableCell colSpan={6} style={{ width: '503.1pt', border: '0.75pt solid #000000', paddingRight: '5.03pt', paddingLeft: '5.03pt', verticalAlign: 'top' }}>
+                          <strong>LIVER FUNCTION TEST</strong>
+                        </TableCell>
+                      </TableRow>
+                      <Checkbox
+                        checked={checkedItems['liver']?.includes(index)}
+                        onChange={() => handleCheckboxChange('liver', index)}
+                      />
+                      <TableRow>
+                        <TableCell>Bilirubin Total</TableCell>
+                        <TableCell>Modified TAB (End Point)</TableCell>
+                        <TableCell colSpan={2}>
+                          <TextField
+                            name="bilirubinTotal"
+                            value={sdata.bilirubinTotal}
+                            onChange={handleChangei}
+                            variant="outlined"
+                            size="small"
+                          />
+                        </TableCell>
+                        <TableCell colSpan={2}>&lt;1.3 mg/dL</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell colSpan={6} style={{ width: '503.1pt', border: '0.75pt solid #000000', paddingRight: '5.03pt', paddingLeft: '5.03pt', verticalAlign: 'top' }}>
+                          <strong>KIDNEY FUNCTION TEST</strong>
+                        </TableCell>
+                      </TableRow>
+                      <Checkbox
+                        checked={checkedItems['kidney']?.includes(index)}
+                        onChange={() => handleCheckboxChange('kidney', index)}
+                      />
+                      <TableRow>
+                        <TableCell>Urea</TableCell>
+                        <TableCell colSpan={2}>Modified Berthelot (End Point)</TableCell>
+                        <TableCell colSpan={2}>
+                          <TextField
+                            name="urea"
+                            value={sdata.urea}
+                            onChange={handleChangei}
+                            variant="outlined"
+                            size="small"
+                          />
+                        </TableCell>
+                        <TableCell>10-55 mg/dL</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell colSpan={6} style={{ width: '503.1pt', border: '0.75pt solid #000000', paddingRight: '5.03pt', paddingLeft: '5.03pt', verticalAlign: 'top' }}>
+                          <strong>LIPID PROFILE</strong>
+                        </TableCell>
+                      </TableRow>
+                      <Checkbox
+                        checked={checkedItems['lipid']?.includes(index)}
+                        onChange={() => handleCheckboxChange('lipid', index)}
+                      />
+                      <TableRow>
+                        <TableCell>Total Cholesterol</TableCell>
+                        <TableCell colSpan={2}>CHOD- PAP Method</TableCell>
+                        <TableCell colSpan={2}>
+                          <TextField
+                            name="totalCholesterol"
+                            value={sdata.totalCholesterol}
+                            onChange={handleChangei}
+                            variant="outlined"
+                            size="small"
+                          />
+                        </TableCell>
+                        <TableCell>
+                          <p style={{ marginBottom: '0pt' }}>Rec: &lt;200mg/dL</p>
+                          <p style={{ marginBottom: '0pt' }}>Low risk: 200- 239 mg/dL</p>
+                          <p style={{ marginBottom: '0pt', lineHeight: 'normal' }}>High Risk: &ge; 240 mg/dL</p>
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell colSpan={6} style={{ width: '503.1pt', border: '0.75pt solid #000000', paddingRight: '5.03pt', paddingLeft: '5.03pt', verticalAlign: 'top' }}>
+                          <strong>BLOOD SUGAR TEST</strong>
+                        </TableCell>
+                      </TableRow>
+                      <Checkbox
+                        checked={checkedItems['blood']?.includes(index)}
+                        onChange={() => handleCheckboxChange('blood', index)}
+                      />
+                      <TableRow>
+                        <TableCell>Fasting Blood Sugar</TableCell>
+                        <TableCell colSpan={2}>Glucometer</TableCell>
+                        <TableCell colSpan={2}>
+                          <TextField
+                            name="fastingBloodSugar"
+                            value={sdata.fastingBloodSugar}
+                            onChange={handleChangei}
+                            variant="outlined"
+                            size="small"
+                          />
+                        </TableCell>
+                        <TableCell>80 - 120 mg/dL</TableCell>
+                      </TableRow>
+                    </React.Fragment>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+
+            {/* Overall Tests Section */}
+            <Typography variant="h6" align="center" color="primary" gutterBottom>OVERALL TESTS</Typography>
+            {tests.map((test, index) => (
+              <Grid container spacing={3} key={index}>
+                <Grid item xs={12} sm={4}>
                   <TextField
-                    value={field.value}
-                    onChange={(event) => handleChanges(index, event)}
-                    variant="outlined"
-                    size="small"
                     fullWidth
+                    label="Test ID"
+                    name="id"
+                    value={test.id}
+                    onChange={(e) => handleTestChange(index, 'id', e.target.value)}
+                    variant="outlined"
+                    size="medium"
                   />
-                </TableCell>
-              </TableRow>
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <TextField
+                    fullWidth
+                    label="Test Name"
+                    name="name"
+                    value={test.name}
+                    onChange={(e) => handleTestChange(index, 'name', e.target.value)}
+                    variant="outlined"
+                    size="medium"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={2}>
+                  <TextField
+                    fullWidth
+                    label="Rate"
+                    name="rate"
+                    value={test.rate}
+                    onChange={(e) => handleTestChange(index, 'rate', e.target.value)}
+                    variant="outlined"
+                    size="medium"
+                    type="number"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    label="Reference Range"
+                    name="referenceRange"
+                    value={test.referenceRange}
+                    onChange={(e) => handleTestChange(index, 'referenceRange', e.target.value)}
+                    variant="outlined"
+                    size="medium"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    label="Interpretation"
+                    name="interpretation"
+                    value={test.interpretation}
+                    onChange={(e) => handleTestChange(index, 'interpretation', e.target.value)}
+                    variant="outlined"
+                    size="medium"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    label="Price"
+                    name="price_naira"
+                    value={`${test.price_naira}`}
+                    onChange={(e) => handleTestChange(index, 'price_naira', e.target.value)}
+                    variant="outlined"
+                    size="medium"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    label="Remark"
+                    name="remark"
+                    value={test.remark}
+                    onChange={(e) => handleTestChange(index, 'remark', e.target.value)}
+                    variant="outlined"
+                    size="medium"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={2}>
+                  <Button variant="outlined" color="secondary" onClick={() => handleRemoveTest(index)}>Remove</Button>
+                </Grid>
+              </Grid>
             ))}
-          </TableBody>
-        </CustomTable>
-      </TableContainer>
-      <Typography variant="body2" gutterBottom>
-        END OF MEDICAL REPORTS 
-      </Typography>
-      {authorizedBy && (
-        <Typography variant="body2" gutterBottom>
-          AUTHORIZED BY: {authorizedBy.name} ({authorizedBy.title})
-        </Typography>
-      )}
-      <Button variant="contained" color="primary" onClick={() => console.log(fields)}>
-        Save
-      </Button>
+            
+            {/* Medical Reports Section */}
+            <Root>
+              <Typography variant="h6" gutterBottom>MEDICAL REPORTS</Typography>
+              <TableContainer>
+                <CustomTable aria-label="simple table">
+                  <TableBody>
+                    {fields.map((field, index) => (
+                      <TableRow key={index}>
+                        <TableCell component="th" scope="row">{field.label}:</TableCell>
+                        <TableCell>
+                          <TextField
+                            value={field.value}
+                            onChange={(event) => handleChanges(index, event)}
+                            variant="outlined"
+                            size="small"
+                            fullWidth
+                          />
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </CustomTable>
+              </TableContainer>
+              <Typography variant="body2" gutterBottom>END OF MEDICAL REPORTS</Typography>
+              {authorizedBy && (
+                <Typography variant="body2" gutterBottom>
+                  AUTHORIZED BY: {authorizedBy.name} ({authorizedBy.title})
+                </Typography>
+              )}
+              <Button variant="contained" color="primary" onClick={() => console.log(fields)}>Save</Button>
+            </Root>
+
+            {/* Buttons Section */}
+            <Grid container spacing={3} sx={{ marginTop: 3 }}>
+              <Grid item xs={12} sm={6}>
+                <Button fullWidth variant="contained" color="secondary" onClick={handleDelete}>DELETE</Button>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Button variant="contained" color="primary" onClick={handleSavePdf}>SAVE AS PDF</Button>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+              </Grid>
+            </Grid>
+            <Button variant="outlined" color="primary" onClick={handleAddTest}>Add Test</Button>
+          </Paper>
+        </Container>
+      </Fade>
     </Root>
-    <div>
-    </div>
-<Button fullWidth variant="contained" color="secondary" onClick={handleDelete}>DELETE</Button>
-          <Button variant="outlined" color="primary" onClick={handleAddTest}>Add Test</Button>
-          <Grid container spacing={3} sx={{ marginTop: 3 }}>
-            <Grid item xs={12} sm={6}>
-            <Button fullWidth variant="contained" color="primary" onClick={handlePrint}>Download Data</Button>
-              <Button fullWidth variant="contained" color="primary" onClick={handleSubmit}>Submit</Button>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Button fullWidth variant="outlined" color="secondary" onClick={handleCancel}>Cancel</Button>
-            </Grid>
-          </Grid>
-        </Paper>
-      </Container>
-    </Fade>
   );
 };
 
