@@ -2,12 +2,20 @@
 .registration-page {
   display: flex;
   justify-content: center;
+  height: auto;
+  margin-top: 600px;
+  width:1300px;
+  max-width: 1400px;
   align-items: center;
   min-height: 100vh;
-  background: url('https://cdn.dribbble.com/userupload/14908151/file/original-59116bdcaac0a2942c1ba195a05a9b8a.png?resize=1024x768') no-repeat center center/cover;
+  background: url("../assets/Osamedic2.jpeg") no-repeat center center/cover;
   font-family: 'Arial', sans-serif;
   padding: 20px;
   overflow-y: auto;
+}
+ .img{
+  margin-left: 550px;
+  width: 110px;
 }
 
 /* Enhanced glassmorphism style for the form container */
@@ -17,10 +25,10 @@
   backdrop-filter: blur(12px);
   border-radius: 20px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  margin-top: 100px;
   width: 100%;
-  max-width: 600px;
+  max-width: 1800px;
   animation: appear 0.5s ease-out forwards;
-  margin-top: 20px;
   /* Add top margin */
 }
 

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './NavBar.css';
 import Logo from "../assets/company.png";
-
 const NavBar = () => {
   const [collapsed, setCollapsed] = useState(true);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 800);
@@ -49,7 +48,7 @@ const NavBar = () => {
         <div className={`nav-links ${isMobile && collapsed ? '' : 'show'}`}>
           <ul className="links">
             <li><Link to="/">Home</Link></li>
-            <li><Link to="/dashboard">Dashboard</Link></li>
+             <li> <Link to="/dashboard">Dashboard</Link></li>
             <li><Link to="/profile">Profile</Link></li>
             <li><Link to="/register">Register</Link></li>
             <li><Link to="/barcode">Barcode Generator</Link></li>

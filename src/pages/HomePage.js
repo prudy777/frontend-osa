@@ -19,7 +19,7 @@ const HomePage = () => {
     <div className="homepage-container">
       <header className="header">
         <h1>Osamedic Lab</h1>
-        <span>VER. 8.8.6</span>
+        <span>VER. 1.0.0</span>
       </header>
       <div className="grid-container">
         <Link to='/patients' className="grid-item"><img src={acceptTestImg} alt="Accept Test" />Accept Test</Link>

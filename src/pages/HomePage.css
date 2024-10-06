@@ -28,7 +28,9 @@ body {
 }
 
 .homepage-container {
-  margin-top: 200px;
+  width: 1500px;
+  margin-top: 280px;
+  margin-bottom:40px;
 }
 
 /* Header Styling */
@@ -47,6 +49,8 @@ body {
   grid-template-columns: repeat(4, 1fr);
   gap: 15px;
   padding: 20px;
+  margin-bottom: 30px;
+
 }
 
 .grid-item {
@@ -54,6 +58,7 @@ body {
   border-radius: 10px;
   padding: 20px;
   text-align: center;
+  margin-bottom: 70px;
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
@@ -79,7 +84,7 @@ body {
 .grid-item:hover {
   transform: translateY(-10px);
   animation: backgroundColorChange 0.5s forwards;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 20px rgba(204, 213, 220, 0.897);
 }
 
 /* Footer Styling */
@@ -90,6 +95,8 @@ body {
   padding: 10px 0;
   font-size: 14px;
   position: fixed;
+  margin-top: 40px;
+  border-radius: 20px;
   width: 100%;
   bottom: 0;
 }

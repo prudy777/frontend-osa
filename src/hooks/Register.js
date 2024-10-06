@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState} from "react";
+import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import "./register.css";
+import company from '../assets/company.png'
 
 const Register = ({ onRegisterSuccess }) => {
   const [formData, setFormData] = useState({
@@ -10,7 +12,14 @@ const Register = ({ onRegisterSuccess }) => {
     email: "",
     phone: "",
     testType: "",
+    sex: "",
+    homeService: "No",
+    visitTime: "",
+    paymentMode: "",
+    testSubmissionTime: new Date().toLocaleString(), // Automatically set to current date and time
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,6 +39,11 @@ const Register = ({ onRegisterSuccess }) => {
         email: formData.email,
         phone: formData.phone,
         test_type: formData.testType,
+        sex: formData.sex,
+        home_service: formData.homeService,
+        visit_time: formData.visitTime,
+        payment_mode: formData.paymentMode,
+        test_submission_time: formData.testSubmissionTime,
       });
       alert("Registration Submitted Successfully!");
       setFormData({
@@ -39,10 +53,16 @@ const Register = ({ onRegisterSuccess }) => {
         email: "",
         phone: "",
         testType: "",
+        sex: "",
+        homeService: "No",
+        visitTime: "",
+        paymentMode: "",
+        testSubmissionTime: new Date().toLocaleString(),
       });
       if (onRegisterSuccess) {
         onRegisterSuccess(); // Trigger the callback
       }
+       // Navigate to the TestList page and pass the phone number
     } catch (error) {
       console.error("There was an error submitting the form:", error);
       alert("Registration failed. Please try again.");
@@ -52,7 +72,7 @@ const Register = ({ onRegisterSuccess }) => {
   return (
     <div className="registration-page">
       <div className="form-container">
-        <h2>Patient Registration for Testing</h2>
+        <h2>Patient Registration for Testing  <img className='img' alt="Company Logo" src={company}></img></h2>
         <form onSubmit={handleSubmit} className="registration-form">
           <div className="form-group">
             <label htmlFor="firstName">First Name</label>
@@ -75,6 +95,19 @@ const Register = ({ onRegisterSuccess }) => {
             />
           </div>
           <div className="form-group">
+            <label htmlFor="sex">Sex</label>
+            <select
+              name="sex"
+              value={formData.sex}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select Sex</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
+          <div className="form-group">
             <label htmlFor="dateOfBirth">Date of Birth</label>
             <input
               type="date"
@@ -95,7 +128,7 @@ const Register = ({ onRegisterSuccess }) => {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="phone">Phone Number</label>
+            <label htmlFor="phone">Phone Number(WhatsApp Preferred)</label>
             <input
               type="tel"
               name="phone"
@@ -112,7 +145,7 @@ const Register = ({ onRegisterSuccess }) => {
               onChange={handleChange}
               required
             >
-              <option value="">Select Test Type</option>
+             <option value="">Select Test Type</option>
               <option value="bloodTest">Blood Test</option>
               <option value="xray">X-Ray</option>
               <option value="covid19">COVID-19</option>
@@ -268,6 +301,53 @@ const Register = ({ onRegisterSuccess }) => {
               </option>
               <option value="other">Other</option>
             </select>
+          </div>
+          <div className="form-group">
+            <label htmlFor="homeService">Do you require Home Service?</label>
+            <select
+              name="homeService"
+              value={formData.homeService}
+              onChange={handleChange}
+              required
+            >
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+            </select>
+          </div>
+          {formData.homeService === "Yes" && (
+            <div className="form-group">
+              <label htmlFor="visitTime">Preferred Visit Time</label>
+              <input
+                type="datetime-local"
+                name="visitTime"
+                value={formData.visitTime}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          )}
+          <div className="form-group">
+            <label htmlFor="paymentMode">Mode of Payment</label>
+            <select
+              name="paymentMode"
+              value={formData.paymentMode}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select Payment Mode</option>
+              <option value="card">Card</option>
+              <option value="cash">Cash</option>
+              <option value="bankTransfer">Bank Transfer</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label>Date and Time of Test Submission</label>
+            <input
+              type="text"
+              value={formData.testSubmissionTime}
+              readOnly
+              disabled
+            />
           </div>
           <button type="submit" className="submit-button">
             Register

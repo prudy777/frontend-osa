@@ -1,0 +1,156 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: #ffffff;
+  background-color: #111111;
+}
+
+.page-container {
+  display: flex;
+  height: 870px;
+  width: 1500px;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #333333;
+}
+
+.nav-menu {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-item-container {
+  text-transform: uppercase;
+  color: #272323;
+}
+
+.hero-section, .career-journey-section, .testimonials-section {
+  padding: 50px 20px;
+}
+
+.hero-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to right, #000000, #333333);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.about-intro-grid {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  text-align: left;
+}
+
+.card img {
+  width: 250px;
+  border-radius: 10px;
+}
+
+.heading-jumbo {
+  font-size: 3em;
+  margin: 0;
+}
+
+.paragraph-light {
+  color: #dddddd;
+  line-height: 1.6;
+}
+
+.button-gradient {
+  display: inline-block;
+  padding: 10px 20px;
+  background: linear-gradient(90deg, #ff6b6b, #ff6b6b);
+  border-radius: 50px;
+  color: #ffffff;
+  text-decoration: none;
+  margin-top: 20px;
+}
+
+.career-journey-section {
+  background-color: #222222;
+}
+
+.skills-grid {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.service-name-text {
+  background-color: #333333;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: #ffffff;
+}
+
+.testimonials-section {
+  background-color: #111111;
+}
+
+.testimonial {
+  margin-top: 20px;
+  font-style: italic;
+  color: #cccccc;
+}
+
+.testimony-person {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.testimony-person img {
+  width: 50px;
+  border-radius: 50%;
+}
+
+.footer {
+  background-color: #111111;
+  text-align: center;
+  padding: 20px;
+  margin-top: auto;
+}
+
+.footer p {
+  margin: 0;
+  color: #888888;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .about-intro-grid {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hero-section {
+    text-align: center;
+  }
+
+  .testimonials-section {
+    padding: 30px 20px;
+  }
+
+  .testimony-person {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .skills-grid {
+    justify-content: center;
+  }
+}

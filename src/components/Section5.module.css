@@ -1,0 +1,780 @@
+.getInTouch {
+  align-self: stretch;
+  position: relative;
+  letter-spacing: 1px;
+  line-height: 18px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--osamedic-recordsb12sitescom-forest-green);
+}
+.wedLoveTo {
+  margin: 0;
+}
+.wedLoveToContainer {
+  margin: 0;
+  flex: 1;
+  position: relative;
+  font-size: inherit;
+  line-height: 40px;
+  font-weight: 600;
+  font-family: inherit;
+  display: inline-block;
+  max-width: 100%;
+}
+.container4 {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  max-width: 1280px;
+  font-size: var(--osamedic-recordsb12sitescom-poppins-semibold-32-size);
+}
+.span {
+  color: var(--color-indianred);
+}
+.label,
+.name {
+  align-self: stretch;
+}
+.name {
+  position: relative;
+  line-height: 20px;
+  font-weight: 600;
+}
+.label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.container6 {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background-color: transparent;
+  height: 29px;
+  overflow: hidden;
+  flex-shrink: 0;
+  padding: var(--padding-12xs) 0;
+  box-sizing: border-box;
+  font-family: var(--osamedic-recordsb12sitescom-poppins-medium-14-title);
+  font-size: var(--osamedic-recordsb12sitescom-poppins-regular-18-size);
+  color: var(--color-gray-100);
+  min-width: 231px;
+}
+.container5,
+.container6,
+.input {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.input {
+  background-color: var(--osamedic-recordsb12sitescom-white);
+  border: 1px solid var(--osamedic-recordsb12sitescom-dove-gray);
+  padding: var(--padding-6xs) var(--padding-3xs);
+}
+.container5 {
+  gap: var(--gap-8xs);
+  font-size: var(--osamedic-recordsb12sitescom-poppins-semibold-16-upper-size);
+}
+.getInTouchParent,
+.textarea {
+  align-self: stretch;
+  box-sizing: border-box;
+}
+.getInTouchParent {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0 0 var(--padding-8xs);
+  gap: var(--gap-2xs-3);
+  max-width: 100%;
+  font-size: var(--osamedic-recordsb12sitescom-poppins-medium-14-title-size);
+}
+.textarea {
+  border: 1px solid var(--osamedic-recordsb12sitescom-dove-gray);
+  background-color: var(--osamedic-recordsb12sitescom-white);
+  height: 126px;
+  width: auto;
+  outline: 0;
+  position: relative;
+  overflow: auto;
+  flex-shrink: 0;
+  min-height: 60px;
+}
+.messageParent {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0 0 var(--padding-6xs);
+  gap: var(--gap-8xs);
+}
+.agreementBorder {
+  margin: 0;
+  height: 20px;
+  width: 18px;
+}
+.iAllowThisContainer {
+  position: relative;
+  line-height: 20px;
+}
+.label1,
+.labelWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  box-sizing: border-box;
+  max-width: 100%;
+}
+.label1 {
+  padding: 0 var(--padding-xl) 0 0;
+  gap: var(--gap-6xs);
+  min-height: 18px;
+}
+.labelWrapper {
+  padding: 0 0 var(--padding-6xs);
+}
+.checkbox {
+  margin: 0;
+  width: 28px;
+  height: 28px;
+  position: relative;
+}
+.container12,
+.container13 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.container13 {
+  justify-content: flex-start;
+  padding: var(--padding-2xl-5) var(--padding-xs) var(--padding-5xl-5);
+}
+.container12 {
+  justify-content: center;
+}
+.imNotA {
+  position: relative;
+  line-height: 17px;
+  display: inline-block;
+  min-width: 90px;
+}
+.container11,
+.container14 {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: var(--padding-9xl) var(--padding-xl) var(--padding-10xl) 0;
+}
+.container11 {
+  flex-direction: row;
+  justify-content: flex-start;
+  padding: 0 var(--padding-12xs) 0 0;
+}
+.imageIcon {
+  width: 32px;
+  height: 32px;
+  position: relative;
+  object-fit: cover;
+}
+.recaptcha {
+  align-self: stretch;
+  height: 20px;
+  position: relative;
+  line-height: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.container16,
+.container17 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+.container17 {
+  align-self: stretch;
+  padding: 0 var(--padding-12xs);
+}
+.container16 {
+  flex: 1;
+  gap: var(--gap-8xs);
+}
+.privacy {
+  position: relative;
+  color: inherit;
+  display: inline-block;
+  text-decoration: none;
+  min-width: 26px;
+}
+.link {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: var(--padding-11xs) var(--padding-12xs);
+}
+.divider,
+.terms {
+  position: relative;
+}
+.divider {
+  width: 7px;
+  color: var(--osamedic-recordsb12sitescom-black);
+  display: flex;
+  align-items: center;
+  min-width: 7px;
+}
+.terms {
+  color: inherit;
+  display: inline-block;
+  text-decoration: none;
+  min-width: 23px;
+}
+.background {
+  width: 60px;
+  margin: 0 !important;
+  position: absolute;
+  top: 57px;
+  right: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  z-index: 1;
+  text-align: right;
+  font-size: var(--osamedic-recordsb12sitescom-roboto-regular-8-size);
+}
+.backgroundbordershadow,
+.container15 {
+  box-sizing: border-box;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.container15 {
+  height: 84px;
+  width: 84px;
+  display: flex;
+  align-items: flex-start;
+  padding: var(--padding-3xs) var(--padding-11xs) var(--padding-sm)
+    var(--padding-5xl);
+  position: relative;
+  text-align: center;
+  font-size: var(--osamedic-recordsb12sitescom-roboto-regular-10-size);
+  color: var(--osamedic-recordsb12sitescom-emperor);
+}
+.backgroundbordershadow {
+  align-self: stretch;
+  height: 76px;
+  box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.08);
+  border-radius: var(--br-10xs);
+  background-color: var(--osamedic-recordsb12sitescom-alabaster);
+  border: 1px solid var(--osamedic-recordsb12sitescom-alto);
+  overflow: hidden;
+  flex-shrink: 0;
+  padding: var(--padding-12xs) var(--padding-3xs) 0 0;
+}
+.backgroundbordershadow,
+.body,
+.container10 {
+  display: flex;
+  align-items: flex-start;
+}
+.body {
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 0 var(--padding-11xs) 0 0;
+}
+.container10 {
+  align-self: stretch;
+  overflow: hidden;
+  flex-direction: row;
+  justify-content: center;
+  padding: 0 0 var(--padding-11xs);
+}
+.container9 {
+  align-self: stretch;
+  padding: 0 0 var(--padding-6xs);
+}
+.container7,
+.container8,
+.container9 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.container8 {
+  width: 304px;
+}
+.container7 {
+  align-self: stretch;
+  font-size: var(--osamedic-recordsb12sitescom-poppins-medium-14-title-size);
+  color: var(--osamedic-recordsb12sitescom-black);
+  font-family: var(--osamedic-recordsb12sitescom-roboto-regular-8);
+}
+.submit {
+  position: relative;
+  font-size: var(--osamedic-recordsb12sitescom-poppins-semibold-16-upper-size);
+  line-height: 20px;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-family: var(--osamedic-recordsb12sitescom-poppins-medium-14-title);
+  color: var(--osamedic-recordsb12sitescom-white);
+  text-align: center;
+  display: inline-block;
+  min-width: 60px;
+}
+.button,
+.container3 {
+  display: flex;
+  align-items: flex-start;
+  box-sizing: border-box;
+}
+.button {
+  cursor: pointer;
+  border: 2px solid var(--osamedic-recordsb12sitescom-forest-green);
+  padding: var(--padding-xs) var(--padding-xl) var(--padding-smi);
+  background-color: var(--osamedic-recordsb12sitescom-forest-green);
+  align-self: stretch;
+  border-radius: var(--br-11xs);
+  flex-direction: row;
+  justify-content: center;
+  min-height: 50px;
+}
+.button:hover {
+  background-color: var(--color-limegreen);
+  border: 2px solid var(--color-limegreen);
+  box-sizing: border-box;
+}
+.container3 {
+  width: 426px;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 0 var(--padding-4xs) var(--padding-2xs-1) var(--padding-3xs);
+  gap: var(--gap-smi);
+  min-height: 1px;
+  max-width: 100%;
+}
+.svgIcon {
+  height: 20px;
+  width: 20px;
+  position: relative;
+  min-height: 20px;
+}
+.ailemendaniel76gmailcom {
+  position: relative;
+  line-height: 18px;
+  text-transform: lowercase;
+  color: inherit;
+  text-decoration: none;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.horizontalDivider {
+  align-self: stretch;
+  height: 2px;
+  position: relative;
+  background-color: var(--osamedic-recordsb12sitescom-scorpion);
+  flex-shrink: 0;
+}
+.contactIcons,
+.getInTouchGroup,
+.linkEmailUsAtAilemendani {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.linkEmailUsAtAilemendani {
+  height: 18px;
+  flex: 1;
+  flex-direction: column;
+  padding: 0;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+.contactIcons,
+.getInTouchGroup {
+  gap: var(--gap-3xs);
+}
+.contactIcons {
+  width: 296px;
+  flex-direction: row;
+  font-size: var(--osamedic-recordsb12sitescom-poppins-regular-18-size);
+  color: var(--osamedic-recordsb12sitescom-scorpion);
+}
+.getInTouchGroup {
+  align-self: stretch;
+  flex-direction: column;
+}
+.location {
+  align-self: stretch;
+  position: relative;
+  line-height: 25px;
+}
+.lagosLaNg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  line-height: 18px;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  min-width: 113px;
+  width: 100%;
+  height: 100%;
+}
+.horizontalDivider1 {
+  position: absolute;
+  top: 18px;
+  left: 0;
+  background-color: var(--osamedic-recordsb12sitescom-scorpion);
+  width: 113px;
+  height: 2px;
+  z-index: 1;
+}
+.linkOurLocationAtLagos {
+  height: 18px;
+  flex: 1;
+  position: relative;
+  cursor: pointer;
+}
+.svgParent {
+  width: 143px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-3xs);
+  font-size: var(--osamedic-recordsb12sitescom-poppins-regular-18-size);
+  color: var(--osamedic-recordsb12sitescom-scorpion);
+}
+.am,
+.div,
+.monday,
+.pm {
+  position: relative;
+  line-height: 27px;
+  display: inline-block;
+  min-width: 74px;
+  flex-shrink: 0;
+}
+.am,
+.div,
+.pm {
+  min-width: 69px;
+}
+.div,
+.pm {
+  min-width: 13px;
+}
+.pm {
+  min-width: 75px;
+  white-space: nowrap;
+}
+.item {
+  width: 394.2px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  max-width: 100%;
+  gap: var(--gap-xl);
+}
+.tuesday {
+  position: relative;
+  line-height: 27px;
+  display: inline-block;
+  min-width: 77px;
+  flex-shrink: 0;
+}
+.item1 {
+  width: 387.6px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  max-width: 100%;
+  gap: var(--gap-xl);
+}
+.am2,
+.div2,
+.pm2,
+.wednesday {
+  position: relative;
+  line-height: 27px;
+  display: inline-block;
+  min-width: 108px;
+}
+.am2,
+.div2,
+.pm2 {
+  min-width: 69px;
+}
+.div2,
+.pm2 {
+  min-width: 13px;
+}
+.pm2 {
+  min-width: 75px;
+  white-space: nowrap;
+}
+.item2 {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-xl);
+  max-width: 100%;
+}
+.thursday {
+  position: relative;
+  line-height: 27px;
+  display: inline-block;
+  min-width: 84px;
+}
+.item3 {
+  width: 373.3px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  max-width: 100%;
+  gap: var(--gap-xl);
+}
+.friday {
+  position: relative;
+  line-height: 27px;
+  display: inline-block;
+  min-width: 55px;
+}
+.item4 {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--gap-xl);
+}
+.saturday {
+  position: relative;
+  line-height: 27px;
+  display: inline-block;
+  min-width: 82px;
+  flex-shrink: 0;
+}
+.item5 {
+  width: 374.8px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0 var(--padding-7xs) 0 0;
+  box-sizing: border-box;
+  max-width: 100%;
+  gap: var(--gap-xl);
+}
+.pm6 {
+  position: relative;
+  line-height: 27px;
+  display: inline-block;
+  min-width: 74px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.item6,
+.orderedListWorkingHours {
+  display: flex;
+  align-items: flex-start;
+}
+.item6 {
+  width: 404.2px;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 var(--padding-12xs) 0 0;
+  box-sizing: border-box;
+  max-width: 100%;
+  gap: var(--gap-xl);
+}
+.orderedListWorkingHours {
+  width: 430.4px;
+  flex-direction: column;
+  justify-content: flex-start;
+  max-width: 105%;
+  flex-shrink: 0;
+  font-size: var(--osamedic-recordsb12sitescom-poppins-regular-18-size);
+  color: var(--osamedic-recordsb12sitescom-scorpion);
+}
+.background1,
+.container19 {
+  flex-direction: column;
+  justify-content: flex-start;
+  max-width: 100%;
+}
+.container19 {
+  align-self: stretch;
+  display: flex;
+  align-items: flex-start;
+  padding: 0;
+  box-sizing: border-box;
+  gap: var(--gap-3xs);
+}
+.background1 {
+  flex: 1;
+  background-color: var(--osamedic-recordsb12sitescom-wild-sand);
+  padding: var(--padding-21xl);
+  gap: var(--gap-xl);
+}
+.background1,
+.contactInfo,
+.container18 {
+  display: flex;
+  align-items: flex-start;
+  box-sizing: border-box;
+}
+.container18 {
+  align-self: stretch;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding: 0 var(--padding-3xs);
+  min-height: 1px;
+  max-width: 100%;
+}
+.contactInfo {
+  flex-direction: column;
+  padding: var(--padding-142xl-8) 0 0;
+  min-width: 335px;
+  font-size: var(--osamedic-recordsb12sitescom-poppins-bold-20-size);
+}
+.contactInfo,
+.container1,
+.container2 {
+  flex: 1;
+  justify-content: flex-start;
+  max-width: 100%;
+}
+.container2 {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  padding: 0 var(--padding-11xs) 0 0;
+  box-sizing: border-box;
+  gap: 0 83.3px;
+  flex-shrink: 0;
+}
+.container1 {
+  padding: 0;
+  min-height: 1px;
+}
+.container,
+.container1,
+.section {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  box-sizing: border-box;
+}
+.container {
+  width: 1024px;
+  justify-content: flex-start;
+  padding: var(--padding-60xl-3) 0 var(--padding-60xl-9);
+  max-width: 1024px;
+}
+.section {
+  align-self: stretch;
+  background-color: var(--osamedic-recordsb12sitescom-white);
+  overflow: hidden;
+  flex-shrink: 0;
+  justify-content: center;
+  padding: var(--padding-xl);
+  max-width: 100%;
+  text-align: left;
+  font-size: var(--osamedic-recordsb12sitescom-poppins-semibold-16-upper-size);
+  color: var(--osamedic-recordsb12sitescom-marshland);
+  font-family: var(--osamedic-recordsb12sitescom-poppins-medium-14-title);
+}
+@media screen and (max-width: 1275px) {
+  .container4 {
+    max-width: 100%;
+  }
+}
+@media screen and (max-width: 1100px) {
+  .container2 {
+    gap: var(--gap-23xl);
+  }
+  .container {
+    padding-top: var(--padding-33xl);
+    padding-bottom: var(--padding-33xl);
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+}
+@media screen and (max-width: 750px) {
+  .wedLoveToContainer {
+    font-size: var(--font-size-7xl);
+    line-height: 32px;
+  }
+  .contactInfo {
+    padding-top: var(--padding-86xl);
+    box-sizing: border-box;
+  }
+  .container2 {
+    gap: var(--gap-2xl);
+  }
+  .container {
+    padding-top: var(--padding-15xl);
+    padding-bottom: var(--padding-15xl);
+    box-sizing: border-box;
+  }
+}
+@media screen and (max-width: 450px) {
+  .wedLoveToContainer {
+    font-size: var(--font-size-lgi);
+    line-height: 24px;
+  }
+  .location {
+    font-size: var(
+      --osamedic-recordsb12sitescom-poppins-semibold-16-upper-size
+    );
+    line-height: 20px;
+  }
+  .div {
+    width: 100%;
+    height: 13px;
+  }
+  .item,
+  .item1 {
+    flex-wrap: wrap;
+  }
+  .div2 {
+    width: 100%;
+    height: 13px;
+  }
+  .item2,
+  .item3,
+  .item4,
+  .item5,
+  .item6 {
+    flex-wrap: wrap;
+  }
+  .background1 {
+    padding-top: var(--padding-7xl);
+    padding-bottom: var(--padding-7xl);
+    box-sizing: border-box;
+  }
+}

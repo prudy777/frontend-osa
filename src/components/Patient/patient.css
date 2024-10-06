@@ -10,19 +10,19 @@
   }
 }
 
-.patient-list-container{
+.accept-test-container{
   animation: fadeInUp 1s ease-out forwards;
 }
-.patient-list-container {
+.accept-test-container {
   padding: 20px;
-  max-width: 1000px;
-  margin: 0 auto;
+  margin-top: 470px;
+  max-width: 1400px;
   background: linear-gradient(135deg, #f6f8f9, #e9ecef);
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.patient-list-container h2 {
+.accept-test-container h2 {
   text-align: center;
   margin-bottom: 20px;
   font-size: 24px;
@@ -86,11 +86,11 @@ button:hover {
 
 /* Responsive Styles */
 @media (max-width: 768px) {
-  .patient-list-container {
+  .accept-test-container {
       padding: 15px;
   }
 
-  .patient-list-container h2 {
+  .accept-test-container h2 {
       font-size: 20px;
       margin-bottom: 15px;
   }
@@ -106,13 +106,13 @@ button:hover {
 }
 
 @media (max-width: 480px) {
-  .patient-list-container {
+  .accept-test-container {
       padding: 10px;
       border-radius: 0;
       box-shadow: none;
   }
 
-  .patient-list-container h2 {
+  .accept-test-container h2 {
       font-size: 18px;
       margin-bottom: 10px;
   }

@@ -1,0 +1,196 @@
+.osamedicRecords {
+  position: relative;
+  letter-spacing: 1.4px;
+  line-height: 33px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: inherit;
+  text-decoration: none;
+}
+.link {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+.home {
+  text-decoration: none;
+  position: relative;
+  letter-spacing: 1px;
+  line-height: 18px;
+  text-transform: capitalize;
+  font-weight: 500;
+  color: inherit;
+  display: inline-block;
+  min-width: 46px;
+}
+.link1 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  padding: var(--padding-7xs) 0;
+}
+.item,
+.itemmargin {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+}
+.itemmargin {
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0 0 0 var(--padding-4xl);
+}
+.about {
+  line-height: 18px;
+  text-transform: capitalize;
+  font-weight: 500;
+  color: inherit;
+  min-width: 48px;
+}
+.about,
+.contact,
+.services {
+  position: relative;
+  letter-spacing: 1px;
+  display: inline-block;
+  text-decoration: none;
+}
+.services {
+  line-height: 18px;
+  text-transform: capitalize;
+  font-weight: 500;
+  color: inherit;
+  min-width: 67px;
+}
+.contact {
+  font-size: var(--osamedic-recordsb12sitescom-poppins-semibold-16-upper-size);
+  line-height: 20px;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-family: var(--osamedic-recordsb12sitescom-poppins-medium-14-title);
+  color: var(--osamedic-recordsb12sitescom-marshland);
+  text-align: center;
+  min-width: 86px;
+}
+.link4 {
+  align-self: stretch;
+  border-radius: var(--br-11xs);
+  border: 2px solid var(--osamedic-recordsb12sitescom-marshland);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: var(--padding-xs) var(--padding-10xl) var(--padding-smi);
+  min-height: 50px;
+}
+.item3,
+.itemmargin3 {
+  display: flex;
+  flex-direction: column;
+}
+.item3 {
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+  align-self: stretch;
+  align-items: flex-end;
+  justify-content: center;
+}
+.itemmargin3 {
+  flex: 1;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0 0 0 var(--padding-5xl);
+  box-sizing: border-box;
+  min-width: 112px;
+}
+.list {
+  margin: 0;
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 0 0 var(--padding-288xl);
+  row-gap: 20px;
+  white-space: nowrap;
+  text-align: right;
+  font-size: var(--osamedic-recordsb12sitescom-poppins-medium-14-title-size);
+  color: var(--osamedic-recordsb12sitescom-scorpion);
+  font-family: var(--osamedic-recordsb12sitescom-poppins-medium-14-title);
+}
+.navMain {
+  width: 710px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.container1,
+.container2,
+.navMain {
+  display: flex;
+  max-width: 100%;
+}
+.container2 {
+  align-self: stretch;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  row-gap: 20px;
+  gap: var(--gap-0);
+}
+.container1 {
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0 var(--padding-3xs);
+  box-sizing: border-box;
+  min-height: 1px;
+}
+.container,
+.section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+}
+.container {
+  width: 1024px;
+  flex-wrap: wrap;
+}
+.section {
+  align-self: stretch;
+  background-color: var(--osamedic-recordsb12sitescom-white);
+  padding: var(--padding-xl);
+  box-sizing: border-box;
+  z-index: 2;
+  text-align: left;
+  font-size: var(--osamedic-recordsb12sitescom-poppins-bold-264-upper-size);
+  color: var(--osamedic-recordsb12sitescom-marshland);
+  font-family: var(--osamedic-recordsb12sitescom-poppins-medium-14-title);
+}
+@media screen and (max-width: 1100px) {
+  .container2 {
+    flex-wrap: wrap;
+  }
+}
+@media screen and (max-width: 750px) {
+  .list {
+    flex-wrap: wrap;
+    padding-left: var(--padding-134xl);
+    box-sizing: border-box;
+  }
+}
+@media screen and (max-width: 450px) {
+  .list {
+    padding-left: var(--padding-xl);
+    box-sizing: border-box;
+  }
+}

@@ -23,17 +23,30 @@ const PatientList = ({ refresh }) => {
 
   const handleStatusChange = async (id, status) => {
     try {
-      const response = await axios.put(`http://localhost:4000/patients/${id}/status`, { status });
+      await axios.put(`http://localhost:4000/patients/${id}/status`, { status });
       setPatients(prevPatients => prevPatients.map(patient => 
         patient.id === id ? { ...patient, status } : patient
       ));
-      alert(`Patient ${status} successfully!`);
+      alert(`Patient status updated to ${status} successfully!`);
       if (status === 'accepted') {
         navigate(`/patient/${id}`);
       }
     } catch (error) {
       console.error(error);
       alert('Failed to update patient status.');
+    }
+  };
+
+  const handlePaymentStatusChange = async (id, paymentStatus) => {
+    try {
+      await axios.put(`http://localhost:4000/patients/${id}/payment-status`, { paymentStatus });
+      setPatients(prevPatients => prevPatients.map(patient => 
+        patient.id === id ? { ...patient, payment_status: paymentStatus } : patient
+      ));
+      alert(`Payment status updated to ${paymentStatus} successfully!`);
+    } catch (error) {
+      console.error(error);
+      alert('Failed to update payment status.');
     }
   };
 
@@ -61,12 +74,15 @@ const PatientList = ({ refresh }) => {
             <th>Email</th>
             <th>Phone</th>
             <th>Test Type</th>
+            <th>Sex</th>
+            <th>Home Service</th>
             <th>Status</th>
+            <th>Payment Status</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {patients.length > 0 ? (  // Check if there are patients before mapping
+          {patients.length > 0 ? (
             patients.map(patient => (
               <tr key={patient.id}>
                 <td>{patient.id}</td>
@@ -76,16 +92,24 @@ const PatientList = ({ refresh }) => {
                 <td>{patient.email}</td>
                 <td>{patient.phone}</td>
                 <td>{patient.test_type}</td>
+                <td>{patient.sex}</td>
+                <td>{patient.home_service === 'Yes' ? 'Yes' : 'No'}</td>
                 <td>{patient.status}</td>
+                <td>{patient.payment_status || 'Expecting Payment'}</td>
                 <td>
                   <button className="accept-button" onClick={() => handleStatusChange(patient.id, 'accepted')}>Accept</button>
                   <button className="decline-button" onClick={() => handleDelete(patient.id)}>Decline</button>
+                  <div className="payment-status-buttons">
+                    <button onClick={() => handlePaymentStatusChange(patient.id, 'Completed')}>Completed</button>
+                    <button onClick={() => handlePaymentStatusChange(patient.id, 'Partial')}>Partial</button>
+                    <button onClick={() => handlePaymentStatusChange(patient.id, 'Expecting Payment')}>Expecting</button>
+                  </div>
                 </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="9" className="empty-table">No patients found.</td>
+              <td colSpan="12" className="empty-table">No patients found.</td>
             </tr>
           )}
         </tbody>

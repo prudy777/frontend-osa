@@ -1,11 +1,122 @@
 /* global.css */
 body {
-  padding-top: 70px; /* Adjust this based on your navbar height */
+  padding-top: 30px; /* Adjust this based on your navbar height */
   max-width: 2000px;
-  max-height:  auto;
-  overflow-y: scroll; /* Enable vertical scrolling */
+  overflow-y: auto; /* Enable vertical scrolling only when necessary */
   overflow-x: hidden;
 }
-html {
-  scroll-behavior: smooth;
+
+html, body {
+  height: 100%; /* Ensure that html and body take up full height of the viewport */
+  scroll-behavior: auto;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap');
+
+:root {
+/* fonts */
+--osamedic-recordsb12sitescom-inter-regular-1378: Inter;
+--osamedic-recordsb12sitescom-poppins-medium-14-title: Poppins;
+--osamedic-recordsb12sitescom-roboto-regular-8: Roboto;
+
+/* font sizes */
+--osamedic-recordsb12sitescom-inter-regular-1378-size: 13.8px;
+--osamedic-recordsb12sitescom-poppins-medium-14-title-size: 14px;
+--osamedic-recordsb12sitescom-poppins-regular-18-size: 18px;
+--osamedic-recordsb12sitescom-poppins-bold-20-size: 20px;
+--osamedic-recordsb12sitescom-poppins-semibold-16-upper-size: 16px;
+--osamedic-recordsb12sitescom-roboto-regular-8-size: 8px;
+--osamedic-recordsb12sitescom-roboto-regular-10-size: 10px;
+--osamedic-recordsb12sitescom-poppins-semibold-32-size: 32px;
+--font-size-7xl: 26px;
+--font-size-lgi: 19px;
+--osamedic-recordsb12sitescom-poppins-regular-24-size: 24px;
+--font-size-43xl: 62px;
+--font-size-31xl: 50px;
+--font-size-18xl: 37px;
+--osamedic-recordsb12sitescom-poppins-bold-264-upper-size: 26.4px;
+
+/* Colors */
+--osamedic-recordsb12sitescom-hunter-green: #162415;
+--osamedic-recordsb12sitescom-marshland: #020402;
+--osamedic-recordsb12sitescom-white-40: rgba(255, 255, 255, 0.4);
+--color-gray-100: rgba(2, 4, 2, 0.8);
+--osamedic-recordsb12sitescom-white: #fff;
+--osamedic-recordsb12sitescom-alabaster: #f9f9f9;
+--osamedic-recordsb12sitescom-wild-sand: #f5f5f5;
+--osamedic-recordsb12sitescom-gray-nurse: #eef1ef;
+--osamedic-recordsb12sitescom-dove-gray: #6e6b6b;
+--osamedic-recordsb12sitescom-scorpion: #595959;
+--osamedic-recordsb12sitescom-emperor: #555;
+--osamedic-recordsb12sitescom-forest-green: #32aa27;
+--color-limegreen: #4dc440;
+--osamedic-recordsb12sitescom-alto: #d3d3d3;
+--osamedic-recordsb12sitescom-black: #000;
+--color-indianred: #ec6366;
+
+/* Gaps */
+--gap-67xl-5: 86.5px;
+--gap-3xl: 22px;
+--gap-24xl: 43px;
+--gap-0: 0px;
+--gap-2xl: 21px;
+--gap-23xl: 42px;
+--gap-xl: 20px;
+--gap-3xs: 10px;
+--gap-smi: 13px;
+--gap-8xs: 5px;
+--gap-6xs: 7px;
+--gap-2xs-3: 10.3px;
+--gap-20xl-5: 39.5px;
+--gap-11xs: 2px;
+--gap-2xs-7: 10.7px;
+
+/* Paddings */
+--padding-xl: 20px;
+--padding-61xl: 80px;
+--padding-9xs: 4px;
+--padding-3xs: 10px;
+--padding-12xs: 1px;
+--padding-4xl: 23px;
+--padding-7xs: 6px;
+--padding-60xl-3: 79.3px;
+--padding-60xl-9: 79.9px;
+--padding-15xl: 34px;
+--padding-33xl: 52px;
+--padding-11xs: 2px;
+--padding-142xl-8: 161.8px;
+--padding-86xl: 105px;
+--padding-21xl: 40px;
+--padding-7xl: 26px;
+--padding-4xs: 9px;
+--padding-2xs-1: 10.1px;
+--padding-xs: 12px;
+--padding-smi: 13px;
+--padding-6xs: 7px;
+--padding-sm: 14px;
+--padding-5xl: 24px;
+--padding-9xl: 28px;
+--padding-10xl: 29px;
+--padding-2xl-5: 21.5px;
+--padding-5xl-5: 24.5px;
+--padding-8xs: 5px;
+--padding-88xl-5: 107.5px;
+--padding-51xl: 70px;
+--padding-2xl: 21px;
+--padding-73xl: 92px;
+--padding-12xs-1: 0.1px;
+--padding-base-6: 15.6px;
+--padding-10xs-9: 2.9px;
+--padding-12xs-8: 0.8px;
+--padding-288xl: 307px;
+--padding-134xl: 153px;
+--padding-23xl: 42px;
+--padding-10xs: 3px;
+--padding-mini: 15px;
+
+/* Border radiuses */
+--br-11xs: 2px;
+--br-10xs: 3px;
 }

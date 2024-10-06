@@ -17,13 +17,15 @@ import TestBooking from './components/Test/testList';
 import Patient from './pages/Patient';
 import TestBookingsList from './pages/Test';
 import AccountingPage from './pages/accounting';
-import Dashboard from './pages/Dashboard';
 import PrintedTests from './pages/master';
 import About from './pages/Profile';
+import OsamedicLogo from './assets/Osamedic2.jpeg';
 import TestBookings from './pages/generalscreening';
 import TestBookingmen from './pages/malescreening';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
+import OsamedicRecordsb12sitescom from './pages/OsamedicRecordsb12sitescom';
+import './App.css'; // Assuming your CSS is in this file
+
 
 const App = () => {
   return (
@@ -41,13 +43,13 @@ const App = () => {
             <Route path="/patient/:id" element={<ProtectedRoute><Patient /></ProtectedRoute>} />
             <Route path="/masters" element={<ProtectedRoute><PrintedTests /></ProtectedRoute>} />
             <Route path="/accounting/transactions" element={<ProtectedRoute><AccountingPage /></ProtectedRoute>} />
-            <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+            <Route path="/dashboard" element={<ProtectedRoute><OsamedicRecordsb12sitescom /></ProtectedRoute>} />
             <Route path="/general" element={<ProtectedRoute><TestBookings /></ProtectedRoute>} />
             <Route path="/generals" element={<ProtectedRoute><TestBookingmen /></ProtectedRoute>} />
             <Route path="/" element={<HomePage />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/profile" element={<ProtectedRoute><About /></ProtectedRoute>} />
+            <Route path="/profile" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </div>

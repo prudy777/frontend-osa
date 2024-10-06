@@ -1,6 +1,10 @@
+
 /* App.css */
 .main-content {
   padding-top: 70px; /* Adjust this based on your navbar height */
+  height: calc(100% - 70px); /* Adjust the height of main content */
+  overflow-y: h; /* Enable vertical scrolling for main content */
+  overflow-x: hidden;
 }
 
 .navbar {
@@ -13,16 +17,18 @@
 html, body {
   height: 100%;
   margin: 0;
-  overflow-y: scroll; /* Enable vertical scrolling */
-  overflow-x: hidden;
-  overflow: hidden;
-  background: url(https://cdn.dribbble.com/userupload/14908151/file/original-59116bdcaac0a2942c1ba195a05a9b8a.png?resize=1024x768) no-repeat center center fixed;
+  max-width: 3840px; /* 4K width */
+  max-height: 2160px; /* 4K height */
+  height: 100%;
+  margin: 0;
+  background: url('../src/assets/Osamedic2.jpeg') no-repeat center center fixed;
   background-size: cover;
-}
+  }
+
 
 @media (max-width: 800px) {
   html, body {
-    background: url(https://cdn.dribbble.com/userupload/14908151/file/original-59116bdcaac0a2942c1ba195a05a9b8a.png?resize=1024x768) no-repeat center center fixed;
+    background: url(https://plus.unsplash.com/premium_photo-1668487826874-ecb21f98bb19?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8NGslMjBtZWRpY2FsJTIwYmFja2dyb3VuZCUyMHBpbGxzfGVufDB8fDB8fHww) no-repeat center center fixed;
     background-size: cover;
     opacity: 0.5;
   }
@@ -30,7 +36,7 @@ html, body {
 
 @media (max-width: 480px) {
   html, body {
-    background: url(https://cdn.dribbble.com/userupload/14908151/file/original-59116bdcaac0a2942c1ba195a05a9b8a.png?resize=1024x768) no-repeat center center fixed;
+    background: url(https://plus.unsplash.com/premium_photo-1668487826874-ecb21f98bb19?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8NGslMjBtZWRpY2FsJTIwYmFja2dyb3VuZCUyMHBpbGxzfGVufDB8fDB8fHww) no-repeat center center fixed;
     background-size: cover;
   }
 }
